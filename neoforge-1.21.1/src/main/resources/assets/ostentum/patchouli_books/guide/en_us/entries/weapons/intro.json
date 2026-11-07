@@ -1,0 +1,13 @@
+{
+  "name": "Special Weapons",
+  "category": "ostentum:weapons",
+  "icon": "ostentum:hearthblade",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Each of these has one trick of its own. Some are crafted, others only turn up in one structure's loot or from master weaponsmiths; the page for each says where.",
+      "title": "Special Weapons"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "name": "Thunderstorm Whip",
+  "category": "ostentum:whips",
+  "icon": "ostentum:thunderstorm_whip",
+  "sortnum": 13,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "ostentum:thunderstorm_whip",
+      "title": "Thunderstorm Whip",
+      "text": "A tip hit arcs to five more hostiles in sight and stuns each. Made by lightning striking a dropped Golden Heavy Whip."
+    }
+  ]
+}

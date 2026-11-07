@@ -1,0 +1,66 @@
+{
+  "music.harvest_moon": {
+    "sounds": [
+      {
+        "name": "ostentum:music/harvest_moon",
+        "stream": true
+      }
+    ]
+  },
+  "music.enchanted_moon": {
+    "sounds": [
+      {
+        "name": "ostentum:music/enchanted_moon",
+        "stream": true
+      }
+    ]
+  },
+  "music.glimmer_moon": {
+    "sounds": [
+      {
+        "name": "ostentum:music/glimmer_moon",
+        "stream": true
+      }
+    ]
+  },
+  "music.pillager_siege": {
+    "sounds": [
+      {
+        "name": "ostentum:music/pillager_siege",
+        "stream": true
+      }
+    ]
+  },
+  "music_disc.fundamentum": {
+    "sounds": [
+      {
+        "name": "ostentum:records/fundamentum",
+        "stream": true
+      }
+    ]
+  },
+  "music_disc.harvest_moon": {
+    "sounds": [
+      {
+        "name": "ostentum:records/harvest_moon",
+        "stream": true
+      }
+    ]
+  },
+  "music_disc.enchanted_moon": {
+    "sounds": [
+      {
+        "name": "ostentum:records/enchanted_moon",
+        "stream": true
+      }
+    ]
+  },
+  "music_disc.glimmer_moon": {
+    "sounds": [
+      {
+        "name": "ostentum:records/glimmer_moon",
+        "stream": true
+      }
+    ]
+  }
+}

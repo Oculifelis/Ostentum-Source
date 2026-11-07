@@ -1,0 +1,6 @@
+{
+  "item": "ostentum:creeper_sprout",
+  "entity": "minecraft:creeper",
+  "health": 10,
+  "respawn": 100
+}

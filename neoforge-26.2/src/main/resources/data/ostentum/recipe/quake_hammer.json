@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "H",
+    "R"
+  ],
+  "key": {
+    "H": "minecraft:heavy_core",
+    "R": "minecraft:breeze_rod"
+  },
+  "result": {
+    "id": "ostentum:quake_hammer",
+    "count": 1
+  }
+}

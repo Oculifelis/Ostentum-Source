@@ -1,0 +1,18 @@
+{
+  "name": "Bottled Dragonling",
+  "category": "ostentum:summons",
+  "icon": "ostentum:bottled_dragonling",
+  "sortnum": 8,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "ostentum:bottled_dragonling",
+      "title": "Bottled Dragonling",
+      "text": "Calls a chibi ender dragon that spits arcane puffs."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "ostentum:bottled_dragonling"
+    }
+  ]
+}

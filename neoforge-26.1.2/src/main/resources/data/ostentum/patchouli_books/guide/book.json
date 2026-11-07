@@ -1,0 +1,9 @@
+{
+  "name": "Ostentum Guide",
+  "landing_text": "A vanilla expansion built on $(l:https://www.curseforge.com/minecraft/mc-mods/fundamentum)Fundamentum$(/l). This book covers everything Ostentum adds and how to get it.$(br2)Craft a copy with a book and a saddle.",
+  "version": 1,
+  "use_resource_pack": true,
+  "creative_tab": "ostentum:main",
+  "show_progress": false,
+  "book_texture": "patchouli:textures/gui/book_brown.png"
+}

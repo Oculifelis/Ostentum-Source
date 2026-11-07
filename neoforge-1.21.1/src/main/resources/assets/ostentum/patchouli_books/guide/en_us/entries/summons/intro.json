@@ -1,0 +1,13 @@
+{
+  "name": "Summons",
+  "category": "ostentum:summons",
+  "icon": "ostentum:bone_whistle",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Wear a charm in the summon slot and its helper comes to fight beside you.",
+      "title": "Summons"
+    }
+  ]
+}

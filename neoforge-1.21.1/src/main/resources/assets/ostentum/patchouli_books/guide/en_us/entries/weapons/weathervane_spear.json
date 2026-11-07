@@ -1,0 +1,14 @@
+{
+  "name": "Weathervane Spear",
+  "category": "ostentum:weapons",
+  "icon": "ostentum:weathervane_spear",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "ostentum:weathervane_spear",
+      "title": "Weathervane Spear",
+      "text": "Sprint to build static; the next hit shocks the target and one mob near it. A jab on a button, lever, door, trapdoor, gate or lamp powers it for a second. Found only in trial chamber vaults."
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "parent": "ostentum:item/handheld_large",
+  "loader": "neoforge:item_layers",
+  "textures": {
+    "layer0": "ostentum:item/echo_blade",
+    "layer1": "ostentum:item/echo_blade_glow"
+  },
+  "neoforge_data": {
+    "layers": {
+      "1": {
+        "block_light": 15,
+        "sky_light": 15
+      }
+    }
+  }
+}

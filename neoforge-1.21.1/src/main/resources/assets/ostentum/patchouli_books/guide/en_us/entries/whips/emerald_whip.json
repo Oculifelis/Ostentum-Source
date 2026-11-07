@@ -1,0 +1,18 @@
+{
+  "name": "Emerald Whip",
+  "category": "ostentum:whips",
+  "icon": "ostentum:emerald_whip",
+  "sortnum": 9,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "ostentum:emerald_whip",
+      "title": "Emerald Whip",
+      "text": "Each crack fires three homing emerald bolts."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "ostentum:emerald_whip"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "name": "Engineer's Crossbow",
+  "category": "ostentum:weapons",
+  "icon": "ostentum:engineers_crossbow",
+  "sortnum": 9,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "ostentum:engineers_crossbow",
+      "title": "Engineer's Crossbow",
+      "text": "Sneak + use to switch mode. Combat: five bolts a load. Rope: two bolts string a rope you can ride while holding it."
+    },
+    {
+      "type": "patchouli:smithing",
+      "recipe": "ostentum:engineers_crossbow"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "name": "Pillager Siege",
+  "category": "ostentum:world",
+  "icon": "minecraft:crossbow",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "From day 10, some nights pillagers and vindicators come at players near a village, in up to six waves. It never falls on a special moon.$(br2)Kill one and hold out till dawn for two minutes of Hero of the Village.",
+      "title": "Pillager Siege"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The siege captain leads the last wave. He has a 1 in 4 chance to drop the Fundamentum music disc."
+    }
+  ]
+}

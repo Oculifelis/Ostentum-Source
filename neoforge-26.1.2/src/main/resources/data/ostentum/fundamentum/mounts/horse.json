@@ -1,0 +1,6 @@
+{
+  "item": "ostentum:horse_saddle",
+  "entity": "minecraft:horse",
+  "speed": 0.3,
+  "jump": 0.9
+}

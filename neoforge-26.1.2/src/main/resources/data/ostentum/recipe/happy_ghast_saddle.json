@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "minecraft:saddle",
+    "minecraft:white_harness"
+  ],
+  "result": {
+    "id": "ostentum:happy_ghast_saddle",
+    "count": 1
+  }
+}

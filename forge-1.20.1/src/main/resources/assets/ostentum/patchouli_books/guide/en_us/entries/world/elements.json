@@ -1,0 +1,17 @@
+{
+  "name": "Elements",
+  "category": "ostentum:world",
+  "icon": "minecraft:blaze_powder",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Fire Aspect weapons hit as fire, snowballs as ice and the trident as water. Netherite armour gives a little fire resistance per piece.$(br2)Pickaxes hit iron, snow and copper golems for 1.5x.",
+      "title": "Elements"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Eating an enchanted golden apple gives a minute of use sickness, during which you can't eat another. Plain golden apples are untouched."
+    }
+  ]
+}

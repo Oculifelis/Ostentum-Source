@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    " NT",
+    " WN",
+    "B  "
+  ],
+  "key": {
+    "N": "minecraft:netherite_ingot",
+    "T": "minecraft:tnt",
+    "W": "ostentum:chain_whip",
+    "B": "minecraft:blaze_rod"
+  },
+  "result": {
+    "id": "ostentum:destruction_whip",
+    "count": 1
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "comparator_output": 9,
+  "description": {
+    "translate": "jukebox_song.ostentum.harvest_moon"
+  },
+  "length_in_seconds": 106.0,
+  "sound_event": "ostentum:music_disc.harvest_moon"
+}

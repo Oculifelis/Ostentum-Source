@@ -1,0 +1,10 @@
+{
+  "item": "ostentum:stillwind_hook",
+  "range": 40,
+  "shoot_speed": 3.0,
+  "pull_speed": 1.4,
+  "count": 2,
+  "still": true,
+  "air_seconds": 4,
+  "texture": "ostentum:textures/entity/hook/stillwind_hook.png"
+}

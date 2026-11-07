@@ -1,0 +1,14 @@
+{
+  "name": "Duelist's Saber",
+  "category": "ostentum:weapons",
+  "icon": "ostentum:duelists_saber",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "ostentum:duelists_saber",
+      "title": "Duelist's Saber",
+      "text": "Hold use to guard: halves a melee hit or a shot from the front. The first half second is a perfect parry: blocks it, staggers the attacker, and your next hit is a 1.5x riposte. Sold only by master weaponsmiths."
+    }
+  ]
+}

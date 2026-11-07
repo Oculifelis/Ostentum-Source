@@ -1,0 +1,23 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.ostentum.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "EnchantmentMenuMixin",
+    "PlayerMixin",
+    "TemplatePieceAccess",
+    "BlockDisplayAccess",
+    "DisplayAccess",
+    "ItemDisplayAccess",
+    "ThrownTridentAccess",
+    "ZiplinePlayerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "client": [
+    "EnchantmentScreenMixin",
+    "ZiplineArmsMixin"
+  ]
+}

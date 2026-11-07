@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "ostentum:vine_whip",
+    "minecraft:weeping_vines",
+    "minecraft:weeping_vines",
+    "minecraft:weeping_vines",
+    "minecraft:crimson_stem",
+    "minecraft:crimson_fungus"
+  ],
+  "result": {
+    "id": "ostentum:weeping_vine_whip",
+    "count": 1
+  }
+}

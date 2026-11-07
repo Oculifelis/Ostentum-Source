@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "ostentum:bloom_bow",
+    "ostentum:voidstring_bow",
+    "ostentum:engineers_crossbow",
+    "ostentum:bastion_crossbow",
+    "ostentum:fisher_kings_trident",
+    "ostentum:coral_trident",
+    "ostentum:abyssal_trident",
+    "ostentum:quake_hammer",
+    "ostentum:recall_chime"
+  ]
+}

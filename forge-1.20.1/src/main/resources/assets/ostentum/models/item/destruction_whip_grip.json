@@ -1,0 +1,16 @@
+{
+  "parent": "minecraft:item/handheld",
+  "loader": "neoforge:item_layers",
+  "textures": {
+    "layer0": "ostentum:item/destruction_whip_grip",
+    "layer1": "ostentum:item/destruction_whip_grip_glow"
+  },
+  "neoforge_data": {
+    "layers": {
+      "1": {
+        "block_light": 15,
+        "sky_light": 15
+      }
+    }
+  }
+}

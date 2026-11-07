@@ -1,0 +1,18 @@
+{
+  "name": "Frostbite Hatchet",
+  "category": "ostentum:weapons",
+  "icon": "ostentum:frostbite_hatchet",
+  "sortnum": 6,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "ostentum:frostbite_hatchet",
+      "title": "Frostbite Hatchet",
+      "text": "Use to throw it; it comes back. Freezes water under its path; hit mobs start freezing."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "ostentum:frostbite_hatchet"
+    }
+  ]
+}

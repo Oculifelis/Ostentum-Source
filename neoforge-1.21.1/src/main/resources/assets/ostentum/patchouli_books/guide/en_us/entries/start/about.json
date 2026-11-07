@@ -1,0 +1,17 @@
+{
+  "name": "About Ostentum",
+  "category": "ostentum:start",
+  "icon": "minecraft:book",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Ostentum is a vanilla expansion built on $(l:https://www.curseforge.com/minecraft/mc-mods/fundamentum)Fundamentum$(/l). Nearly everything in it runs on Fundamentum's systems: the mounts, hooks, summons, whips, moons, siege night, elemental damage and portal crafting all come from Fundamentum, and Ostentum adds the items, mobs, art and recipes that use them.",
+      "title": "About Ostentum"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "It needs Fundamentum and Curios. Saddles, hooks, summons and the Phantom Veil each go in their own Curios slot."
+    }
+  ]
+}

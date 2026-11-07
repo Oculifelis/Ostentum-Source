@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "minecraft:saddle",
+    "minecraft:cactus"
+  ],
+  "result": {
+    "id": "ostentum:camel_saddle",
+    "count": 1
+  }
+}

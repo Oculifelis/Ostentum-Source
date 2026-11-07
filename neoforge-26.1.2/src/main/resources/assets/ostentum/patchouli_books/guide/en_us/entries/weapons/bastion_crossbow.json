@@ -1,0 +1,14 @@
+{
+  "name": "Bastion Crossbow",
+  "category": "ostentum:weapons",
+  "icon": "ostentum:bastion_crossbow",
+  "sortnum": 10,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "ostentum:bastion_crossbow",
+      "title": "Bastion Crossbow",
+      "text": "Loads fast and fires three bolts; landed bolts leave soul fire. Load a fire charge to shoot a flame bolt that lights campfires, candles, TNT and portals. Found only in bastion treasure."
+    }
+  ]
+}

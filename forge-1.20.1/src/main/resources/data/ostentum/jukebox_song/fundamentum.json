@@ -1,0 +1,8 @@
+{
+  "comparator_output": 4,
+  "description": {
+    "translate": "jukebox_song.ostentum.fundamentum"
+  },
+  "length_in_seconds": 123.0,
+  "sound_event": "ostentum:music_disc.fundamentum"
+}

@@ -1,0 +1,18 @@
+{
+  "name": "Bloom Bow",
+  "category": "ostentum:weapons",
+  "icon": "ostentum:bloom_bow",
+  "sortnum": 7,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "ostentum:bloom_bow",
+      "title": "Bloom Bow",
+      "text": "Arrows that land bonemeal a 3x3 patch. Arrows that hit your pets or allies heal them instead."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "ostentum:bloom_bow"
+    }
+  ]
+}

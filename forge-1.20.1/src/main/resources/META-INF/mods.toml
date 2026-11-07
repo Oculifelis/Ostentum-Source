@@ -1,0 +1,51 @@
+modLoader="javafml"
+loaderVersion="${loader_version_range}"
+license="${mod_license}"
+
+[[mods]]
+modId="${mod_id}"
+version="${mod_version}"
+displayName="${mod_name}"
+authors="Oculifelis"
+credits="By Oculifelis: code, the music and the hand-drawn art. Some weapon textures are modified from Malcolm Riley's Unused Textures (github.com/malcolmriley/unused-textures, CC BY 4.0). The Delver's Pick is based on Rhodox's Painterly pack, used with permission. Many item textures are recoloured from Minecraft's own (Mojang)."
+logoFile="ostentum_logo.png"
+description='''
+A vanilla expansion built on Fundamentum: summoning saddles for vanilla mounts, grappling hooks, summon charms, special weapons with a trick each, whips, three special moons, a Pillager Siege night and boss relics.
+
+Ostentum is mostly Fundamentum data. The mounts, hooks, summons, whips, moons, siege, elemental damage and portal crafting all come from Fundamentum; Ostentum adds the items, mobs, art and recipes that use them. Requires Fundamentum and Curios.
+'''
+
+[[dependencies.${mod_id}]]
+    modId="forge"
+    mandatory=true
+    versionRange="${forge_version_range}"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="${minecraft_version_range}"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="fundamentum"
+    mandatory=true
+    versionRange="${fundamentum_range}"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="curios"
+    mandatory=true
+    versionRange="[5.0.0,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="patchouli"
+    mandatory=false
+    versionRange="[1.20.1-80,)"
+    ordering="NONE"
+    side="BOTH"

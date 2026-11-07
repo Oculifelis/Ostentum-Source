@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": {
+    "item": "ostentum:rusted_delvers_head"
+  },
+  "base": {
+    "item": "minecraft:diamond_pickaxe"
+  },
+  "addition": [],
+  "result": {
+    "id": "ostentum:dormant_delvers_pick",
+    "count": 1
+  }
+}

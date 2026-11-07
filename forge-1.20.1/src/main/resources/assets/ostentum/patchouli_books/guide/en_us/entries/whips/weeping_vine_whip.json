@@ -1,0 +1,18 @@
+{
+  "name": "Weeping Vine Whip",
+  "category": "ostentum:whips",
+  "icon": "ostentum:weeping_vine_whip",
+  "sortnum": 17,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "ostentum:weeping_vine_whip",
+      "title": "Weeping Vine Whip",
+      "text": "Every hit heals you half a heart, a tip hit a full heart."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "ostentum:weeping_vine_whip"
+    }
+  ]
+}

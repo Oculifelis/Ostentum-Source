@@ -1,0 +1,25 @@
+{
+  "loader": "neoforge:separate_transforms",
+  "base": {
+    "parent": "ostentum:item/vine_whip_held"
+  },
+  "perspectives": {
+    "gui": {
+      "parent": "ostentum:item/vine_whip_icon"
+    },
+    "ground": {
+      "parent": "ostentum:item/vine_whip_icon"
+    },
+    "fixed": {
+      "parent": "ostentum:item/vine_whip_icon"
+    }
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "fundamentum:whip_flat_handles": 1
+      },
+      "model": "ostentum:item/vine_whip_flat"
+    }
+  ]
+}

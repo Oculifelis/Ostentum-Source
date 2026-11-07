@@ -1,0 +1,17 @@
+{
+  "replace": false,
+  "entries": [
+    "ostentum:bastion_crossbow_in_bastion_treasure",
+    "ostentum:breeze_whip_in_ominous_vaults",
+    "ostentum:breeze_whip_in_vaults",
+    "ostentum:cold_hearthblade_in_trail_ruins",
+    "ostentum:ender_whip_in_end_ships",
+    "ostentum:recall_chime_in_end_cities",
+    "ostentum:resonant_hilt_in_ancient_cities",
+    "ostentum:rusted_delvers_head_deep_in_mineshafts",
+    "ostentum:rusted_delvers_head_in_mineshafts",
+    "ostentum:stillwind_hook_in_ominous_vaults",
+    "ostentum:stillwind_hook_in_vaults",
+    "ostentum:weathervane_spear_in_vaults"
+  ]
+}

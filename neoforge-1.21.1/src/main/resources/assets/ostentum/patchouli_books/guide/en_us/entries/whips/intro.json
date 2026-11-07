@@ -1,0 +1,13 @@
+{
+  "name": "Whips",
+  "category": "ostentum:whips",
+  "icon": "ostentum:vine_whip",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Swing a whip with left click. The cord hits everything along its length, and the tip hits hardest: a crack at the tip is a critical hit. Whips take Sharpness, Smite, Bane of Arthropods and Fire Aspect.",
+      "title": "Whips"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "name": "Engineer's Crossbow",
+  "category": "ostentum:weapons",
+  "icon": "ostentum:engineers_crossbow",
+  "sortnum": 9,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "ostentum:engineers_crossbow",
+      "title": "Engineer's Crossbow",
+      "text": "Sneak + use to switch mode. Combat: five bolts a load. Rope: two anchor bolts string a zipline; jump up to it holding the crossbow to ride. Riding: jump to let go, sneak to brake, forward to climb slowly."
+    },
+    {
+      "type": "patchouli:smithing",
+      "recipe": "ostentum:engineers_crossbow"
+    }
+  ]
+}

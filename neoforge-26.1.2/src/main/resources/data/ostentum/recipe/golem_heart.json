@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "minecraft:iron_block",
+    "minecraft:poppy",
+    "minecraft:gold_ingot"
+  ],
+  "result": {
+    "id": "ostentum:golem_heart",
+    "count": 1
+  }
+}

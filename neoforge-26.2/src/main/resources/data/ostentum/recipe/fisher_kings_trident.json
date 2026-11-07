@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "minecraft:trident",
+    "minecraft:fishing_rod",
+    "minecraft:gold_block"
+  ],
+  "result": {
+    "id": "ostentum:fisher_kings_trident",
+    "count": 1
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "Glow Berry Whip",
+  "category": "ostentum:whips",
+  "icon": "ostentum:glow_berry_whip",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "ostentum:glow_berry_whip",
+      "title": "Glow Berry Whip",
+      "text": "Hits outline the target in glow-berry orange."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "ostentum:glow_berry_whip"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "minecraft:honeycomb",
+    "minecraft:honeycomb",
+    "minecraft:honeycomb",
+    "minecraft:honey_bottle"
+  ],
+  "result": {
+    "id": "ostentum:hive_charm",
+    "count": 1
+  }
+}

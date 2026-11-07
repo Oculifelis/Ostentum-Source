@@ -1,0 +1,17 @@
+{
+  "loader": "neoforge:separate_transforms",
+  "base": {
+    "parent": "ostentum:item/weathervane_spear_in_hand"
+  },
+  "perspectives": {
+    "gui": {
+      "parent": "ostentum:item/weathervane_spear_icon"
+    },
+    "ground": {
+      "parent": "ostentum:item/weathervane_spear_icon"
+    },
+    "fixed": {
+      "parent": "ostentum:item/weathervane_spear_icon"
+    }
+  }
+}

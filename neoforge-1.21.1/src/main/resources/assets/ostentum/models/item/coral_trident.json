@@ -1,0 +1,25 @@
+{
+  "loader": "neoforge:separate_transforms",
+  "base": {
+    "parent": "ostentum:item/coral_trident_in_hand"
+  },
+  "perspectives": {
+    "gui": {
+      "parent": "ostentum:item/coral_trident_icon"
+    },
+    "ground": {
+      "parent": "ostentum:item/coral_trident_icon"
+    },
+    "fixed": {
+      "parent": "ostentum:item/coral_trident_icon"
+    }
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "throwing": 1
+      },
+      "model": "ostentum:item/coral_trident_throwing_sep"
+    }
+  ]
+}

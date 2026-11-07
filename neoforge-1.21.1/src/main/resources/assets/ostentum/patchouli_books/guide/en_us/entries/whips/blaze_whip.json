@@ -1,0 +1,18 @@
+{
+  "name": "Blaze Whip",
+  "category": "ostentum:whips",
+  "icon": "ostentum:blaze_whip",
+  "sortnum": 16,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "ostentum:blaze_whip",
+      "title": "Blaze Whip",
+      "text": "Sets what it hits on fire, and cuts 40% deeper into burning foes. The tip lights campfires and candles it strikes."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "ostentum:blaze_whip"
+    }
+  ]
+}

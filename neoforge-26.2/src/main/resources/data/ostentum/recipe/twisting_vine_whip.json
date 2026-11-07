@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "ostentum:vine_whip",
+    "minecraft:twisting_vines",
+    "minecraft:twisting_vines",
+    "minecraft:twisting_vines",
+    "minecraft:warped_stem",
+    "minecraft:warped_fungus"
+  ],
+  "result": {
+    "id": "ostentum:twisting_vine_whip",
+    "count": 1
+  }
+}

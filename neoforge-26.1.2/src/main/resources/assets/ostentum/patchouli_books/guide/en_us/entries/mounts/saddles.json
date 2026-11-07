@@ -1,0 +1,73 @@
+{
+  "name": "Summoning Saddles",
+  "category": "ostentum:mounts",
+  "icon": "ostentum:horse_saddle",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Craft a saddle with the creature's item, put it in the mount slot and press V to call your ride.",
+      "title": "Summoning Saddles"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "ostentum:horse_saddle",
+      "text": "Calls a horse."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "ostentum:donkey_saddle",
+      "text": "Calls a donkey."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "ostentum:mule_saddle",
+      "text": "Calls a mule."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "ostentum:skeleton_horse_saddle",
+      "text": "Calls a skeleton horse."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "ostentum:zombie_horse_saddle",
+      "text": "Calls a zombie horse."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "ostentum:camel_saddle",
+      "text": "Calls a camel."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "ostentum:pig_saddle",
+      "text": "Calls a pig."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "ostentum:strider_saddle",
+      "text": "Calls a strider."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "ostentum:llama_saddle",
+      "text": "Calls a llama."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "ostentum:dolphin_saddle",
+      "text": "Calls a dolphin."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "ostentum:nautilus_saddle",
+      "text": "Calls a nautilus."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "ostentum:happy_ghast_saddle",
+      "text": "Calls a happy ghast."
+    }
+  ]
+}

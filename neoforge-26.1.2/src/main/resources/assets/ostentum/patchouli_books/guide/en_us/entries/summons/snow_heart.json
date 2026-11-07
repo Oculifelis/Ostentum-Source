@@ -1,0 +1,18 @@
+{
+  "name": "Snow Heart",
+  "category": "ostentum:summons",
+  "icon": "ostentum:snow_heart",
+  "sortnum": 6,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "ostentum:snow_heart",
+      "title": "Snow Heart",
+      "text": "Calls a snow golem. Its snowballs deal 3 ice damage."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "ostentum:snow_heart"
+    }
+  ]
+}

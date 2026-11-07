@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": "ostentum:resonant_hilt",
+  "base": "minecraft:netherite_sword",
+  "addition": "minecraft:echo_shard",
+  "result": {
+    "id": "ostentum:echo_blade",
+    "count": 1
+  }
+}

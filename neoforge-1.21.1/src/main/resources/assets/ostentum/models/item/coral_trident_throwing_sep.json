@@ -1,0 +1,17 @@
+{
+  "loader": "neoforge:separate_transforms",
+  "base": {
+    "parent": "ostentum:item/coral_trident_throwing"
+  },
+  "perspectives": {
+    "gui": {
+      "parent": "ostentum:item/coral_trident_icon"
+    },
+    "ground": {
+      "parent": "ostentum:item/coral_trident_icon"
+    },
+    "fixed": {
+      "parent": "ostentum:item/coral_trident_icon"
+    }
+  }
+}

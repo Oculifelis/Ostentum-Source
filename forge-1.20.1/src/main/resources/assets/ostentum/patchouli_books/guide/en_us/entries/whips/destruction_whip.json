@@ -1,0 +1,18 @@
+{
+  "name": "Destruction Whip",
+  "category": "ostentum:whips",
+  "icon": "ostentum:destruction_whip",
+  "sortnum": 12,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "ostentum:destruction_whip",
+      "title": "Destruction Whip",
+      "text": "Each crack fires four lasers at nearby hostiles."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "ostentum:destruction_whip"
+    }
+  ]
+}

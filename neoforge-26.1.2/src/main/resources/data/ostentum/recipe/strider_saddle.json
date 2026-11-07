@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "minecraft:saddle",
+    "minecraft:warped_fungus_on_a_stick"
+  ],
+  "result": {
+    "id": "ostentum:strider_saddle",
+    "count": 1
+  }
+}

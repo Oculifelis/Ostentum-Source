@@ -1,0 +1,17 @@
+{
+  "loader": "neoforge:separate_transforms",
+  "base": {
+    "parent": "ostentum:item/chain_whip_grip"
+  },
+  "perspectives": {
+    "gui": {
+      "parent": "ostentum:item/chain_whip_icon"
+    },
+    "ground": {
+      "parent": "ostentum:item/chain_whip_icon"
+    },
+    "fixed": {
+      "parent": "ostentum:item/chain_whip_icon"
+    }
+  }
+}

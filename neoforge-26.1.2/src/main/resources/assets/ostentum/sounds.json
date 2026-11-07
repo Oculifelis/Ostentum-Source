@@ -1,0 +1,287 @@
+{
+  "music.harvest_moon": {
+    "sounds": [
+      {
+        "name": "ostentum:music/harvest_moon",
+        "stream": true
+      }
+    ]
+  },
+  "music.enchanted_moon": {
+    "sounds": [
+      {
+        "name": "ostentum:music/enchanted_moon",
+        "stream": true
+      }
+    ]
+  },
+  "music.glimmer_moon": {
+    "sounds": [
+      {
+        "name": "ostentum:music/glimmer_moon_lullaby",
+        "stream": true
+      },
+      {
+        "name": "ostentum:music/glimmer_moon_tide",
+        "stream": true
+      },
+      {
+        "name": "ostentum:music/glimmer_moon_starwater",
+        "stream": true
+      }
+    ]
+  },
+  "music.pillager_siege": {
+    "sounds": [
+      {
+        "name": "ostentum:music/pillager_siege",
+        "stream": true
+      }
+    ]
+  },
+  "music_disc.fundamentum": {
+    "sounds": [
+      {
+        "name": "ostentum:records/fundamentum",
+        "stream": true
+      }
+    ]
+  },
+  "music_disc.harvest_moon": {
+    "sounds": [
+      {
+        "name": "ostentum:records/harvest_moon",
+        "stream": true
+      }
+    ]
+  },
+  "music_disc.enchanted_moon": {
+    "sounds": [
+      {
+        "name": "ostentum:records/enchanted_moon",
+        "stream": true
+      }
+    ]
+  },
+  "music_disc.glimmer_moon": {
+    "sounds": [
+      {
+        "name": "ostentum:records/glimmer_moon_lullaby",
+        "stream": true
+      },
+      {
+        "name": "ostentum:records/glimmer_moon_tide",
+        "stream": true
+      },
+      {
+        "name": "ostentum:records/glimmer_moon_starwater",
+        "stream": true
+      }
+    ]
+  },
+  "item.voidstring_bow.shoot": {
+    "sounds": [
+      "ostentum:item/voidstring_bow/shoot"
+    ],
+    "subtitle": "subtitles.ostentum.item.voidstring_bow.shoot"
+  },
+  "item.voidstring_bow.draw": {
+    "sounds": [
+      "ostentum:item/voidstring_bow/draw"
+    ],
+    "subtitle": "subtitles.ostentum.item.voidstring_bow.draw"
+  },
+  "item.pathfinders_glaive.attack": {
+    "sounds": [
+      "ostentum:item/pathfinders_glaive/attack1",
+      "ostentum:item/pathfinders_glaive/attack2",
+      "ostentum:item/pathfinders_glaive/attack3"
+    ],
+    "subtitle": "subtitles.ostentum.item.pathfinders_glaive.attack"
+  },
+  "item.pathfinders_glaive.hit": {
+    "sounds": [
+      "ostentum:item/pathfinders_glaive/hit1",
+      "ostentum:item/pathfinders_glaive/hit2",
+      "ostentum:item/pathfinders_glaive/hit3"
+    ],
+    "subtitle": "subtitles.ostentum.item.pathfinders_glaive.hit"
+  },
+  "item.pathfinders_glaive.charge": {
+    "sounds": [
+      "ostentum:item/pathfinders_glaive/charge"
+    ],
+    "subtitle": "subtitles.ostentum.item.pathfinders_glaive.charge"
+  },
+  "item.pathfinders_glaive.plant": {
+    "sounds": [
+      "ostentum:item/pathfinders_glaive/plant"
+    ],
+    "subtitle": "subtitles.ostentum.item.pathfinders_glaive.plant"
+  },
+  "item.pathfinders_glaive.recall": {
+    "sounds": [
+      "ostentum:item/pathfinders_glaive/recall"
+    ],
+    "subtitle": "subtitles.ostentum.item.pathfinders_glaive.recall"
+  },
+  "item.abyssal_trident.throw": {
+    "sounds": [
+      "ostentum:item/abyssal_trident/throw1",
+      "ostentum:item/abyssal_trident/throw2"
+    ],
+    "subtitle": "subtitles.ostentum.item.abyssal_trident.throw"
+  },
+  "item.abyssal_trident.hit": {
+    "sounds": [
+      "ostentum:item/abyssal_trident/hit1",
+      "ostentum:item/abyssal_trident/hit2"
+    ],
+    "subtitle": "subtitles.ostentum.item.abyssal_trident.hit"
+  },
+  "item.abyssal_trident.hit_ground": {
+    "sounds": [
+      "ostentum:item/abyssal_trident/hit_ground1",
+      "ostentum:item/abyssal_trident/hit_ground2"
+    ],
+    "subtitle": "subtitles.ostentum.item.abyssal_trident.hit_ground"
+  },
+  "item.abyssal_trident.return": {
+    "sounds": [
+      "ostentum:item/abyssal_trident/return"
+    ],
+    "subtitle": "subtitles.ostentum.item.abyssal_trident.return"
+  },
+  "item.abyssal_trident.riptide": {
+    "sounds": [
+      "ostentum:item/abyssal_trident/riptide"
+    ],
+    "subtitle": "subtitles.ostentum.item.abyssal_trident.riptide"
+  },
+  "item.coral_trident.throw": {
+    "sounds": [
+      "ostentum:item/coral_trident/throw1",
+      "ostentum:item/coral_trident/throw2"
+    ],
+    "subtitle": "subtitles.ostentum.item.coral_trident.throw"
+  },
+  "item.coral_trident.hit": {
+    "sounds": [
+      "ostentum:item/coral_trident/hit1",
+      "ostentum:item/coral_trident/hit2"
+    ],
+    "subtitle": "subtitles.ostentum.item.coral_trident.hit"
+  },
+  "item.coral_trident.hit_ground": {
+    "sounds": [
+      "ostentum:item/coral_trident/hit_ground1",
+      "ostentum:item/coral_trident/hit_ground2"
+    ],
+    "subtitle": "subtitles.ostentum.item.coral_trident.hit_ground"
+  },
+  "item.coral_trident.return": {
+    "sounds": [
+      "ostentum:item/coral_trident/return"
+    ],
+    "subtitle": "subtitles.ostentum.item.coral_trident.return"
+  },
+  "item.coral_trident.riptide": {
+    "sounds": [
+      "ostentum:item/coral_trident/riptide"
+    ],
+    "subtitle": "subtitles.ostentum.item.coral_trident.riptide"
+  },
+  "item.fisher_kings_trident.throw": {
+    "sounds": [
+      "ostentum:item/fisher_kings_trident/throw1",
+      "ostentum:item/fisher_kings_trident/throw2"
+    ],
+    "subtitle": "subtitles.ostentum.item.fisher_kings_trident.throw"
+  },
+  "item.fisher_kings_trident.hit": {
+    "sounds": [
+      "ostentum:item/fisher_kings_trident/hit1",
+      "ostentum:item/fisher_kings_trident/hit2"
+    ],
+    "subtitle": "subtitles.ostentum.item.fisher_kings_trident.hit"
+  },
+  "item.fisher_kings_trident.hit_ground": {
+    "sounds": [
+      "ostentum:item/fisher_kings_trident/hit_ground1",
+      "ostentum:item/fisher_kings_trident/hit_ground2"
+    ],
+    "subtitle": "subtitles.ostentum.item.fisher_kings_trident.hit_ground"
+  },
+  "item.fisher_kings_trident.return": {
+    "sounds": [
+      "ostentum:item/fisher_kings_trident/return"
+    ],
+    "subtitle": "subtitles.ostentum.item.fisher_kings_trident.return"
+  },
+  "item.fisher_kings_trident.riptide": {
+    "sounds": [
+      "ostentum:item/fisher_kings_trident/riptide"
+    ],
+    "subtitle": "subtitles.ostentum.item.fisher_kings_trident.riptide"
+  },
+  "item.abyssal_trident.field": {
+    "sounds": [
+      "ostentum:item/abyssal_trident/field"
+    ],
+    "subtitle": "subtitles.ostentum.item.abyssal_trident.field"
+  },
+  "item.coral_trident.whirlpool": {
+    "sounds": [
+      "ostentum:item/coral_trident/whirlpool"
+    ],
+    "subtitle": "subtitles.ostentum.item.coral_trident.whirlpool"
+  },
+  "item.coral_trident.grow": {
+    "sounds": [
+      "ostentum:item/coral_trident/grow"
+    ],
+    "subtitle": "subtitles.ostentum.item.coral_trident.grow"
+  },
+  "item.fisher_kings_trident.catch": {
+    "sounds": [
+      "ostentum:item/fisher_kings_trident/catch"
+    ],
+    "subtitle": "subtitles.ostentum.item.fisher_kings_trident.catch"
+  },
+  "item.fisher_kings_trident.aquatic": {
+    "sounds": [
+      "ostentum:item/fisher_kings_trident/aquatic"
+    ],
+    "subtitle": "subtitles.ostentum.item.fisher_kings_trident.aquatic"
+  },
+  "item.recall_chime.mark": {
+    "sounds": [
+      "ostentum:item/recall_chime/mark"
+    ],
+    "subtitle": "subtitles.ostentum.item.recall_chime.mark"
+  },
+  "item.recall_chime.windup": {
+    "sounds": [
+      "ostentum:item/recall_chime/windup"
+    ],
+    "subtitle": "subtitles.ostentum.item.recall_chime.windup"
+  },
+  "item.recall_chime.depart": {
+    "sounds": [
+      "ostentum:item/recall_chime/depart"
+    ],
+    "subtitle": "subtitles.ostentum.item.recall_chime.depart"
+  },
+  "item.recall_chime.arrive": {
+    "sounds": [
+      "ostentum:item/recall_chime/arrive"
+    ],
+    "subtitle": "subtitles.ostentum.item.recall_chime.arrive"
+  },
+  "item.recall_chime.fail": {
+    "sounds": [
+      "ostentum:item/recall_chime/fail"
+    ],
+    "subtitle": "subtitles.ostentum.item.recall_chime.fail"
+  }
+}

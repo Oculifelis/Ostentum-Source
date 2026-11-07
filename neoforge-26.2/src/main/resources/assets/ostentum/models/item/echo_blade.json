@@ -1,0 +1,12 @@
+{
+  "parent": "ostentum:item/handheld_large",
+  "textures": {
+    "layer0": "ostentum:item/echo_blade",
+    "layer1": {
+      "sprite": "ostentum:item/echo_blade_glow",
+      "neoforge_data": {
+        "light_emission": 15
+      }
+    }
+  }
+}

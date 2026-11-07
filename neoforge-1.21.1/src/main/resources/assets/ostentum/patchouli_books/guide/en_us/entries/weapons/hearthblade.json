@@ -1,0 +1,26 @@
+{
+  "name": "Soul Hearthblade",
+  "category": "ostentum:weapons",
+  "icon": "ostentum:soul_hearthblade",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "ostentum:cold_hearthblade",
+      "title": "Cold Hearthblade",
+      "text": "Set it on a lit campfire to rekindle it. A soul campfire wakes its blue flame."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "ostentum:hearthblade",
+      "title": "Hearthblade",
+      "text": "Kills cook their drops and store an ember (half a food point, up to 10). Sneak + use to eat the embers."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "ostentum:soul_hearthblade",
+      "title": "Soul Hearthblade",
+      "text": "Kills cook their drops in soul fire (one extra) and store an ember. Sneak + use to eat the embers."
+    }
+  ]
+}

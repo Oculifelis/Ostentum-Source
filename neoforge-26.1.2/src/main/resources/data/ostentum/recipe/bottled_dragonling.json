@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "minecraft:dragon_breath",
+    "minecraft:ender_eye",
+    "minecraft:chorus_fruit",
+    "minecraft:chorus_fruit"
+  ],
+  "result": {
+    "id": "ostentum:bottled_dragonling",
+    "count": 1
+  }
+}

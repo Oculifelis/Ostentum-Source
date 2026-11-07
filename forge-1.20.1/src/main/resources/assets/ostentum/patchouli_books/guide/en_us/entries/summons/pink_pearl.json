@@ -1,0 +1,18 @@
+{
+  "name": "Pink Pearl",
+  "category": "ostentum:summons",
+  "icon": "ostentum:pink_pearl",
+  "sortnum": 9,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "ostentum:pink_pearl",
+      "title": "Pink Pearl",
+      "text": "Calls a baby pink dolphin that flies and squirts water."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "ostentum:pink_pearl"
+    }
+  ]
+}

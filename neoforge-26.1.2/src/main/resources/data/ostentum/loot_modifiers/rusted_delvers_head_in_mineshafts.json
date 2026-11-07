@@ -1,0 +1,11 @@
+{
+  "type": "ostentum:weapon_loot",
+  "conditions": [
+    {
+      "condition": "neoforge:loot_table_id",
+      "loot_table_id": "minecraft:chests/abandoned_mineshaft"
+    }
+  ],
+  "item": "ostentum:rusted_delvers_head",
+  "chance": 0.04
+}

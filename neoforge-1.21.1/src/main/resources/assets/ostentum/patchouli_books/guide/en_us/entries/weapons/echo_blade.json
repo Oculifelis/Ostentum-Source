@@ -1,0 +1,24 @@
+{
+  "name": "Resonant Hilt",
+  "category": "ostentum:weapons",
+  "icon": "ostentum:resonant_hilt",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "ostentum:echo_blade",
+      "title": "Echo Blade",
+      "text": "Every hit echoes 1.5 s later for half its damage. While you sneak, its hits and kills make no vibrations."
+    },
+    {
+      "type": "patchouli:smithing",
+      "recipe": "ostentum:echo_blade"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "ostentum:resonant_hilt",
+      "title": "Resonant Hilt",
+      "text": "Smith it onto a netherite sword with an echo shard. Found only in ancient cities."
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    " PH",
+    " WP",
+    "N  "
+  ],
+  "key": {
+    "P": "minecraft:prismarine_shard",
+    "H": "minecraft:heart_of_the_sea",
+    "W": "ostentum:leather_whip",
+    "N": "minecraft:nautilus_shell"
+  },
+  "result": {
+    "id": "ostentum:untamed_sea_whip",
+    "count": 1
+  }
+}

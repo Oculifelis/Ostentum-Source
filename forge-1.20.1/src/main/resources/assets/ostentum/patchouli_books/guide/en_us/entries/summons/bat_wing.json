@@ -1,0 +1,18 @@
+{
+  "name": "Bat Wing",
+  "category": "ostentum:summons",
+  "icon": "ostentum:bat_wing",
+  "sortnum": 7,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "ostentum:bat_wing",
+      "title": "Bat Wing",
+      "text": "Calls a bat that bites."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "ostentum:bat_wing"
+    }
+  ]
+}

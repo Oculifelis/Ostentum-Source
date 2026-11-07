@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "minecraft:saddle",
+    "minecraft:carrot_on_a_stick"
+  ],
+  "result": {
+    "id": "ostentum:pig_saddle",
+    "count": 1
+  }
+}

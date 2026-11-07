@@ -1,0 +1,14 @@
+{
+  "name": "Recall Chime",
+  "category": "ostentum:weapons",
+  "icon": "ostentum:recall_chime",
+  "sortnum": 16,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "ostentum:recall_chime",
+      "title": "Recall Chime",
+      "text": "Ring to set a mark; ring again to be pulled back to it (same dimension). Costs XP: 1 point per 16 blocks (5 to 60). Sneak to move the mark. Found only in End cities."
+    }
+  ]
+}

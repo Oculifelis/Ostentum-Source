@@ -1,0 +1,21 @@
+{
+  "name": "Special Moons",
+  "category": "ostentum:world",
+  "icon": "minecraft:clock",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Some full moons are special. Each has its own sky colour and its own music while it is up.",
+      "title": "Special Moons"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Harvest Moon$(): a quarter of full moons. Ripe crops broken under it drop twice.$(br2)$(l)Enchanted Moon$(): a tenth of full moons. The sky swings purple to pink, and enchanting costs no levels (lapis is still used).$(br2)$(l)Glimmer Moon$(): about one in six, teal. Mobs and ores drop twice the experience."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Each moon has a music disc: a 2% drop from a hostile mob a player kills under that moon."
+    }
+  ]
+}

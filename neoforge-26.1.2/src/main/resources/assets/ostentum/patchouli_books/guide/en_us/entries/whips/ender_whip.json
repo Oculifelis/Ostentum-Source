@@ -1,0 +1,14 @@
+{
+  "name": "Ender Whip",
+  "category": "ostentum:whips",
+  "icon": "ostentum:ender_whip",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "ostentum:ender_whip",
+      "title": "Ender Whip",
+      "text": "Every hit lifts the target (Levitation, 1 s). Found only in chests on End city ships."
+    }
+  ]
+}

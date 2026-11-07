@@ -1,0 +1,18 @@
+{
+  "name": "Bone Whistle",
+  "category": "ostentum:summons",
+  "icon": "ostentum:bone_whistle",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "ostentum:bone_whistle",
+      "title": "Bone Whistle",
+      "text": "Calls two wolves."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "ostentum:bone_whistle"
+    }
+  ]
+}

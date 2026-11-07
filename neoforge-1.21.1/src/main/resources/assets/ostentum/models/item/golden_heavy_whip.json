@@ -1,0 +1,25 @@
+{
+  "loader": "neoforge:separate_transforms",
+  "base": {
+    "parent": "ostentum:item/golden_heavy_whip_held"
+  },
+  "perspectives": {
+    "gui": {
+      "parent": "ostentum:item/golden_heavy_whip_icon"
+    },
+    "ground": {
+      "parent": "ostentum:item/golden_heavy_whip_icon"
+    },
+    "fixed": {
+      "parent": "ostentum:item/golden_heavy_whip_icon"
+    }
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "fundamentum:whip_flat_handles": 1
+      },
+      "model": "ostentum:item/golden_heavy_whip_flat"
+    }
+  ]
+}

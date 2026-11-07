@@ -1,0 +1,8 @@
+{
+  "comparator_output": 12,
+  "description": {
+    "translate": "jukebox_song.ostentum.enchanted_moon"
+  },
+  "length_in_seconds": 146.0,
+  "sound_event": "ostentum:music_disc.enchanted_moon"
+}

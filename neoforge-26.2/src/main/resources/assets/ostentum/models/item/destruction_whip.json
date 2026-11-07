@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "ostentum:item/destruction_whip",
+    "layer1": {
+      "sprite": "ostentum:item/destruction_whip_glow",
+      "neoforge_data": {
+        "light_emission": 15
+      }
+    }
+  }
+}

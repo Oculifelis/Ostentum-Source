@@ -1,0 +1,18 @@
+{
+  "name": "Coral Trident",
+  "category": "ostentum:weapons",
+  "icon": "ostentum:coral_trident",
+  "sortnum": 12,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "ostentum:coral_trident",
+      "title": "Coral Trident",
+      "text": "Landing underwater, it leaves a whirlpool that pulls you to it. Hits on coral or kelp grow them."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "ostentum:coral_trident"
+    }
+  ]
+}

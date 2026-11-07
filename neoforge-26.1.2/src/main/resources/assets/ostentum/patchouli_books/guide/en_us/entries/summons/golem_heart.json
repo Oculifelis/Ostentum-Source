@@ -1,0 +1,18 @@
+{
+  "name": "Golem Heart",
+  "category": "ostentum:summons",
+  "icon": "ostentum:golem_heart",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "ostentum:golem_heart",
+      "title": "Golem Heart",
+      "text": "Calls a baby iron golem."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "ostentum:golem_heart"
+    }
+  ]
+}

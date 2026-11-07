@@ -1,0 +1,18 @@
+{
+  "name": "Fisher King's Trident",
+  "category": "ostentum:weapons",
+  "icon": "ostentum:fisher_kings_trident",
+  "sortnum": 11,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "ostentum:fisher_kings_trident",
+      "title": "Fisher King's Trident",
+      "text": "Thrown into water, it brings back a catch (Luck of the Sea counts). Extra damage to aquatic mobs."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "ostentum:fisher_kings_trident"
+    }
+  ]
+}

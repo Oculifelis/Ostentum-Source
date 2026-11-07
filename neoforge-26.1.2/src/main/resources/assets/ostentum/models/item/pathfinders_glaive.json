@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "ostentum:item/pathfinders_glaive",
+    "layer1": {
+      "sprite": "ostentum:item/pathfinders_glaive_glow",
+      "neoforge_data": {
+        "light_emission": 15
+      }
+    }
+  }
+}

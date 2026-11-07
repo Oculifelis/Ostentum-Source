@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/crossbow",
+  "textures": {
+    "layer0": "ostentum:item/bastion_crossbow_standby"
+  }
+}

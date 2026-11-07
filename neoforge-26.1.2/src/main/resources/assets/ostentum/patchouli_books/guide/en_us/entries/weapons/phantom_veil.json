@@ -1,0 +1,18 @@
+{
+  "name": "Phantom Veil",
+  "category": "ostentum:weapons",
+  "icon": "ostentum:phantom_veil",
+  "sortnum": 17,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "ostentum:phantom_veil",
+      "title": "Phantom Veil",
+      "text": "Worn on the back. In the dark, mobs notice you from half as far. Phantoms never come for you; sneaking, you are only a shimmer from afar."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "ostentum:phantom_veil"
+    }
+  ]
+}

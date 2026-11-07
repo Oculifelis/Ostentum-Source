@@ -1,0 +1,18 @@
+{
+  "name": "Twisting Vine Whip",
+  "category": "ostentum:whips",
+  "icon": "ostentum:twisting_vine_whip",
+  "sortnum": 18,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "ostentum:twisting_vine_whip",
+      "title": "Twisting Vine Whip",
+      "text": "A tip hit throws the target up into the air."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "ostentum:twisting_vine_whip"
+    }
+  ]
+}

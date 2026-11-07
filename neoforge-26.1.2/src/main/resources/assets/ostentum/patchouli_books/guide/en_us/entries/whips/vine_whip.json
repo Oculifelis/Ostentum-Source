@@ -1,0 +1,18 @@
+{
+  "name": "Vine Whip",
+  "category": "ostentum:whips",
+  "icon": "ostentum:vine_whip",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "ostentum:vine_whip",
+      "title": "Vine Whip",
+      "text": "A tip hit snags the target and yanks it toward you."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "ostentum:vine_whip"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "name": "Breeze Whip",
+  "category": "ostentum:whips",
+  "icon": "ostentum:breeze_whip",
+  "sortnum": 15,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "ostentum:breeze_whip",
+      "title": "Breeze Whip",
+      "text": "The fastest whip. Every hit blows the target away; a tip hit bursts like a wind charge."
+    }
+  ]
+}

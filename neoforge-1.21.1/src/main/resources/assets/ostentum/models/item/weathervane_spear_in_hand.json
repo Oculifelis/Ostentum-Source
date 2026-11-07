@@ -1,0 +1,6 @@
+{
+  "parent": "ostentum:item/handheld_large",
+  "textures": {
+    "layer0": "ostentum:item/weathervane_spear_in_hand"
+  }
+}

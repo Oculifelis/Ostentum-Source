@@ -1,0 +1,18 @@
+{
+  "name": "Pathfinder's Glaive",
+  "category": "ostentum:weapons",
+  "icon": "ostentum:pathfinders_glaive",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "ostentum:pathfinders_glaive",
+      "title": "Pathfinder's Glaive",
+      "text": "Use on the ground to plant it as a waypoint, glowing through walls. Hold it to see how far away it is; use again, from anywhere, to pull it back."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "ostentum:pathfinders_glaive"
+    }
+  ]
+}

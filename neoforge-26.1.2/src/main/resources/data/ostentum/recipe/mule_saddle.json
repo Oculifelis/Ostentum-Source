@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "minecraft:saddle",
+    "minecraft:chest",
+    "minecraft:golden_carrot"
+  ],
+  "result": {
+    "id": "ostentum:mule_saddle",
+    "count": 1
+  }
+}

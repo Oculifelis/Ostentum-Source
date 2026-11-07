@@ -1,0 +1,14 @@
+{
+  "name": "Duelist's Saber",
+  "category": "ostentum:weapons",
+  "icon": "ostentum:duelists_saber",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "ostentum:duelists_saber",
+      "title": "Duelist's Saber",
+      "text": "Use to parry: blocks a melee hit or a shot from the front and staggers the attacker. Your next hit within a second is a 1.5x riposte. A missed parry costs a second. Sold only by master weaponsmiths."
+    }
+  ]
+}

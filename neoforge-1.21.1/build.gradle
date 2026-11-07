@@ -1,0 +1,123 @@
+plugins {
+    id 'java-library'
+    id 'net.neoforged.moddev' version '2.0.148'
+}
+
+version = "${mod_version}+${minecraft_version}"
+group = mod_group_id
+
+base {
+    archivesName = "${mod_id}-neoforge"
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+configurations {
+    localRuntime
+    runtimeClasspath.extendsFrom localRuntime
+}
+
+repositories {
+    maven {
+        name = 'Curios'
+        url = 'https://maven.theillusivec4.top/'
+        content { includeGroup 'top.theillusivec4.curios' }
+    }
+    maven {
+        name = 'Fundamentum (the shared core mod, local repo)'
+        url = 'file:///H:/AI_MC_Modding/Fundamentum/repo'
+        content { includeGroup 'com.fundamentum' }
+    }
+}
+
+// Ostentum shows off Fundamentum: mounts, summons, hooks, wings, moons and night events are Fundamentum's systems,
+// filled in with vanilla-themed data. Curios is Fundamentum's required dependency, so dev runs load it too.
+dependencies {
+    implementation "com.fundamentum:fundamentum-neoforge:${fundamentum_version}"
+    compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}:api"
+    localRuntime "top.theillusivec4.curios:curios-neoforge:${curios_version}"
+}
+
+neoForge {
+    version = project.neo_version
+    runs {
+        client {
+            client()
+            jvmArgument '-Xmx3G'
+            // Fundamentum's WindowMixin opens the test window without focus
+            systemProperty 'fundamentum.nofocus', 'true'
+            // 1.21.1: the dev screenshot, steering and music test clients are cut (see PORTING.md)
+            // dev only, -Pshadershot[=tag]: ShaderShot screenshots the glowing whips, the grip and the moon skies, shaders off then on
+            if (project.hasProperty('shadershot')) {
+                systemProperty 'ostentum.shadershot', 'true'
+                systemProperty 'ostentum.shadershot.tag', project.property('shadershot').toString() ?: 'x'
+            }
+        }
+        server {
+            server()
+            programArgument '--nogui'
+            // dev quick test only: SelfTest runs its checks once the server starts, then stops it
+            systemProperty 'ostentum.selftest', 'true'
+        }
+        configureEach {
+            logLevel = org.slf4j.event.Level.INFO
+        }
+    }
+    mods {
+        "${mod_id}" {
+            sourceSet(sourceSets.main)
+        }
+    }
+}
+
+var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
+    var replaceProperties = [
+            minecraft_version      : minecraft_version,
+            minecraft_version_range: minecraft_version_range,
+            neo_version            : neo_version,
+            mod_id                 : mod_id,
+            mod_name               : mod_name,
+            mod_license            : mod_license,
+            mod_version            : mod_version,
+            fundamentum_range      : fundamentum_range,
+            // -Pnopendant holds the Record Pendant back (META-INF/ostentum-build.properties; its data is left out below)
+            with_pendant           : !project.hasProperty('nopendant'),
+    ]
+    inputs.properties replaceProperties
+    expand replaceProperties
+    from "src/main/templates"
+    into "build/generated/sources/modMetadata"
+}
+sourceSets.main.resources.srcDir generateModMetadata
+neoForge.ideSyncTask generateModMetadata
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+// Weapon art still under review stays out of the jar (../pending-weapons.txt; one item id per line).
+tasks.named('processResources') {
+    def pending = rootProject.file('../pending-weapons.txt')
+    if (pending.exists()) {
+        pending.readLines().collect { it.trim() }.findAll { it && !it.startsWith('#') }.each { n ->
+            exclude "assets/ostentum/**/${n}.*", "assets/ostentum/**/${n}_*"
+        }
+    }
+}
+
+// -Pnopendant: ship without the Record Pendant. music/NowPlaying reads pendant=false from META-INF/ostentum-build.properties
+// and registers no item (so no creative tab entry); its recipe, model, texture and Curios data stay out of the jar too.
+tasks.named('processResources') {
+    def noPendant = project.hasProperty('nopendant')
+    inputs.property 'nopendant', noPendant
+    if (noPendant) {
+        exclude 'data/ostentum/recipe/record_pendant.json', 'data/curios/tags/item/necklace.json',
+            'data/ostentum/curios/entities/record_pendant.json', 'assets/ostentum/items/record_pendant.json',
+            'assets/ostentum/models/item/record_pendant.json', 'assets/ostentum/textures/item/record_pendant.png'
+    }
+}
+
+// The licence texts and the credits ship in the jar.
+tasks.named('jar', Jar) {
+    from(rootProject.file('..')) { include 'LICENSE', 'COPYING', 'CREDITS.md' }
+}

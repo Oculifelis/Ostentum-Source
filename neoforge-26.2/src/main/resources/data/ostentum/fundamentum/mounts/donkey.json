@@ -1,0 +1,6 @@
+{
+  "item": "ostentum:donkey_saddle",
+  "entity": "minecraft:donkey",
+  "speed": 0.2,
+  "jump": 0.6
+}

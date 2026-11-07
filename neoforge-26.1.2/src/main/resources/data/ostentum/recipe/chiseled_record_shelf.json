@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "PPP",
+    "SNS",
+    "PPP"
+  ],
+  "key": {
+    "P": "#minecraft:planks",
+    "S": "#minecraft:wooden_slabs",
+    "N": "minecraft:note_block"
+  },
+  "result": {
+    "id": "ostentum:chiseled_record_shelf",
+    "count": 1
+  }
+}

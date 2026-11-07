@@ -1,0 +1,17 @@
+{
+  "name": "Boss Relics",
+  "category": "ostentum:world",
+  "icon": "ostentum:wither_relic",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Every boss kill gives a relic: a gold likeness of the boss floating over a gold pedestal.$(br2)The Wither, Elder Guardian and Warden relics drop with the loot. The Ender Dragon's is 3x3 (it needs the eight blocks around it free) and goes straight into the killer's inventory.",
+      "title": "Boss Relics"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "ostentum:wither_relic,ostentum:elder_guardian_relic,ostentum:warden_relic,ostentum:dragon_relic"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "item": "ostentum:amethyst_hook",
+  "range": 14,
+  "shoot_speed": 1.2,
+  "pull_speed": 0.5,
+  "count": 1,
+  "texture": "ostentum:textures/entity/hook/amethyst_hook.png"
+}

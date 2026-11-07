@@ -1,0 +1,17 @@
+{
+  "loader": "neoforge:separate_transforms",
+  "base": {
+    "parent": "ostentum:item/pathfinders_glaive_in_hand"
+  },
+  "perspectives": {
+    "gui": {
+      "parent": "ostentum:item/pathfinders_glaive_icon"
+    },
+    "ground": {
+      "parent": "ostentum:item/pathfinders_glaive_icon"
+    },
+    "fixed": {
+      "parent": "ostentum:item/pathfinders_glaive_icon"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "chance": 0.05,
+  "min_day": 10,
+  "cooldown": 5,
+  "with_moon": false,
+  "fog": {
+    "color": "#6A3A34",
+    "strength": 0.3
+  },
+  "sky": {
+    "color": "#6A3A34",
+    "strength": 0.15
+  },
+  "title": {
+    "title": "event.ostentum.siege",
+    "subtitle": "event.ostentum.siege.sub",
+    "color": "fog"
+  },
+  "start_sound": {
+    "id": "minecraft:event.raid.horn",
+    "volume": 4.0,
+    "pitch": 1.0
+  },
+  "end_message": "message.ostentum.siege_end"
+}

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "minecraft:emerald",
+    "minecraft:iron_sword",
+    "minecraft:amethyst_shard"
+  ],
+  "result": {
+    "id": "ostentum:vex_charm",
+    "count": 1
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "item": "ostentum:hive_charm",
+  "entity": "minecraft:bee",
+  "count": 3,
+  "health": 10,
+  "damage": 2,
+  "respawn": 60
+}

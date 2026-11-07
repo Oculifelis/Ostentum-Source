@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "minecraft:saddle"
+    },
+    {
+      "tag": "minecraft:wool_carpets"
+    }
+  ],
+  "result": {
+    "id": "ostentum:llama_saddle",
+    "count": 1
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "type": "fundamentum:portal_crafting",
+  "ingredient": "ostentum:dormant_delvers_pick",
+  "portal": "minecraft:nether_portal",
+  "dimension": "minecraft:the_nether",
+  "result": {
+    "id": "ostentum:delvers_pick"
+  },
+  "keep_components": true
+}

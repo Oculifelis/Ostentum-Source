@@ -1,0 +1,59 @@
+{
+  "name": "Grappling Hooks",
+  "category": "ostentum:hooks",
+  "icon": "ostentum:diamond_hook",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Put a hook in the hook slot and press H to fire it at a block and it pulls you there. Better hooks reach further and pull faster.",
+      "title": "Grappling Hooks"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "ostentum:amethyst_hook",
+      "title": "Amethyst Hook",
+      "text": "Three seconds of Slow Falling when it lets go."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "ostentum:amethyst_hook"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "ostentum:diamond_hook",
+      "title": "Diamond Hook",
+      "text": "Longer reach and a faster pull than amethyst."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "ostentum:diamond_hook"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "ostentum:netherite_hook",
+      "title": "Netherite Hook",
+      "text": "The longest reach and fastest pull."
+    },
+    {
+      "type": "patchouli:smithing",
+      "recipe": "ostentum:netherite_hook_smithing"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "ostentum:ender_hook",
+      "title": "Ender Hook",
+      "text": "Two hooks out at once."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "ostentum:ender_hook"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "ostentum:stillwind_hook",
+      "title": "Stillwind Hook",
+      "text": "Hangs you dead still between its two hooks. Found only in trial chamber vaults."
+    }
+  ]
+}

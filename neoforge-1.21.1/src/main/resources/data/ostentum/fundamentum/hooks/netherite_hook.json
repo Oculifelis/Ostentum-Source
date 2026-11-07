@@ -1,0 +1,8 @@
+{
+  "item": "ostentum:netherite_hook",
+  "range": 32,
+  "shoot_speed": 2.4,
+  "pull_speed": 1.1,
+  "count": 1,
+  "texture": "ostentum:textures/entity/hook/netherite_hook.png"
+}

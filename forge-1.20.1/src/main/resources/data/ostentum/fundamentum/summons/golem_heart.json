@@ -1,0 +1,7 @@
+{
+  "item": "ostentum:golem_heart",
+  "entity": "minecraft:iron_golem",
+  "health": 40,
+  "damage": 8,
+  "respawn": 200
+}
