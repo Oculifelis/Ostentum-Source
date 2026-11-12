@@ -8,9 +8,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -20,6 +18,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.Tiers;
@@ -32,10 +31,12 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.registries.RegistryObject;
 
 /**
- * Duelist's Saber, sold only by master weaponsmiths. Use opens a parry window of {@link #WINDOW} ticks: melee or
- * projectile damage from the front is cancelled, melee attackers are staggered (slowed and weakened) for a second and
- * projectiles bounce back. The next hit within a second of a parry is a 1.5x crit (the riposte). A parry that catches
- * nothing costs a one-second cooldown.
+ * Duelist's Saber, sold only by master weaponsmiths. 1.9.4: hold use to guard (a shield-like stance that slows you,
+ * {@code assets/ostentum/player_pose/duelists_saber.json}). While guarding, melee and projectile damage from the front
+ * is halved; in the first {@link #PERFECT} ticks of a guard it is cancelled instead (the perfect parry): melee
+ * attackers are staggered (slowed and weakened) for a second, projectiles bounce back, and the next hit within a second
+ * is a 1.5x crit (the riposte). Letting go of a guard that caught nothing costs a {@link #WHIFF}-tick cooldown.
+ * A spark and a soft ring mark the perfect window opening; a parry rings out with a ring of sparks.
  */
 public final class DuelistsSaber {
     static final Tier MATERIAL = new ForgeTier(2, 700, 7.0F, 2.5F, 18, BlockTags.NEEDS_IRON_TOOL, () -> net.minecraft.world.item.crafting.Ingredient.of(net.minecraft.world.item.Items.COPPER_INGOT));
@@ -43,12 +44,16 @@ public final class DuelistsSaber {
     public static final RegistryObject<Item> SABER = Weapons.item("duelists_saber", Saber::new, p -> p.rarity(Rarity.RARE)
         .sword(MATERIAL, 3.0F, -2.2F));
 
-    /** Parry window, riposte time and whiff cooldown, in ticks. */
-    public static final int WINDOW = 7;
+    /** Perfect-parry window at the start of a guard, riposte time and whiff cooldown, in ticks. */
+    public static final int PERFECT = 10;
     static final int RIPOSTE = 20;
-    static final int WHIFF = 20;
+    public static final int WHIFF = 10;
+    /** Damage taken through the guard (after the perfect window). */
+    public static final float GUARDED = 0.5F;
 
-    private static final Map<UUID, Long> OPENED = new ConcurrentHashMap<>();
+    /** When each guarding player's guard went up, and whether it has caught anything yet. */
+    private static final Map<UUID, Long> GUARD = new ConcurrentHashMap<>();
+    private static final Map<UUID, Boolean> CAUGHT = new ConcurrentHashMap<>();
     private static final Map<UUID, Long> RIPOSTE_UNTIL = new ConcurrentHashMap<>();
 
     static void init() {
@@ -71,35 +76,84 @@ public final class DuelistsSaber {
         }
 
         @Override
+        public UseAnim getUseAnimation(ItemStack stack) {
+            return UseAnim.BLOCK;
+        }
+
+        @Override
+        public int getUseDuration(ItemStack stack) {
+            return 72000;
+        }
+
+        @Override
         public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+            player.startUsingItem(hand);
             if (level instanceof ServerLevel server) {
-                open(player, server.getGameTime());
-                level.playSound(null, player.blockPosition(), SoundEvents.PLAYER_ATTACK_SWEEP, SoundSource.PLAYERS, 0.6F, 1.6F);
-                long opened = server.getGameTime();
-                Weapons.later(server, WINDOW + 1, () -> {
-                    // still the same window and nothing parried in it: the whiff cooldown
-                    if (OPENED.getOrDefault(player.getUUID(), -1L) == opened) {
-                        OPENED.remove(player.getUUID());
-                        player.getCooldowns().addCooldown(player.getItemInHand(hand).getItem(), WHIFF);
-                    }
-                });
+                guard(server, player);
             }
-            return InteractionResultHolder.success(player.getItemInHand(hand));
+            return InteractionResultHolder.consume(player.getItemInHand(hand));
+        }
+
+        @Override
+        public void releaseUsing(ItemStack stack, Level level, LivingEntity entity, int remainingTime) {
+            if (entity instanceof Player player && level instanceof ServerLevel) {
+                release(player, stack);
+            }
+        }
+
+        @Override
+        public void onStopUsing(ItemStack stack, LivingEntity entity, int count) {
+            // switched away or interrupted: the guard is down, without the whiff cooldown
+            if (entity instanceof Player player) {
+                GUARD.remove(player.getUUID());
+                CAUGHT.remove(player.getUUID());
+            }
         }
     }
 
-    public static void open(Player player, long gameTime) {
-        OPENED.put(player.getUUID(), gameTime);
+    /** The guard goes up: the perfect window opens now, marked by a spark and a soft ring. */
+    public static void guard(ServerLevel level, Player player) {
+        GUARD.put(player.getUUID(), level.getGameTime());
+        CAUGHT.put(player.getUUID(), false);
+        Vec3 spark = blade(player);
+        level.sendParticles(ParticleTypes.ELECTRIC_SPARK, spark.x, spark.y, spark.z, 6, 0.08, 0.08, 0.08, 0.12);
+        level.playSound(null, player.blockPosition(), SoundEvents.PLAYER_ATTACK_SWEEP, SoundSource.PLAYERS, 0.45F, 1.9F);
+        level.playSound(null, player.blockPosition(), SoundEvents.AMETHYST_BLOCK_CHIME, SoundSource.PLAYERS, 0.6F, 1.7F);
     }
 
-    /** Whether a parry window opened at some tick still covers {@code gameTime}: ticks 0 to WINDOW - 1 after opening. */
-    public static boolean parrying(Player player, long gameTime) {
-        Long opened = OPENED.get(player.getUUID());
-        return opened != null && gameTime >= opened && gameTime - opened < WINDOW;
+    /** Test hook: the guard as if it went up at {@code gameTime}. */
+    static void guardSince(Player player, long gameTime) {
+        GUARD.put(player.getUUID(), gameTime);
+    }
+
+    /** The guard comes down: a guard that caught nothing costs the whiff cooldown. Returns whether it did. */
+    public static boolean release(Player player, ItemStack stack) {
+        Long since = GUARD.remove(player.getUUID());
+        Boolean caught = CAUGHT.remove(player.getUUID());
+        if (since != null && !Boolean.TRUE.equals(caught)) {
+            player.getCooldowns().addCooldown(stack.getItem(), WHIFF);
+            return true;
+        }
+        return false;
+    }
+
+    /** Whether {@code player} holds the saber's guard up at all. */
+    public static boolean guarding(Player player) {
+        return GUARD.containsKey(player.getUUID()) && player.isUsingItem() && player.getUseItem().is(SABER.get());
+    }
+
+    /** Whether the guard is in its perfect-parry window at {@code gameTime}: its first PERFECT ticks. */
+    public static boolean perfect(Player player, long gameTime) {
+        Long since = GUARD.get(player.getUUID());
+        return since != null && gameTime >= since && gameTime - since < PERFECT;
     }
 
     public static boolean riposteReady(Player player, long gameTime) {
         return RIPOSTE_UNTIL.getOrDefault(player.getUUID(), -1L) >= gameTime;
+    }
+
+    private static Vec3 blade(Player player) {
+        return player.getEyePosition().add(player.getLookAngle().scale(0.8)).add(0, -0.2, 0);
     }
 
     /** Whether the damage comes from in front of the player (within about 70 degrees of where they look). */
@@ -120,42 +174,63 @@ public final class DuelistsSaber {
         }
         long now = level.getGameTime();
         DamageSource source = event.getSource();
-        // the defender's parry
-        if (event.getEntity() instanceof Player player && Weapons.holds(player, SABER) && parrying(player, now)
-            && source.getDirectEntity() != null && fromFront(player, source)) {
+        // the defender's guard
+        if (event.getEntity() instanceof Player player && guarding(player) && source.getDirectEntity() != null && fromFront(player, source)) {
             boolean melee = source.getDirectEntity() == source.getEntity() && source.getDirectEntity() instanceof LivingEntity;
             boolean shot = source.getDirectEntity() instanceof Projectile;
-            if (melee || shot) {
-                event.setCanceled(true);
-                OPENED.remove(player.getUUID());
-                RIPOSTE_UNTIL.put(player.getUUID(), now + RIPOSTE);
-                if (melee) {
-                    LivingEntity attacker = (LivingEntity) source.getDirectEntity();
-                    attacker.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20, 2));
-                    attacker.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 20, 1));
-                    attacker.knockback(0.4, player.getX() - attacker.getX(), player.getZ() - attacker.getZ());
-                } else {
-                    Projectile projectile = (Projectile) source.getDirectEntity();
-                    projectile.setDeltaMovement(projectile.getDeltaMovement().scale(-1.0));
-                    projectile.setOwner(player);
-                    projectile.hurtMarked = true;
-                }
-                Vec3 spark = player.getEyePosition().add(player.getLookAngle().scale(0.8));
-                level.sendParticles(ParticleTypes.ELECTRIC_SPARK, spark.x, spark.y, spark.z, 10, 0.15, 0.15, 0.15, 0.2);
-                level.sendParticles(ParticleTypes.CRIT, spark.x, spark.y, spark.z, 8, 0.1, 0.1, 0.1, 0.3);
-                level.playSound(null, player.blockPosition(), SoundEvents.ANVIL_LAND, SoundSource.PLAYERS, 0.35F, 1.8F);
-                level.playSound(null, player.blockPosition(), SoundEvents.SHIELD_BLOCK, SoundSource.PLAYERS, 1.0F, 1.3F);
+            if (!melee && !shot) {
+                return;
             }
+            CAUGHT.put(player.getUUID(), true);
+            Vec3 spark = blade(player);
+            if (!perfect(player, now)) {
+                return;   // a plain guard is worked out in riposte(), where the amount can change
+            }
+            // the perfect parry
+            event.setCanceled(true);
+            RIPOSTE_UNTIL.put(player.getUUID(), now + RIPOSTE);
+            if (melee) {
+                LivingEntity attacker = (LivingEntity) source.getDirectEntity();
+                attacker.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20, 2));
+                attacker.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 20, 1));
+                attacker.knockback(0.4, player.getX() - attacker.getX(), player.getZ() - attacker.getZ());
+                attacker.hurtMarked = true;
+            } else {
+                Projectile projectile = (Projectile) source.getDirectEntity();
+                projectile.setDeltaMovement(projectile.getDeltaMovement().scale(-1.0));
+                projectile.setOwner(player);
+                projectile.hurtMarked = true;
+            }
+            ring(level, player, spark);
+            level.sendParticles(ParticleTypes.ELECTRIC_SPARK, spark.x, spark.y, spark.z, 10, 0.15, 0.15, 0.15, 0.2);
+            level.playSound(null, player.blockPosition(), SoundEvents.ANVIL_LAND, SoundSource.PLAYERS, 0.3F, 2.0F);
+            level.playSound(null, player.blockPosition(), SoundEvents.NOTE_BLOCK_BELL.value(), SoundSource.PLAYERS, 0.9F, 1.5F);
+            level.playSound(null, player.blockPosition(), SoundEvents.SHIELD_BLOCK, SoundSource.PLAYERS, 1.0F, 1.3F);
+            return;
         }
     }
 
-    /** The attacker's riposte (1.20.1: LivingHurtEvent, which can change the amount). */
+    /** The plain guard and the attacker's riposte (1.20.1: LivingHurtEvent, which can change the amount). */
     private static void riposte(LivingHurtEvent event) {
         if (!(event.getEntity().level() instanceof ServerLevel level)) {
             return;
         }
         long now = level.getGameTime();
         DamageSource source = event.getSource();
+        // the defender's plain guard (a perfect parry was cancelled in incoming()): half the damage gets through
+        if (event.getEntity() instanceof Player defender && guarding(defender) && source.getDirectEntity() != null && fromFront(defender, source)) {
+            boolean melee = source.getDirectEntity() == source.getEntity() && source.getDirectEntity() instanceof LivingEntity;
+            boolean shot = source.getDirectEntity() instanceof Projectile;
+            if (melee || shot) {
+                CAUGHT.put(defender.getUUID(), true);
+                Vec3 spark = blade(defender);
+                event.setAmount(event.getAmount() * GUARDED);
+                level.sendParticles(ParticleTypes.CRIT, spark.x, spark.y, spark.z, 4, 0.1, 0.1, 0.1, 0.2);
+                level.playSound(null, defender.blockPosition(), SoundEvents.SHIELD_BLOCK, SoundSource.PLAYERS, 0.7F, 1.1F);
+                return;
+            }
+        }
+        // the attacker's riposte
         if (source.getEntity() instanceof Player player && source.getDirectEntity() == player && Weapons.holds(player, SABER)
             && riposteReady(player, now)) {
             RIPOSTE_UNTIL.remove(player.getUUID());
@@ -163,6 +238,19 @@ public final class DuelistsSaber {
             LivingEntity target = event.getEntity();
             level.sendParticles(ParticleTypes.CRIT, target.getX(), target.getY(0.6), target.getZ(), 16, 0.3, 0.4, 0.3, 0.3);
             level.playSound(null, target.blockPosition(), SoundEvents.PLAYER_ATTACK_CRIT, SoundSource.PLAYERS, 1.0F, 1.2F);
+        }
+    }
+
+    /** A ring of sparks round the blade, square to where the parrying player looks. */
+    private static void ring(ServerLevel level, Player player, Vec3 at) {
+        Vec3 look = player.getLookAngle().normalize();
+        Vec3 side = look.cross(new Vec3(0, 1, 0));
+        side = side.lengthSqr() < 1.0E-4 ? new Vec3(1, 0, 0) : side.normalize();
+        Vec3 up = side.cross(look).normalize();
+        for (int i = 0; i < 16; i++) {
+            double a = i * Math.PI * 2 / 16;
+            Vec3 p = at.add(side.scale(Math.cos(a) * 0.55)).add(up.scale(Math.sin(a) * 0.55));
+            level.sendParticles(ParticleTypes.END_ROD, p.x, p.y, p.z, 1, 0, 0, 0, 0.0);
         }
     }
 

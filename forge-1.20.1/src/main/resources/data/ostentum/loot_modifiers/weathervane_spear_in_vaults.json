@@ -2,8 +2,8 @@
   "type": "ostentum:weapon_loot",
   "conditions": [
     {
-      "condition": "neoforge:loot_table_id",
-      "loot_table_id": "minecraft:chests/trial_chambers/reward"
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:chests/pillager_outpost"
     }
   ],
   "item": "ostentum:weathervane_spear",

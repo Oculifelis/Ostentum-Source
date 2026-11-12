@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "minecraft:saddle",
+    "minecraft:cod"
+  ],
+  "result": {
+    "id": "ostentum:dolphin_saddle",
+    "count": 1
+  }
+}

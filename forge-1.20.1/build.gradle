@@ -71,7 +71,7 @@ repositories {
     }
     maven {
         name = 'Fundamentum (the shared core mod, local repo)'
-        url = 'file:///H:/AI_MC_Modding/Fundamentum/repo'
+        url = project.findProperty('fundamentum_repo') ?: 'file:///H:/AI_MC_Modding/Fundamentum/repo'
         content { includeGroup 'com.fundamentum' }
     }
 }
@@ -99,9 +99,11 @@ tasks.named('processResources', ProcessResources).configure {
             mod_license            : mod_license,
             mod_version            : mod_version,
             fundamentum_range      : fundamentum_range,
+            // -Pnopendant holds the Record Pendant back (META-INF/ostentum-build.properties; its data is left out below)
+            with_pendant           : !project.hasProperty('nopendant'),
     ]
     inputs.properties replaceProperties
-    filesMatching(['META-INF/mods.toml']) {
+    filesMatching(['META-INF/mods.toml', 'META-INF/ostentum-build.properties']) {
         expand replaceProperties
     }
     // Weapon art still under review stays out of the jar (../pending-weapons.txt; one item id per line).
@@ -128,4 +130,16 @@ tasks.withType(JavaCompile).configureEach {
 
 tasks.withType(JavaCompile).configureEach {
     options.compilerArgs << "-Xmaxerrs" << "3000"
+}
+
+// -Pnopendant: ship without the Record Pendant. music/NowPlaying reads pendant=false from META-INF/ostentum-build.properties
+// and registers no item (so no creative tab entry); its recipe, model, texture and Curios data stay out of the jar too.
+tasks.named('processResources') {
+    def noPendant = project.hasProperty('nopendant')
+    inputs.property 'nopendant', noPendant
+    if (noPendant) {
+        exclude 'data/ostentum/recipes/record_pendant.json', 'data/curios/tags/items/necklace.json',
+            'data/ostentum/curios/entities/record_pendant.json',
+            'assets/ostentum/models/item/record_pendant.json', 'assets/ostentum/textures/item/record_pendant.png'
+    }
 }

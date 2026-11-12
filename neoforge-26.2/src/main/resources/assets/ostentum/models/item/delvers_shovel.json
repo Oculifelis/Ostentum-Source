@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "ostentum:item/delvers_shovel",
+    "layer1": {
+      "sprite": "ostentum:item/delvers_shovel_glow",
+      "neoforge_data": {
+        "light_emission": 15
+      }
+    }
+  }
+}

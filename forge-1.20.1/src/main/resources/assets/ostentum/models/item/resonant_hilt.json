@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:item/generated",
-  "loader": "neoforge:item_layers",
+  "loader": "forge:item_layers",
   "textures": {
     "layer0": "ostentum:item/resonant_hilt",
     "layer1": "ostentum:item/resonant_hilt_glow"
   },
-  "neoforge_data": {
+  "forge_data": {
     "layers": {
       "1": {
         "block_light": 15,

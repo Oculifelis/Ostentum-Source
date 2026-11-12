@@ -1,0 +1,17 @@
+{
+  "chance": 0.25,
+  "full_moon": "only",
+  "fog": {
+    "color": "#E08A2E",
+    "strength": 0.35
+  },
+  "sky": {
+    "color": "#E08A2E",
+    "strength": 0.2
+  },
+  "rise_message": {
+    "key": "message.ostentum.harvest_rise",
+    "color": "fog"
+  },
+  "set_message": "message.ostentum.harvest_set"
+}

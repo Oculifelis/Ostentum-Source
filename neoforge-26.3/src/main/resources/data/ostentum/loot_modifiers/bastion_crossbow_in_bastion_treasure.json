@@ -1,0 +1,9 @@
+{
+  "type": "ostentum:weapon_loot",
+  "condition": {
+    "type": "neoforge:loot_table_id",
+    "loot_table_id": "minecraft:chests/bastion_treasure"
+  },
+  "item": "ostentum:bastion_crossbow",
+  "chance": 0.2
+}

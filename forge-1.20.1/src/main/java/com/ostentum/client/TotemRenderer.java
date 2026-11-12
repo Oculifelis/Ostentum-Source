@@ -12,7 +12,6 @@ import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -25,7 +24,7 @@ import net.minecraft.world.item.Items;
  * today. 1.21.1: the grey one is the standalone model {@link #SPENT} (registered in {@link OstentumClient}).
  */
 public class TotemRenderer extends EntityRenderer<GuardianTotem> {
-    static final ModelResourceLocation SPENT = ModelResourceLocation.standalone(Ostentum.id("item/guardian_totem_spent"));
+    static final ResourceLocation SPENT = Ostentum.id("item/guardian_totem_spent");
 
     // made on first draw: item stacks can't be built while resources first load, before item components are bound
     private ItemStack totem;

@@ -9,6 +9,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.Tiers;
 import net.neoforged.neoforge.common.SimpleTier;
@@ -27,7 +28,8 @@ import net.neoforged.neoforge.registries.DeferredItem;
  * facing on a floor or ceiling. The extra blocks only break when the pick could mine them, each for a point of
  * durability; sneak to mine one block. Abandoned mineshaft minecarts can hold a Rusted Delver's Head (more often below
  * Y 0); smithed onto a diamond pickaxe it makes the Dormant Delver's Pick, a plain pick, which comes out awakened when
- * thrown through a Nether portal (Fundamentum portal crafting, recipe/delvers_pick_awakening.json).
+ * thrown through a Nether portal (Fundamentum portal crafting, recipe/delvers_pick_awakening.json). The Delver's
+ * Shovel is the same from a diamond shovel: the same line, through blocks a shovel digs.
  */
 public final class DelversPick {
     public static final DeferredItem<Item> HEAD = Weapons.item("rusted_delvers_head", Item::new, p -> p.stacksTo(1).rarity(Rarity.UNCOMMON));
@@ -35,6 +37,9 @@ public final class DelversPick {
         .pickaxe(Tiers.DIAMOND, 1.0F, -2.8F));
     public static final DeferredItem<Item> PICK = Weapons.item("delvers_pick", Item::new, p -> p.rarity(Rarity.RARE)
         .pickaxe(Tiers.DIAMOND, 1.0F, -2.8F));
+    /** Its shovel sibling: the same head on a diamond shovel, digging the same line through shovel blocks. */
+    public static final DeferredItem<Item> DORMANT_SHOVEL = Weapons.item("dormant_delvers_shovel", p -> new ShovelItem(Tiers.DIAMOND, p.attributes(ShovelItem.createAttributes(Tiers.DIAMOND, 1.5F, -3.0F))), p -> p.rarity(Rarity.UNCOMMON));
+    public static final DeferredItem<Item> SHOVEL = Weapons.item("delvers_shovel", p -> new ShovelItem(Tiers.DIAMOND, p.attributes(ShovelItem.createAttributes(Tiers.DIAMOND, 1.5F, -3.0F))), p -> p.rarity(Rarity.RARE));
 
     private static boolean mining;
 
@@ -56,7 +61,7 @@ public final class DelversPick {
     }
 
     private static void mine(net.neoforged.neoforge.event.level.BlockEvent.BreakEvent event) {
-        if (mining || !(event.getPlayer() instanceof ServerPlayer player) || player.isShiftKeyDown() || !Weapons.holds(player, PICK)
+        if (mining || !(event.getPlayer() instanceof ServerPlayer player) || player.isShiftKeyDown() || !(Weapons.holds(player, PICK) || Weapons.holds(player, SHOVEL))
             || !(event.getLevel() instanceof ServerLevel level)) {
             return;
         }

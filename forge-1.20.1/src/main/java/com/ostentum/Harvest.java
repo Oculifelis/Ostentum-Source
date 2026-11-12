@@ -3,17 +3,22 @@ package com.ostentum;
 import com.fundamentum.moon.Moons;
 import java.util.ArrayList;
 import java.util.List;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.level.BlockDropsEvent;
+import net.minecraftforge.event.level.BlockEvent;
 
-/** The Harvest Moon (fundamentum/moons/harvest.json): ripe crops broken under it drop twice. */
+/**
+ * The Harvest Moon (fundamentum/moons/harvest.json): ripe crops broken under it drop twice. 1.20.1 has no block drops
+ * event, so the second set is rolled from the crop's loot table on break and popped beside the first.
+ */
 public final class Harvest {
     public static final String MOON = "ostentum:harvest";
     public static final TagKey<Block> CROPS = TagKey.create(Registries.BLOCK, Ostentum.id("harvest_crops"));
@@ -24,18 +29,28 @@ public final class Harvest {
         MinecraftForge.EVENT_BUS.addListener(Harvest::drops);
     }
 
-    private static void drops(BlockDropsEvent event) {
-        BlockState state = event.getState();
-        if (event.getDrops().isEmpty() || !state.is(CROPS) || !ripe(state) || !Moons.isUp(event.getLevel(), MOON)) {
+    private static void drops(BlockEvent.BreakEvent event) {
+        if (!(event.getLevel() instanceof ServerLevel level) || event.getPlayer().isCreative()) {
             return;
         }
-        List<ItemEntity> extra = new ArrayList<>();
-        for (ItemEntity drop : event.getDrops()) {
-            ItemEntity copy = new ItemEntity(event.getLevel(), drop.getX(), drop.getY(), drop.getZ(), drop.getItem().copy());
-            copy.setDefaultPickUpDelay();
-            extra.add(copy);
+        BlockPos pos = event.getPos();
+        BlockState state = event.getState();
+        List<ItemStack> drops = Block.getDrops(state, level, pos, level.getBlockEntity(pos), event.getPlayer(), event.getPlayer().getMainHandItem());
+        for (ItemStack stack : extra(level, state, drops)) {
+            Block.popResource(level, pos, stack);
         }
-        event.getDrops().addAll(extra);
+    }
+
+    /** The second set of drops a crop in {@code state} gets: copies of {@code drops} when ripe under the moon, else none. */
+    static List<ItemStack> extra(ServerLevel level, BlockState state, List<ItemStack> drops) {
+        List<ItemStack> extra = new ArrayList<>();
+        if (drops.isEmpty() || !state.is(CROPS) || !ripe(state) || !Moons.isUp(level, MOON)) {
+            return extra;
+        }
+        for (ItemStack drop : drops) {
+            extra.add(drop.copy());
+        }
+        return extra;
     }
 
     /** Fully grown: every "age" property at its top value (blocks with no age, like melons, are always ripe). */

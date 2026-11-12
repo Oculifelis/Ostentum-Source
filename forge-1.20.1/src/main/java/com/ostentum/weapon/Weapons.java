@@ -53,12 +53,15 @@ public final class Weapons {
         DelversPick.init();
         RecallChime.init();
         PhantomVeil.init();
+        OstentumFx.init(modBus);
+        SeaFx.init();
         ENTITIES.register(modBus);
         LOOT.register("weapon_loot", () -> WeaponLoot.CODEC);
         LOOT.register(modBus);
         MinecraftForge.EVENT_BUS.addListener(Weapons::tick);
         MinecraftForge.EVENT_BUS.addListener(Weapons::joined);
         MinecraftForge.EVENT_BUS.addListener(Weapons::levelTick);
+        SpearArcs.register();
     }
 
     /**

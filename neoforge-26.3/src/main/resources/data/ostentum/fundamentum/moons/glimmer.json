@@ -1,0 +1,31 @@
+{
+  "chance": 0.1667,
+  "priority": 5,
+  "full_moon": "only",
+  "fog": {
+    "color": "#2EC4B6",
+    "strength": 0.35,
+    "shift": {
+      "color": "#7FF0D8",
+      "seconds": 10
+    }
+  },
+  "sky": {
+    "color": "#2EC4B6",
+    "strength": 0.22,
+    "shift": {
+      "color": "#7FF0D8",
+      "seconds": 10
+    }
+  },
+  "rise_message": {
+    "key": "message.ostentum.glimmer_rise",
+    "color": "fog"
+  },
+  "rise_sound": {
+    "id": "minecraft:entity.experience_orb.pickup",
+    "volume": 1.0,
+    "pitch": 0.6
+  },
+  "set_message": "message.ostentum.glimmer_set"
+}

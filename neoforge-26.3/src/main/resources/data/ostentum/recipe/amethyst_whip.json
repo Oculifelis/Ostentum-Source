@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    " AC",
+    " WA",
+    "A  "
+  ],
+  "key": {
+    "A": "minecraft:amethyst_shard",
+    "C": "minecraft:amethyst_cluster",
+    "W": "ostentum:leather_whip"
+  },
+  "result": {
+    "id": "ostentum:amethyst_whip",
+    "count": 1
+  }
+}

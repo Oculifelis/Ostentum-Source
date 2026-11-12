@@ -34,9 +34,9 @@ public class GuardianTotem extends PathfinderMob {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        super.defineSynchedData(builder);
-        builder.define(READY, true);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(READY, true);
     }
 
     public boolean ready() {

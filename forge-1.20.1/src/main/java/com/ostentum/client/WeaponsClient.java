@@ -1,5 +1,6 @@
 package com.ostentum.client;
 
+import com.fundamentum.client.Cloth;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
@@ -8,6 +9,7 @@ import com.ostentum.weapon.AbyssalTrident;
 import com.ostentum.weapon.BastionCrossbow;
 import com.ostentum.weapon.BloomBow;
 import com.ostentum.weapon.CoralTrident;
+import com.ostentum.weapon.DuelistsSaber;
 import com.ostentum.weapon.EngineersCrossbow;
 import com.ostentum.weapon.FisherKingsTrident;
 import com.ostentum.weapon.FrostbiteHatchet;
@@ -35,7 +37,6 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
-import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -75,8 +76,8 @@ public final class WeaponsClient {
     public static void renderers(EntityRenderersEvent.RegisterRenderers event) {
         trident(event, FisherKingsTrident.THROWN.get(), "fisher_kings_trident");
         trident(event, CoralTrident.THROWN.get(), "coral_trident");
-        trident(event, AbyssalTrident.THROWN.get(), "abyssal_trident");
-        event.registerEntityRenderer(FrostbiteHatchet.THROWN.get(), ctx -> new ThrownItemRenderer<>(ctx, 1.25F, false));
+        event.registerEntityRenderer(AbyssalTrident.THROWN.get(), AbyssalRenderer::new);
+        event.registerEntityRenderer(FrostbiteHatchet.THROWN.get(), HatchetRenderer::new);
     }
 
     private static void trident(EntityRenderersEvent.RegisterRenderers event, EntityType<? extends ThrownTrident> type, String name) {
@@ -87,6 +88,7 @@ public final class WeaponsClient {
     @SubscribeEvent
     public static void layerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(VEIL, VeilModel::layer);
+        event.registerLayerDefinition(AbyssalTridentModel.LAYER, AbyssalTridentModel::layer);
     }
 
     private static TridentItems tridentRenderer;
@@ -128,6 +130,9 @@ public final class WeaponsClient {
                 ItemProperties.register(trident, new ResourceLocation("throwing"), (stack, level, entity, seed) ->
                     entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F);
             }
+            // the saber's guard model: blade held across the chest while blocking
+            ItemProperties.register(DuelistsSaber.SABER.get(), new ResourceLocation(Ostentum.MODID, "guarding"), (stack, level, entity, seed) ->
+                entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F);
         });
     }
 
@@ -168,10 +173,38 @@ public final class WeaponsClient {
         }
     }
 
+    /** The thrown Abyssal Trident: its own model, cutout, with the emissive glow texture on top. */
+    static final class AbyssalRenderer extends EntityRenderer<ThrownTrident> {
+        private final AbyssalTridentModel model;
+
+        AbyssalRenderer(EntityRendererProvider.Context context) {
+            super(context);
+            this.model = new AbyssalTridentModel(context.bakeLayer(AbyssalTridentModel.LAYER));
+        }
+
+        @Override
+        public void render(ThrownTrident entity, float yaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffers, int light) {
+            poseStack.pushPose();
+            poseStack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(partialTicks, entity.yRotO, entity.getYRot()) - 90.0F));
+            poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(partialTicks, entity.xRotO, entity.getXRot()) + 90.0F));
+            VertexConsumer buffer = ItemRenderer.getFoilBufferDirect(buffers, model.renderType(AbyssalTridentModel.TEXTURE), false, entity.isFoil());
+            model.renderToBuffer(poseStack, buffer, light, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+            model.renderToBuffer(poseStack, buffers.getBuffer(RenderType.eyes(AbyssalTridentModel.GLOW)), light, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+            poseStack.popPose();
+            super.render(entity, yaw, partialTicks, poseStack, buffers, light);
+        }
+
+        @Override
+        public ResourceLocation getTextureLocation(ThrownTrident entity) {
+            return AbyssalTridentModel.TEXTURE;
+        }
+    }
+
     /** The tridents in hand: vanilla's trident model with each one's texture, flipped as vanilla's item renderer does. */
     static final class TridentItems extends BlockEntityWithoutLevelRenderer {
         private final Map<Item, ResourceLocation> textures = new IdentityHashMap<>();
         private TridentModel model;
+        private AbyssalTridentModel abyssal;
 
         TridentItems() {
             super(Minecraft.getInstance().getBlockEntityRenderDispatcher(), Minecraft.getInstance().getEntityModels());
@@ -180,6 +213,7 @@ public final class WeaponsClient {
         @Override
         public void onResourceManagerReload(ResourceManager manager) {
             model = new TridentModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModelLayers.TRIDENT));
+            abyssal = new AbyssalTridentModel(Minecraft.getInstance().getEntityModels().bakeLayer(AbyssalTridentModel.LAYER));
         }
 
         private ResourceLocation texture(Item item) {
@@ -193,8 +227,14 @@ public final class WeaponsClient {
             }
             poseStack.pushPose();
             poseStack.scale(1.0F, -1.0F, -1.0F);
-            VertexConsumer buffer = ItemRenderer.getFoilBufferDirect(buffers, model.renderType(texture(stack.getItem())), false, stack.hasFoil());
-            model.renderToBuffer(poseStack, buffer, light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
+            if (stack.getItem() == AbyssalTrident.TRIDENT.get()) {
+                VertexConsumer buffer = ItemRenderer.getFoilBufferDirect(buffers, abyssal.renderType(AbyssalTridentModel.TEXTURE), false, stack.hasFoil());
+                abyssal.renderToBuffer(poseStack, buffer, light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
+                abyssal.renderToBuffer(poseStack, buffers.getBuffer(RenderType.eyes(AbyssalTridentModel.GLOW)), light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
+            } else {
+                VertexConsumer buffer = ItemRenderer.getFoilBufferDirect(buffers, model.renderType(texture(stack.getItem())), false, stack.hasFoil());
+                model.renderToBuffer(poseStack, buffer, light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
+            }
             poseStack.popPose();
         }
     }
@@ -205,8 +245,9 @@ public final class WeaponsClient {
         private final ModelPart body;
         private final ModelPart rightArm;
         private final ModelPart leftArm;
-        private final ModelPart cape;
-        private final ModelPart hem;
+        /** The cape's cloth segments, top to hem, each a child of the one before. */
+        static final int SEGMENTS = 4;
+        private final ModelPart[] cloth = new ModelPart[SEGMENTS];
 
         VeilModel(ModelPart root) {
             super(RenderType::entityTranslucent);
@@ -214,8 +255,10 @@ public final class WeaponsClient {
             this.body = root.getChild("body");
             this.rightArm = root.getChild("right_arm");
             this.leftArm = root.getChild("left_arm");
-            this.cape = body.getChild("cape");
-            this.hem = cape.getChild("cape_hem");
+            this.cloth[0] = body.getChild("cape");
+            this.cloth[1] = cloth[0].getChild("cape_lower");
+            this.cloth[2] = cloth[1].getChild("cape_hem");
+            this.cloth[3] = cloth[2].getChild("cape_hem_lower");
         }
 
         static LayerDefinition layer() {
@@ -224,10 +267,16 @@ public final class WeaponsClient {
             PartDefinition body = root.addOrReplaceChild("body", CubeListBuilder.create(), PartPose.ZERO);
             body.addOrReplaceChild("mantle", CubeListBuilder.create().texOffs(24, 0).addBox(-4.5F, -0.5F, -2.5F, 9, 3, 5), PartPose.ZERO);
             body.addOrReplaceChild("hood", CubeListBuilder.create().texOffs(0, 21).addBox(-4.0F, -1.5F, 2.1F, 8, 3, 2), PartPose.ZERO);
-            PartDefinition cape = body.addOrReplaceChild("cape", CubeListBuilder.create().texOffs(0, 0).addBox(-5.0F, 0.0F, 0.05F, 10, 10, 1),
+            // the cape as four cloth segments, each hung from the one above; the boxes split the old 10 + 8 pixel cape and
+            // hem in halves on the same texture rows, so the texture is unchanged
+            PartDefinition cape = body.addOrReplaceChild("cape", CubeListBuilder.create().texOffs(0, 0).addBox(-5.0F, 0.0F, 0.05F, 10, 5, 1),
                 PartPose.offset(0.0F, 0.0F, 2.0F));
-            cape.addOrReplaceChild("cape_hem", CubeListBuilder.create().texOffs(0, 11).addBox(-6.0F, 0.0F, 0.0F, 12, 8, 1),
-                PartPose.offset(0.0F, 10.0F, 0.2F));
+            PartDefinition lower = cape.addOrReplaceChild("cape_lower", CubeListBuilder.create().texOffs(0, 5).addBox(-5.0F, 0.0F, 0.05F, 10, 5, 1),
+                PartPose.offset(0.0F, 5.0F, 0.0F));
+            PartDefinition hem = lower.addOrReplaceChild("cape_hem", CubeListBuilder.create().texOffs(0, 11).addBox(-6.0F, 0.0F, 0.0F, 12, 4, 1),
+                PartPose.offset(0.0F, 5.0F, 0.2F));
+            hem.addOrReplaceChild("cape_hem_lower", CubeListBuilder.create().texOffs(0, 15).addBox(-6.0F, 0.0F, 0.0F, 12, 4, 1),
+                PartPose.offset(0.0F, 4.0F, 0.0F));
             root.addOrReplaceChild("right_arm", CubeListBuilder.create(), PartPose.ZERO)
                 .addOrReplaceChild("right_shoulder", CubeListBuilder.create().texOffs(26, 9).addBox(-3.5F, -2.5F, -2.5F, 5, 4, 5), PartPose.ZERO);
             root.addOrReplaceChild("left_arm", CubeListBuilder.create(), PartPose.ZERO)
@@ -235,31 +284,22 @@ public final class WeaponsClient {
             return LayerDefinition.create(mesh, 64, 32);
         }
 
-        /**
-         * Follows the player model's body and arms, and swings the cape as vanilla 1.21.1's cape layer does (its lean,
-         * flap and sideways sway from the cloak position; veil.py's numbers for the hem).
-         */
-        void follow(PlayerModel<AbstractClientPlayer> player, AbstractClientPlayer entity, float partialTicks, float limbSwingAmount, float ageInTicks) {
+        /** Follows the player model's body and arms; the cape hangs as Fundamentum's cloth chain for this wearer. */
+        void follow(PlayerModel<AbstractClientPlayer> player, AbstractClientPlayer entity, float partialTicks) {
             body.loadPose(player.body.storePose());
             rightArm.loadPose(player.rightArm.storePose());
             leftArm.loadPose(player.leftArm.storePose());
-            double dx = Mth.lerp(partialTicks, entity.xCloakO, entity.xCloak) - Mth.lerp(partialTicks, entity.xo, entity.getX());
-            double dy = Mth.lerp(partialTicks, entity.yCloakO, entity.yCloak) - Mth.lerp(partialTicks, entity.yo, entity.getY());
-            double dz = Mth.lerp(partialTicks, entity.zCloakO, entity.zCloak) - Mth.lerp(partialTicks, entity.zo, entity.getZ());
-            float bodyRot = Mth.rotLerp(partialTicks, entity.yBodyRotO, entity.yBodyRot);
-            double sin = Mth.sin(bodyRot * Mth.DEG_TO_RAD), cos = -Mth.cos(bodyRot * Mth.DEG_TO_RAD);
-            float flap = Mth.clamp((float) dy * 10.0F, -6.0F, 32.0F);
-            float lean = Mth.clamp((float) (dx * sin + dz * cos) * 100.0F, 0.0F, 150.0F);
-            float lean2 = Mth.clamp((float) (dx * cos - dz * sin) * 100.0F, -20.0F, 20.0F);
-            float bob = Mth.lerp(partialTicks, entity.oBob, entity.bob);
-            flap += Mth.sin(Mth.lerp(partialTicks, entity.walkDistO, entity.walkDist) * 6.0F) * 32.0F * bob;
-            if (entity.isCrouching()) {
-                flap += 25.0F;
+            Cloth.Pose pose = Cloth.pose(entity, "ostentum:phantom_veil", SEGMENTS, partialTicks);
+            // Fundamentum's cloth chain (1.9.4): sway and trail from vanilla's cape inertia, lift in a fall, idle drift
+            for (int i = 0; i < SEGMENTS; i++) {
+                cloth[i].resetPose();
+                cloth[i].xRot = pose.pitch()[i];
+                cloth[i].zRot = pose.roll()[i];
             }
-            cape.xRot = (float) Math.toRadians(6.0F + lean / 2.0F + flap);
-            cape.zRot = (float) Math.toRadians(lean2 / 2.0F);
-            cape.yRot = (float) Math.toRadians(-lean2 / 2.0F);
-            hem.xRot = 0.35F * cape.xRot + (float) Math.toRadians(3.0) * Mth.sin(ageInTicks * 0.15F) * Mth.clamp(limbSwingAmount * 4.0F, 0.0F, 1.0F);
+            if (pose.chestArmour()) {
+                cloth[0].y += Cloth.ARMOUR_Y * 16.0F;
+                cloth[0].z += Cloth.ARMOUR_Z * 16.0F;
+            }
         }
 
         @Override
@@ -282,7 +322,7 @@ public final class WeaponsClient {
             if (!PhantomVeil.wears(player) || player.isInvisible()) {
                 return;
             }
-            model.follow(getParentModel(), player, partialTicks, limbSwingAmount, ageInTicks);
+            model.follow(getParentModel(), player, partialTicks);
             model.renderToBuffer(poseStack, buffers.getBuffer(RenderType.entityTranslucent(VEIL_TEXTURE)), light, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
         }
     }

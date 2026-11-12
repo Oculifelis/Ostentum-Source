@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "minecraft:gunpowder",
+    "minecraft:gunpowder",
+    "#minecraft:saplings",
+    "minecraft:lime_dye"
+  ],
+  "result": {
+    "id": "ostentum:creeper_sprout",
+    "count": 1
+  }
+}

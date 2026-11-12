@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "ostentum:item/dormant_delvers_pick"
+  }
+}

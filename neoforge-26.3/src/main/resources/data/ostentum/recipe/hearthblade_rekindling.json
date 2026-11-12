@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:campfire_cooking",
+  "category": "misc",
+  "cookingtime": 600,
+  "experience": 1.0,
+  "ingredient": "ostentum:cold_hearthblade",
+  "result": {
+    "id": "ostentum:hearthblade"
+  }
+}

@@ -10,9 +10,29 @@
       }
     },
     {
-      "apply": {
-        "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_left"
-      },
+      "apply": [
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_left"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_left_1"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_left_2"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_left_3"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_left_4"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_left_5"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_left_6"
+        }
+      ],
       "when": {
         "AND": [
           {
@@ -40,9 +60,32 @@
       }
     },
     {
-      "apply": {
-        "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_mid"
-      },
+      "apply": [
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_mid_3"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_mid_4"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_mid_5"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_mid_6"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_mid_7"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_mid"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_mid_1"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_mid_2"
+        }
+      ],
       "when": {
         "AND": [
           {
@@ -70,9 +113,35 @@
       }
     },
     {
-      "apply": {
-        "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_right"
-      },
+      "apply": [
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_right_6"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_right_7"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_right"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_right_1"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_right_2"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_right_3"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_right_4"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_right_5"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_right_6"
+        }
+      ],
       "when": {
         "AND": [
           {
@@ -100,9 +169,38 @@
       }
     },
     {
-      "apply": {
-        "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left"
-      },
+      "apply": [
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left_1"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left_2"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left_3"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left_4"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left_5"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left_6"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left_7"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left_1"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left_2"
+        }
+      ],
       "when": {
         "AND": [
           {
@@ -130,9 +228,41 @@
       }
     },
     {
-      "apply": {
-        "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid"
-      },
+      "apply": [
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid_4"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid_5"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid_6"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid_7"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid_1"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid_2"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid_3"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid_4"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid_5"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid_6"
+        }
+      ],
       "when": {
         "AND": [
           {
@@ -160,9 +290,47 @@
       }
     },
     {
-      "apply": {
-        "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right"
-      },
+      "apply": [
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_7"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_1"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_2"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_3"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_4"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_5"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_6"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_7"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_1"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_2"
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_3"
+        }
+      ],
       "when": {
         "AND": [
           {
@@ -200,10 +368,36 @@
       }
     },
     {
-      "apply": {
-        "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_left",
-        "y": 90
-      },
+      "apply": [
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_left",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_left_1",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_left_2",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_left_3",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_left_4",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_left_5",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_left_6",
+          "y": 90
+        }
+      ],
       "when": {
         "AND": [
           {
@@ -232,10 +426,40 @@
       }
     },
     {
-      "apply": {
-        "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_mid",
-        "y": 90
-      },
+      "apply": [
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_mid_3",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_mid_4",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_mid_5",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_mid_6",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_mid_7",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_mid",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_mid_1",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_mid_2",
+          "y": 90
+        }
+      ],
       "when": {
         "AND": [
           {
@@ -264,10 +488,44 @@
       }
     },
     {
-      "apply": {
-        "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_right",
-        "y": 90
-      },
+      "apply": [
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_right_6",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_right_7",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_right",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_right_1",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_right_2",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_right_3",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_right_4",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_right_5",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_right_6",
+          "y": 90
+        }
+      ],
       "when": {
         "AND": [
           {
@@ -296,10 +554,48 @@
       }
     },
     {
-      "apply": {
-        "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left",
-        "y": 90
-      },
+      "apply": [
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left_1",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left_2",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left_3",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left_4",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left_5",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left_6",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left_7",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left_1",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left_2",
+          "y": 90
+        }
+      ],
       "when": {
         "AND": [
           {
@@ -328,10 +624,52 @@
       }
     },
     {
-      "apply": {
-        "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid",
-        "y": 90
-      },
+      "apply": [
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid_4",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid_5",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid_6",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid_7",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid_1",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid_2",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid_3",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid_4",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid_5",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid_6",
+          "y": 90
+        }
+      ],
       "when": {
         "AND": [
           {
@@ -360,10 +698,60 @@
       }
     },
     {
-      "apply": {
-        "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right",
-        "y": 90
-      },
+      "apply": [
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_7",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_1",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_2",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_3",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_4",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_5",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_6",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_7",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_1",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_2",
+          "y": 90
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_3",
+          "y": 90
+        }
+      ],
       "when": {
         "AND": [
           {
@@ -402,10 +790,36 @@
       }
     },
     {
-      "apply": {
-        "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_left",
-        "y": 180
-      },
+      "apply": [
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_left",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_left_1",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_left_2",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_left_3",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_left_4",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_left_5",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_left_6",
+          "y": 180
+        }
+      ],
       "when": {
         "AND": [
           {
@@ -434,10 +848,40 @@
       }
     },
     {
-      "apply": {
-        "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_mid",
-        "y": 180
-      },
+      "apply": [
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_mid_3",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_mid_4",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_mid_5",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_mid_6",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_mid_7",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_mid",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_mid_1",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_mid_2",
+          "y": 180
+        }
+      ],
       "when": {
         "AND": [
           {
@@ -466,10 +910,44 @@
       }
     },
     {
-      "apply": {
-        "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_right",
-        "y": 180
-      },
+      "apply": [
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_right_6",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_right_7",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_right",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_right_1",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_right_2",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_right_3",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_right_4",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_right_5",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_right_6",
+          "y": 180
+        }
+      ],
       "when": {
         "AND": [
           {
@@ -498,10 +976,48 @@
       }
     },
     {
-      "apply": {
-        "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left",
-        "y": 180
-      },
+      "apply": [
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left_1",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left_2",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left_3",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left_4",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left_5",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left_6",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left_7",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left_1",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left_2",
+          "y": 180
+        }
+      ],
       "when": {
         "AND": [
           {
@@ -530,10 +1046,52 @@
       }
     },
     {
-      "apply": {
-        "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid",
-        "y": 180
-      },
+      "apply": [
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid_4",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid_5",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid_6",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid_7",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid_1",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid_2",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid_3",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid_4",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid_5",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid_6",
+          "y": 180
+        }
+      ],
       "when": {
         "AND": [
           {
@@ -562,10 +1120,60 @@
       }
     },
     {
-      "apply": {
-        "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right",
-        "y": 180
-      },
+      "apply": [
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_7",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_1",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_2",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_3",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_4",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_5",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_6",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_7",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_1",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_2",
+          "y": 180
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_3",
+          "y": 180
+        }
+      ],
       "when": {
         "AND": [
           {
@@ -604,10 +1212,36 @@
       }
     },
     {
-      "apply": {
-        "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_left",
-        "y": 270
-      },
+      "apply": [
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_left",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_left_1",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_left_2",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_left_3",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_left_4",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_left_5",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_left_6",
+          "y": 270
+        }
+      ],
       "when": {
         "AND": [
           {
@@ -636,10 +1270,40 @@
       }
     },
     {
-      "apply": {
-        "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_mid",
-        "y": 270
-      },
+      "apply": [
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_mid_3",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_mid_4",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_mid_5",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_mid_6",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_mid_7",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_mid",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_mid_1",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_mid_2",
+          "y": 270
+        }
+      ],
       "when": {
         "AND": [
           {
@@ -668,10 +1332,44 @@
       }
     },
     {
-      "apply": {
-        "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_right",
-        "y": 270
-      },
+      "apply": [
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_right_6",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_right_7",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_right",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_right_1",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_right_2",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_right_3",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_right_4",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_right_5",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_top_right_6",
+          "y": 270
+        }
+      ],
       "when": {
         "AND": [
           {
@@ -700,10 +1398,48 @@
       }
     },
     {
-      "apply": {
-        "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left",
-        "y": 270
-      },
+      "apply": [
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left_1",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left_2",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left_3",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left_4",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left_5",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left_6",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left_7",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left_1",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_left_2",
+          "y": 270
+        }
+      ],
       "when": {
         "AND": [
           {
@@ -732,10 +1468,52 @@
       }
     },
     {
-      "apply": {
-        "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid",
-        "y": 270
-      },
+      "apply": [
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid_4",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid_5",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid_6",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid_7",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid_1",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid_2",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid_3",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid_4",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid_5",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_mid_6",
+          "y": 270
+        }
+      ],
       "when": {
         "AND": [
           {
@@ -764,10 +1542,60 @@
       }
     },
     {
-      "apply": {
-        "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right",
-        "y": 270
-      },
+      "apply": [
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_7",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_1",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_2",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_3",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_4",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_5",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_6",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_7",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_1",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_2",
+          "y": 270
+        },
+        {
+          "model": "ostentum:block/chiseled_record_shelf_occupied_slot_bottom_right_3",
+          "y": 270
+        }
+      ],
       "when": {
         "AND": [
           {

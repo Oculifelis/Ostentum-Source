@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    " EE",
+    " WE",
+    "G  "
+  ],
+  "key": {
+    "E": {
+      "item": "minecraft:emerald"
+    },
+    "W": {
+      "item": "ostentum:leather_whip"
+    },
+    "G": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "result": {
+    "item": "ostentum:emerald_whip"
+  }
+}

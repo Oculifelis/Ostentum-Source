@@ -1,10 +1,10 @@
 package com.ostentum;
 
 import com.fundamentum.damage.Elements;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import java.util.UUID;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.projectile.Snowball;
 import net.minecraft.world.item.ItemStack;
@@ -24,10 +24,13 @@ final class ElementsSetup {
     static void init() {
         Elements.registerClassifier((element, source) -> {
             if (element == Elements.FIRE) {
-                ItemStack weapon = source.getWeaponItem();
+                // 1.20.1 damage sources carry no weapon: a melee hit (direct entity is the attacker) uses its main hand
                 Entity attacker = source.getEntity();
-                return weapon != null && !weapon.isEmpty() && attacker != null && EnchantmentHelper.getItemEnchantmentLevel(
-                    attacker.level().registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.FIRE_ASPECT), weapon) > 0;
+                if (!(attacker instanceof LivingEntity living) || source.getDirectEntity() != attacker) {
+                    return false;
+                }
+                ItemStack weapon = living.getMainHandItem();
+                return !weapon.isEmpty() && EnchantmentHelper.getItemEnchantmentLevel(Enchantments.FIRE_ASPECT, weapon) > 0;
             }
             if (element == Elements.ICE) {
                 return source.getDirectEntity() instanceof Snowball;
@@ -39,19 +42,23 @@ final class ElementsSetup {
 
     private static void netheriteFire(ItemAttributeModifierEvent event) {
         ItemStack stack = event.getItemStack();
-        EquipmentSlotGroup slot;
+        EquipmentSlot slot;
         if (stack.is(Items.NETHERITE_HELMET)) {
-            slot = EquipmentSlotGroup.HEAD;
+            slot = EquipmentSlot.HEAD;
         } else if (stack.is(Items.NETHERITE_CHESTPLATE)) {
-            slot = EquipmentSlotGroup.CHEST;
+            slot = EquipmentSlot.CHEST;
         } else if (stack.is(Items.NETHERITE_LEGGINGS)) {
-            slot = EquipmentSlotGroup.LEGS;
+            slot = EquipmentSlot.LEGS;
         } else if (stack.is(Items.NETHERITE_BOOTS)) {
-            slot = EquipmentSlotGroup.FEET;
+            slot = EquipmentSlot.FEET;
         } else {
             return;
         }
-        ResourceLocation id = Ostentum.id("netherite_fire_" + slot.getSerializedName());
-        event.addModifier(Elements.FIRE.resistance(), new AttributeModifier(id, 0.0625, AttributeModifier.Operation.ADD_VALUE), slot);
+        if (event.getSlotType() != slot) {
+            return;
+        }
+        String name = Ostentum.MODID + ":netherite_fire_" + slot.getName();
+        UUID id = UUID.nameUUIDFromBytes(name.getBytes(java.nio.charset.StandardCharsets.UTF_8));
+        event.addModifier(Elements.FIRE.resistance().get(), new AttributeModifier(id, name, 0.0625, AttributeModifier.Operation.ADDITION));
     }
 }

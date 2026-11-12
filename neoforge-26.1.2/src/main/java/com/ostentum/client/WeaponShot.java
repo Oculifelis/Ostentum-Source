@@ -41,11 +41,24 @@ import top.theillusivec4.curios.api.CuriosApi;
 @EventBusSubscriber(modid = Ostentum.MODID, value = Dist.CLIENT)
 public final class WeaponShot {
     static final boolean ON = Boolean.getBoolean("ostentum.weaponshot");
+    /** -Pweaponshot=saber: only the shots whose label starts with this. */
+    private static final String ONLY = System.getProperty("ostentum.weaponshot.only", "");
 
-    /** One picture: what is held and worn, the camera, and an optional setup run on the server first. */
-    private record Shot(String label, String item, CameraType camera, Consumer<ServerPlayer> setup) {
+    /**
+     * One picture: what is held and worn, the camera, and an optional setup run on the server first. A blocking shot holds
+     * use down with the item in the main or off hand; turn swings the body that many degrees under the front camera.
+     */
+    private record Shot(String label, String item, CameraType camera, Consumer<ServerPlayer> setup, boolean offhand, boolean block, float turn) {
         Shot(String label, String item) {
             this(label, item, CameraType.THIRD_PERSON_FRONT, p -> {});
+        }
+
+        Shot(String label, String item, CameraType camera, Consumer<ServerPlayer> setup) {
+            this(label, item, camera, setup, false, false, 0.0F);
+        }
+
+        static Shot block(String label, String item, boolean offhand, float turn, Consumer<ServerPlayer> setup) {
+            return new Shot(label, item, CameraType.THIRD_PERSON_FRONT, setup, offhand, true, turn);
         }
     }
 
@@ -53,6 +66,18 @@ public final class WeaponShot {
         new Shot("weathervane", "ostentum:weathervane_spear"),
         new Shot("glaive", "ostentum:pathfinders_glaive"),
         new Shot("saber", "ostentum:duelists_saber"),
+        Shot.block("saber-before-block-right-front", "ostentum:duelists_saber", false, 0.0F, p -> asBefore(p)),
+        Shot.block("saber-before-block-right-quarter", "ostentum:duelists_saber", false, -40.0F, p -> asBefore(p)),
+        Shot.block("saber-before-block-right-side", "ostentum:duelists_saber", false, -90.0F, p -> asBefore(p)),
+        Shot.block("saber-before-block-left-front", "ostentum:duelists_saber", true, 0.0F, p -> asBefore(p)),
+        Shot.block("saber-before-block-left-quarter", "ostentum:duelists_saber", true, 40.0F, p -> asBefore(p)),
+        Shot.block("saber-before-block-left-side", "ostentum:duelists_saber", true, 90.0F, p -> asBefore(p)),
+        Shot.block("saber-block-right-front", "ostentum:duelists_saber", false, 0.0F, p -> {}),
+        Shot.block("saber-block-right-quarter", "ostentum:duelists_saber", false, -40.0F, p -> {}),
+        Shot.block("saber-block-right-side", "ostentum:duelists_saber", false, -90.0F, p -> {}),
+        Shot.block("saber-block-left-front", "ostentum:duelists_saber", true, 0.0F, p -> {}),
+        Shot.block("saber-block-left-quarter", "ostentum:duelists_saber", true, 40.0F, p -> {}),
+        Shot.block("saber-block-left-side", "ostentum:duelists_saber", true, 90.0F, p -> {}),
         new Shot("hearthblade", "ostentum:hearthblade"),
         new Shot("echo", "ostentum:echo_blade"),
         new Shot("hatchet", "ostentum:frostbite_hatchet"),
@@ -171,6 +196,10 @@ public final class WeaponShot {
             return;
         }
         Shot shot = SHOTS.get(index);
+        if (step == 1 && !shot.label.startsWith(ONLY)) {
+            index++;
+            return;
+        }
         if (step == 1) {
             Item item = BuiltInRegistries.ITEM.getOptional(Identifier.parse(shot.item)).orElse(null);
             if (item == null) {
@@ -181,18 +210,39 @@ public final class WeaponShot {
             mc.options.setCameraType(shot.camera);
             server.execute(() -> {
                 ServerPlayer p = server.getPlayerList().getPlayers().get(0);
-                p.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(item));
+                p.setItemInHand(InteractionHand.MAIN_HAND, shot.offhand ? ItemStack.EMPTY : new ItemStack(item));
+                p.setItemInHand(InteractionHand.OFF_HAND, shot.offhand ? new ItemStack(item) : ItemStack.EMPTY);
                 p.snapTo(p.getX(), p.getY(), p.getZ(), 0.0F, 10.0F);
                 shot.setup.accept(p);
             });
             mc.player.setYRot(0.0F);
             mc.player.setXRot(10.0F);
+            mc.options.keyUse.setDown(shot.block);
             next(2);
+        } else if (step == 2 && shot.turn != 0.0F && ticks < 30) {
+            turn(mc, shot.turn);
         } else if (step == 2 && ticks == (shot.label.equals("tridents-thrown") ? 6 : 30)) {
             grab(mc, shot.label);
+            mc.options.keyUse.setDown(false);
             index++;
             next(1);
         }
+    }
+
+    /** The saber drawn with its plain model, as it looked blocking before the guard model: the before half of before/after. */
+    private static void asBefore(ServerPlayer p) {
+        for (InteractionHand hand : InteractionHand.values()) {
+            ItemStack held = p.getItemInHand(hand);
+            if (!held.isEmpty()) {
+                held.set(net.minecraft.core.component.DataComponents.ITEM_MODEL, Identifier.fromNamespaceAndPath(Ostentum.MODID, "duelists_saber_before"));
+            }
+        }
+    }
+
+    /** Turns the body and head away from the camera's yaw, every tick so the player's own turning can't undo it. */
+    private static void turn(Minecraft mc, float yaw) {
+        mc.player.yBodyRot = mc.player.yBodyRotO = yaw;
+        mc.player.yHeadRot = mc.player.yHeadRotO = yaw;
     }
 
     private static void next(int s) {

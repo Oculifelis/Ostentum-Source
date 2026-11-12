@@ -33,11 +33,11 @@ public final class BreezeWhip {
             .coiled().texture(OstentumWhips.lash("breeze_whip")).width(0.1F, 0.035F)
             .cordFx(WhipCordFx.WIND)
             .shockwave(0x90D6ECFF)
-            .sounds(SoundEvents.BREEZE_IDLE_GROUND, SoundEvents.BREEZE_SHOOT)
-            .crackParticle(ParticleTypes.SMALL_GUST)
+            .sounds(SoundEvents.PHANTOM_FLAP, SoundEvents.PHANTOM_SWOOP)
+            .crackParticle(ParticleTypes.CLOUD)
             .particles((level, strand, segment, along, pos, speed, random) -> {
                 if (random.nextFloat() < 0.03F + 0.06F * (float) along) {
-                    level.addParticle(ParticleTypes.SMALL_GUST, pos.x, pos.y, pos.z, 0, 0, 0);
+                    level.addParticle(ParticleTypes.CLOUD, pos.x, pos.y, pos.z, 0, 0, 0);
                 }
             })
             .hooks(new WhipHooks() {
@@ -52,8 +52,8 @@ public final class BreezeWhip {
                     away = new Vec3(away.x, 0, away.z).lengthSqr() < 1.0E-4 ? hit.player.getLookAngle() : new Vec3(away.x, 0, away.z).normalize();
                     target.push(away.x * 0.8 * resist, 0.5 * resist, away.z * 0.8 * resist);
                     target.hurtMarked = true;
-                    level.sendParticles(ParticleTypes.GUST, hit.contact.x, hit.contact.y, hit.contact.z, 1, 0, 0, 0, 0);
-                    level.playSound(null, hit.contact.x, hit.contact.y, hit.contact.z, SoundEvents.WIND_CHARGE_BURST.value(), SoundSource.PLAYERS, 0.7F, 1.2F);
+                    level.sendParticles(ParticleTypes.EXPLOSION, hit.contact.x, hit.contact.y, hit.contact.z, 1, 0, 0, 0, 0);
+                    level.playSound(null, hit.contact.x, hit.contact.y, hit.contact.z, SoundEvents.FIRECHARGE_USE, SoundSource.PLAYERS, 0.7F, 1.2F);
                 }
             })
             .build();

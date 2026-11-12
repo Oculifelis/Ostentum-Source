@@ -104,6 +104,8 @@ public final class Ostentum {
         MoonDiscs.init();
         SelfTest.init();
         ElementsSetup.init();
+        com.ostentum.music.RecordShelves.init(modBus);      // 1.9.4: record shelves and the Record Pendant
+        com.ostentum.music.NowPlaying.init();
         MinecraftForge.EVENT_BUS.addListener(Ostentum::amethystHook);
     }
 

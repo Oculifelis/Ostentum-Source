@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "minecraft:string",
+    "#c:music_discs",
+    "minecraft:gold_nugget"
+  ],
+  "result": {
+    "id": "ostentum:record_pendant",
+    "count": 1
+  }
+}

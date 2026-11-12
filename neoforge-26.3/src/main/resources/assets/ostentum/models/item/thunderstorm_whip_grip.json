@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "ostentum:item/thunderstorm_whip_grip",
+    "layer1": {
+      "sprite": "ostentum:item/thunderstorm_whip_grip_glow",
+      "neoforge_data": {
+        "light_emission": 15
+      }
+    }
+  }
+}

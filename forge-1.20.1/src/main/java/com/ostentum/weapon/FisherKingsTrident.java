@@ -73,8 +73,7 @@ public final class FisherKingsTrident {
             drop.setDeltaMovement(dx * 0.1, dy * 0.1 + Math.sqrt(Math.sqrt(dx * dx + dy * dy + dz * dz)) * 0.08, dz * 0.1);
             level.addFreshEntity(drop);
         }
-        level.sendParticles(ParticleTypes.SPLASH, at.getX(), at.getY() + 0.5, at.getZ(), 20, 0.4, 0.1, 0.4, 0.1);
-        level.playSound(null, at.blockPosition(), SoundEvents.FISHING_BOBBER_SPLASH, SoundSource.PLAYERS, 1.0F, 1.0F);
+        SeaFx.fishCatch(level, at, owner, items.size());
         return items;
     }
 
@@ -88,6 +87,9 @@ public final class FisherKingsTrident {
         boolean held = direct instanceof LivingEntity holder && direct == event.getSource().getEntity() && Weapons.holds(holder, TRIDENT);
         if (thrown || held) {
             event.setAmount(event.getAmount() * AQUATIC_BONUS);
+            if (event.getEntity().level() instanceof ServerLevel level) {
+                SeaFx.aquatic(level, event.getEntity());
+            }
         }
     }
 

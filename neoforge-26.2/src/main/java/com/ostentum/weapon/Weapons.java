@@ -50,10 +50,13 @@ public final class Weapons {
         DelversPick.init();
         RecallChime.init();
         PhantomVeil.init();
+        OstentumFx.init(modBus);
+        SeaFx.init();
         ENTITIES.register(modBus);
         LOOT.register("weapon_loot", () -> WeaponLoot.CODEC);
         LOOT.register(modBus);
         NeoForge.EVENT_BUS.addListener(Weapons::tick);
+        modBus.addListener(SpearArcs::register);
     }
 
     static <I extends Item> DeferredItem<I> item(String name, Function<Item.Properties, ? extends I> factory, UnaryOperator<Item.Properties> props) {

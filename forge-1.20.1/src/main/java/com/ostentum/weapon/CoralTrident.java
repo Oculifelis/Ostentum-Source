@@ -62,7 +62,7 @@ public final class CoralTrident {
         void land(ServerLevel level) {
             if (isInWater() && getOwner() != null) {
                 WHIRLPOOLS.add(new Whirlpool(level, position(), getOwner().getUUID(), level.getGameTime() + WHIRL));
-                level.playSound(null, blockPosition(), SoundEvents.BUBBLE_COLUMN_WHIRLPOOL_AMBIENT, SoundSource.PLAYERS, 1.0F, 1.0F);
+                level.playSound(null, blockPosition(), com.ostentum.OstentumSounds.CORAL_WHIRLPOOL.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
             }
         }
 
@@ -88,17 +88,13 @@ public final class CoralTrident {
                 it.remove();
                 continue;
             }
-            double spin = level.getGameTime() * 0.6;
-            for (int i = 0; i < 3; i++) {
-                double a = spin + i * Math.PI * 2 / 3;
-                level.sendParticles(ParticleTypes.BUBBLE, pool.at().x + Math.cos(a) * 1.2, pool.at().y + 0.3 * i, pool.at().z + Math.sin(a) * 1.2,
-                    1, 0, 0.1, 0, 0.0);
-            }
+            SeaFx.whirl(level, pool.at(), level.getGameTime());
             Entity owner = level.getEntity(pool.owner());
             if (owner != null && owner.isInWater() && owner.distanceToSqr(pool.at()) < REACH * REACH && owner.distanceToSqr(pool.at()) > 1.5) {
                 Vec3 to = pool.at().subtract(owner.position()).normalize();
                 owner.setDeltaMovement(owner.getDeltaMovement().scale(0.8).add(to.scale(0.25)));
                 owner.hurtMarked = true;
+                SeaFx.pulled(level, owner);
             }
         }
     }
@@ -108,8 +104,12 @@ public final class CoralTrident {
         BlockState state = level.getBlockState(pos);
         if (state.is(Blocks.KELP) || state.is(Blocks.KELP_PLANT) || state.is(Blocks.SEAGRASS) || state.is(Blocks.TALL_SEAGRASS)) {
             BlockPos at = state.is(Blocks.KELP_PLANT) ? top(level, pos) : pos;
-            return BoneMealItem.applyBonemeal(new ItemStack(Items.BONE_MEAL), level, at, null)
+            boolean grew = BoneMealItem.applyBonemeal(new ItemStack(Items.BONE_MEAL), level, at, null)
                 || BoneMealItem.growWaterPlant(new ItemStack(Items.BONE_MEAL), level, at, Direction.UP);
+            if (grew) {
+                SeaFx.grow(level, at, state);
+            }
+            return grew;
         }
         if (!state.is(BlockTags.CORALS) && !state.is(BlockTags.WALL_CORALS) && !state.is(BlockTags.CORAL_BLOCKS)) {
             return false;
@@ -130,7 +130,7 @@ public final class CoralTrident {
                 copy = copy.setValue(BlockStateProperties.WATERLOGGED, true);
             }
             level.setBlockAndUpdate(next, copy);
-            level.levelEvent(1505, next, 5);
+            SeaFx.grow(level, next, copy);
             return true;
         }
         return false;

@@ -47,29 +47,9 @@ public final class WeaponTest {
         long named = weaponItems().stream().filter(id -> lang.has("item.ostentum." + id) && lang.has("item.ostentum." + id + ".desc")).count();
         check.accept("all " + weaponItems().size() + " weapon items have a name and a tooltip (" + named + ")", named == weaponItems().size());
 
-        // Duelist's Saber: the window covers ticks 0 to 6 after opening, and a parried hit is cancelled
-        long now = level.getGameTime();
-        DuelistsSaber.open(player, now);
-        check.accept("saber window: open at 0 and 6, shut at 7 and before", DuelistsSaber.parrying(player, now)
-            && DuelistsSaber.parrying(player, now + DuelistsSaber.WINDOW - 1) && !DuelistsSaber.parrying(player, now + DuelistsSaber.WINDOW)
-            && !DuelistsSaber.parrying(player, now - 1));
-        player.snapTo(at.getX() + 0.5, at.getY(), at.getZ() + 0.5, 0.0F, 0.0F);
-        player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(DuelistsSaber.SABER.get()));
-        player.setHealth(player.getMaxHealth());
-        Mob front = mob(level, EntityTypes.ZOMBIE, Vec3.atBottomCenterOf(at).add(0, 0, 1.5));
-        // a FakePlayer takes no damage, so the incoming-damage event is posted by hand
-        var fromFront = new LivingIncomingDamageEvent(player, new DamageContainer(level.damageSources().mobAttack(front), 4.0F));
-        NeoForge.EVENT_BUS.post(fromFront);
-        check.accept("a parried zombie hit from the front is cancelled and staggers it",
-            fromFront.isCanceled() && front.hasEffect(net.minecraft.world.effect.MobEffects.SLOWNESS) && DuelistsSaber.riposteReady(player, now));
-        Mob behind = mob(level, EntityTypes.ZOMBIE, Vec3.atBottomCenterOf(at).add(0, 0, -1.5));
-        DuelistsSaber.open(player, now);
-        var fromBehind = new LivingIncomingDamageEvent(player, new DamageContainer(level.damageSources().mobAttack(behind), 4.0F));
-        NeoForge.EVENT_BUS.post(fromBehind);
-        check.accept("a hit from behind is not parried", !fromBehind.isCanceled());
-        front.discard();
-        behind.discard();
-        player.setHealth(player.getMaxHealth());
+        // 1.9.4: the Voidstring Bow (players, game rule, immune tag, kill teleport) and the Duelist's Saber guard
+        BowsTest.run(level, player, at, check, skip);
+        player.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
 
         // Delver's Pick: the 1x3 line
         BlockPos p = new BlockPos(0, 64, 0);
@@ -103,20 +83,6 @@ public final class WeaponTest {
         float before = dummy.getHealth();
         EchoBlade.echo(level, player, dummy, 3.0F);
         check.accept("echo blade's echo lands (" + before + " -> " + dummy.getHealth() + ")", dummy.getHealth() < before);
-
-        // Voidstring Bow: a swap trades places once, then waits for the cooldown; the warden never swaps
-        player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(VoidstringBow.BOW.get()));
-        player.getCooldowns().removeCooldown(BuiltInRegistries.ITEM.getKey(VoidstringBow.BOW.get()));
-        Vec3 mine = player.position();
-        Vec3 theirs = dummy.position();
-        boolean swapped = VoidstringBow.swap(level, player, dummy);
-        // a FakePlayer's teleport is a no-op on its fake connection, so only the mob's side of the swap shows
-        check.accept("voidstring swap trades places", swapped && dummy.position().distanceTo(mine) < 0.01);
-        check.accept("and not again while cooling down", !VoidstringBow.swap(level, player, dummy));
-        Mob warden = mob(level, EntityTypes.WARDEN, Vec3.atBottomCenterOf(at).add(4, 0, 4));
-        check.accept("the warden is immune to the swap", VoidstringBow.swapImmune(warden));
-        warden.discard();
-        player.snapTo(at.getX() + 0.5, at.getY(), at.getZ() + 0.5, 0.0F, 0.0F);
 
         // Abyssal Trident: the field drains air on land and drowns at the end; water breathers are spared
         Mob pig = mob(level, EntityTypes.PIG, Vec3.atBottomCenterOf(at).add(2, 0, 2));
@@ -172,6 +138,68 @@ public final class WeaponTest {
         FrostbiteHatchet.freezeWater(level, centre.offset(5, 1, 0));
         check.accept("frostbite hatchet freezes water", level.getBlockState(centre.offset(5, 0, 0)).is(Blocks.FROSTED_ICE));
 
+        // returning weapons go back to the slot they left (1.9.4), else the first free hotbar slot, else the inventory
+        var inv = player.getInventory();
+        inv.clearContent();
+        boolean home = ReturnSlot.give(player, new ItemStack(FrostbiteHatchet.HATCHET.get()), 3);
+        check.accept("a returning weapon goes back to its own slot (3)", home && inv.getItem(3).is(FrostbiteHatchet.HATCHET.get()));
+        inv.clearContent();
+        inv.setItem(0, new ItemStack(Items.DIRT));
+        inv.setItem(3, new ItemStack(Items.DIRT));
+        ReturnSlot.give(player, new ItemStack(FrostbiteHatchet.HATCHET.get()), 3);
+        check.accept("its slot taken, it goes to the first free hotbar slot (1)", inv.getItem(1).is(FrostbiteHatchet.HATCHET.get()));
+        inv.clearContent();
+        for (int i = 0; i < 9; i++) {
+            inv.setItem(i, new ItemStack(Items.DIRT));
+        }
+        ReturnSlot.give(player, new ItemStack(FrostbiteHatchet.HATCHET.get()), 3);
+        check.accept("a full hotbar sends it into the inventory (9)", inv.getItem(9).is(FrostbiteHatchet.HATCHET.get()));
+        inv.clearContent();
+        inv.setItem(5, new ItemStack(FrostbiteHatchet.HATCHET.get()));
+        inv.setSelectedSlot(5);
+        FrostbiteHatchet.HATCHET.get().use(level, player, InteractionHand.MAIN_HAND);
+        var hatchets = level.getEntitiesOfClass(FrostbiteHatchet.Thrown.class, player.getBoundingBox().inflate(4));
+        FrostbiteHatchet.Thrown axe = hatchets.isEmpty() ? null : hatchets.get(0);
+        check.accept("a hatchet thrown from slot 5 leaves it and remembers it", axe != null && inv.getItem(5).isEmpty() && axe.origin == 5);
+        if (axe != null) {
+            // its flight is saved: a hatchet saved on its way home reloads on its way home, as old and from the same slot
+            axe.turnHome();
+            axe.age = 9;
+            var out = net.minecraft.world.level.storage.TagValueOutput.createWithContext(net.minecraft.util.ProblemReporter.DISCARDING, level.registryAccess());
+            axe.saveWithoutId(out);
+            net.minecraft.nbt.CompoundTag saved = out.buildResult();
+            FrostbiteHatchet.Thrown copy = new FrostbiteHatchet.Thrown(FrostbiteHatchet.THROWN.get(), level);
+            copy.load(net.minecraft.world.level.storage.TagValueInput.create(net.minecraft.util.ProblemReporter.DISCARDING, level.registryAccess(), saved));
+            check.accept("a hatchet saved on its way home loads on its way home (age 9, slot 5)", copy.returning() && copy.age == 9 && copy.origin == 5);
+            saved.remove("flight");
+            FrostbiteHatchet.Thrown old = new FrostbiteHatchet.Thrown(FrostbiteHatchet.THROWN.get(), level);
+            old.load(net.minecraft.world.level.storage.TagValueInput.create(net.minecraft.util.ProblemReporter.DISCARDING, level.registryAccess(), saved));
+            check.accept("a hatchet saved before 1.9.5 loads flying out", old.flight() == FrostbiteHatchet.Thrown.Flight.OUTBOUND);
+        }
+        if (axe != null) {
+            axe.giveBack(level, player);
+            check.accept("and comes home to slot 5, in hand again", inv.getItem(5).is(FrostbiteHatchet.HATCHET.get())
+                && player.getMainHandItem().is(FrostbiteHatchet.HATCHET.get()) && axe.isRemoved());
+        }
+        inv.clearContent();
+        var homing = WeaponTrident.Thrown.create(CoralTrident.THROWN.get(), level, player, new ItemStack(CoralTrident.TRIDENT.get()));
+        homing.origin = 6;
+        homing.pickup = net.minecraft.world.entity.projectile.arrow.AbstractArrow.Pickup.ALLOWED;
+        check.accept("a thrown trident is picked up into the slot it was thrown from (6)", homing.pickUp(player)
+            && inv.getItem(6).is(CoralTrident.TRIDENT.get()));
+        inv.clearContent();
+        inv.setSelectedSlot(0);
+
+        // Pathfinder's Glaive: no enchantment glint, ever
+        ItemStack shiny = new ItemStack(PathfindersGlaive.GLAIVE.get());
+        shiny.enchant(level.registryAccess().lookupOrThrow(net.minecraft.core.registries.Registries.ENCHANTMENT)
+            .getOrThrow(net.minecraft.world.item.enchantment.Enchantments.SHARPNESS), 3);
+        check.accept("an enchanted glaive shows no glint", shiny.isEnchanted() && !shiny.hasFoil());
+
+        // Weathervane Spear: a charged wielder's spear carries the static flag the clients draw from
+        ItemStack spear = new ItemStack(WeathervaneSpear.SPEAR.get());
+        check.accept("a fresh spear shows no charge", !WeathervaneSpear.showsCharge(spear));
+
         // Coral Trident: a hit on a coral block grows one into the water beside it
         level.setBlock(centre.offset(-5, 1, 0), Blocks.BRAIN_CORAL_BLOCK.defaultBlockState(), Block.UPDATE_ALL);
         level.setBlock(centre.offset(-5, 2, 0), Blocks.WATER.defaultBlockState(), Block.UPDATE_ALL);
@@ -192,7 +220,7 @@ public final class WeaponTest {
         PathfindersGlaive.plant(level, player, glaive, at.south(3));
         String id = Weapons.data(glaive).getStringOr("waypoint_id", "");
         Entity planted = id.isEmpty() ? null : level.getEntity(java.util.UUID.fromString(id));
-        check.accept("glaive plants a glowing waypoint", PathfindersGlaive.planted(glaive) && planted != null && planted.isCurrentlyGlowing());
+        check.accept("glaive plants a waypoint (its own glow layer, no outline glow)", PathfindersGlaive.planted(glaive) && planted != null && !planted.isCurrentlyGlowing());
         PathfindersGlaive.recall(level, player, glaive);
         check.accept("and pulls it back", !PathfindersGlaive.planted(glaive) && planted != null && planted.isRemoved());
 
@@ -203,11 +231,7 @@ public final class WeaponTest {
         RecallChime.mark(level, player, chime);
         check.accept("recall chime marks", Weapons.data(chime).contains("mark_dim"));
 
-        // Engineer's Crossbow: two landed bolts string a rope
-        EngineersCrossbow.string(level, player.getUUID(), Vec3.atCenterOf(at).add(-3, 2, 0), Vec3.atCenterOf(at).add(3, 0, 0));
-        EngineersCrossbow.Rope rope = EngineersCrossbow.ROPES.get(player.getUUID());
-        check.accept("engineer's rope is strung", rope != null && rope.along(Vec3.atCenterOf(at).add(0, 1, 0)) > 0.4 && rope.along(Vec3.atCenterOf(at).add(0, 1, 0)) < 0.6);
-        EngineersCrossbow.ROPES.remove(player.getUUID());
+        // Engineer's Crossbow: the zipline is BowsTest's (1.9.4)
 
         // Phantom Veil: worn in the back slot; at night mobs see half as far, and no phantoms come
         if (!wear(player, PhantomVeil.SLOT, new ItemStack(PhantomVeil.VEIL.get()))) {
@@ -231,7 +255,7 @@ public final class WeaponTest {
         return List.of("weathervane_spear", "pathfinders_glaive", "duelists_saber", "hearthblade", "cold_hearthblade", "soul_hearthblade",
             "echo_blade", "resonant_hilt", "frostbite_hatchet", "bloom_bow", "voidstring_bow", "engineers_crossbow", "bastion_crossbow",
             "fisher_kings_trident", "coral_trident", "abyssal_trident", "quake_hammer", "recall_chime", "phantom_veil", "delvers_pick",
-            "dormant_delvers_pick", "rusted_delvers_head");
+            "dormant_delvers_pick", "rusted_delvers_head", "delvers_shovel", "dormant_delvers_shovel");
     }
 
     private static Mob mob(ServerLevel level, EntityType<? extends Mob> type, Vec3 at) {

@@ -20,7 +20,7 @@ public final class DevShot {
     @SubscribeEvent
     public static void tick(ClientTickEvent.Post event) {
         Minecraft mc = Minecraft.getInstance();
-        if (!ON || SteerTest.ON || MusicTest.ON || WhipShot.ON || WeaponShot.ON || !(mc.gui.screen() instanceof TitleScreen)) {
+        if (!ON || SteerTest.ON || MusicTest.ON || WhipShot.ON || WeaponShot.ON || ThrowShot.ON || TooltipShot.ON || VeilShot.ON || NowPlayingShot.ON || ZipShot.ON || !(mc.gui.screen() instanceof TitleScreen)) {
             return;
         }
         if (++ticks == 1) {

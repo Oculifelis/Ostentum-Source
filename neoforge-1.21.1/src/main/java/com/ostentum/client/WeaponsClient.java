@@ -9,6 +9,7 @@ import com.ostentum.weapon.AbyssalTrident;
 import com.ostentum.weapon.BastionCrossbow;
 import com.ostentum.weapon.BloomBow;
 import com.ostentum.weapon.CoralTrident;
+import com.ostentum.weapon.DuelistsSaber;
 import com.ostentum.weapon.EngineersCrossbow;
 import com.ostentum.weapon.FisherKingsTrident;
 import com.ostentum.weapon.FrostbiteHatchet;
@@ -132,6 +133,9 @@ public final class WeaponsClient {
                 ItemProperties.register(trident, ResourceLocation.withDefaultNamespace("throwing"), (stack, level, entity, seed) ->
                     entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F);
             }
+            // the saber's guard model: blade held across the chest while blocking
+            ItemProperties.register(DuelistsSaber.SABER.get(), ResourceLocation.fromNamespaceAndPath(Ostentum.MODID, "guarding"), (stack, level, entity, seed) ->
+                entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F);
         });
     }
 

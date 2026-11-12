@@ -40,7 +40,6 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.FakePlayerFactory;
-import net.minecraftforge.event.level.BlockDropsEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
 import top.theillusivec4.curios.api.CuriosApi;
 
@@ -80,6 +79,8 @@ public final class SelfTest {
             && Relics.RELIC.get().isValid(Relics.ELDER_GUARDIAN_RELIC.get().defaultBlockState())
             && Relics.RELIC.get().isValid(Relics.WARDEN_RELIC.get().defaultBlockState())
             && Relics.RELIC.get().isValid(Relics.DRAGON_RELIC.get().defaultBlockState()));
+        // relic items an earlier run left lying here (the dev world is kept between runs) would be counted as drops
+        level.getEntitiesOfClass(ItemEntity.class, new net.minecraft.world.phys.AABB(centre).inflate(4)).forEach(net.minecraft.world.entity.Entity::discard);
         BlockState relic = Relics.DRAGON_RELIC.get().defaultBlockState();
         level.setBlock(centre, relic, Block.UPDATE_ALL);
         relic.getBlock().setPlacedBy(level, centre, relic, player, new ItemStack(Relics.DRAGON_RELIC_ITEM.get()));
@@ -158,12 +159,13 @@ public final class SelfTest {
             // mounts, hooks and summons are checked by using them (behaviour(), phase two), not by their data being there
             check("glimmer moon loaded", Moons.get(Glimmer.MOON).isPresent());
             for (String slot : List.of("mount", "hook", "summon")) {
-                TagKey<Item> tag = TagKey.create(Registries.ITEM, net.minecraft.resources.new ResourceLocation("curios", slot));
+                TagKey<Item> tag = TagKey.create(Registries.ITEM, new net.minecraft.resources.ResourceLocation("curios", slot));
                 long n = BuiltInRegistries.ITEM.stream().filter(i -> new ItemStack(i).is(tag) && BuiltInRegistries.ITEM.getKey(i).getNamespace().equals("ostentum")).count();
                 check("curios tag " + slot + " has " + n, n > 0);
             }
-            long recipes = server.getRecipeManager().getRecipes().stream().filter(r -> r.id().getNamespace().equals("ostentum")).count();
-            check("recipes loaded: " + recipes, recipes == 54);
+            long recipes = server.getRecipeManager().getRecipes().stream().filter(r -> r.getId().getNamespace().equals("ostentum")).count();
+            check("recipes loaded: " + recipes, recipes == 56 + (com.ostentum.music.NowPlaying.PENDANT_ON ? 1 : 0)
+                + (net.minecraftforge.fml.ModList.get().isLoaded("patchouli") ? 1 : 0));   // the pendant's recipe is left out of a -Pnopendant build; the guide book's needs Patchouli (loaded in 1.20.1 dev runs)
             // the six base whips are Fundamentum whips with their own lengths; the Ender Whip's loot needs an End ship
             List<net.minecraftforge.registries.RegistryObject<Item>> whips = new java.util.ArrayList<>(List.of(com.ostentum.whip.OstentumWhips.VINE_WHIP,
                 com.ostentum.whip.OstentumWhips.WEEPING_VINE_WHIP, com.ostentum.whip.OstentumWhips.TWISTING_VINE_WHIP,
@@ -174,7 +176,7 @@ public final class SelfTest {
                 check(whip.getId().getPath() + " is a whip (" + (def == null ? "none" : def.tuning.length() + " blocks") + ")",
                     def != null && def.texture.getPath().endsWith(whip.getId().getPath() + ".png"));
             }
-            TagKey<Item> whipTag = TagKey.create(Registries.ITEM, net.minecraft.resources.new ResourceLocation("fundamentum", "whips"));
+            TagKey<Item> whipTag = TagKey.create(Registries.ITEM, new net.minecraft.resources.ResourceLocation("fundamentum", "whips"));
             check("all 18 whips in #fundamentum:whips", whips.stream().allMatch(w -> new ItemStack(w.get()).is(whipTag)) && whips.size() == 18);
             check("no End ship at 0 64 0 in the overworld", !com.ostentum.whip.EndShipLoot.onShip(level, new BlockPos(0, 64, 0)));
             // Thunderstorm Whip (1.8.5): its arcs need a clear line from one creature to the next
@@ -259,7 +261,10 @@ public final class SelfTest {
         catcher.stop();
     }
 
-    private static void tick(net.minecraftforge.event.tick.ServerTickEvent.Post event) {
+    private static void tick(net.minecraftforge.event.TickEvent.ServerTickEvent event) {
+        if (event.phase != net.minecraftforge.event.TickEvent.Phase.END) {
+            return;
+        }
         if (++ticks != 40) {
             return;
         }
@@ -288,6 +293,7 @@ public final class SelfTest {
             behaviour(level, player, pos.above());
 
             relics(level, player, pos.above(3));
+            com.ostentum.music.ShelfTest.run(level, player, pos.offset(40, 1, 0), SelfTest::check);   // 1.9.4 record shelves, on a floor of their own off to the side
 
             // 1.9.0: the special weapons, on a floor of their own high above
             com.ostentum.weapon.WeaponTest.run(level, player, pos.above(24), SelfTest::check, SelfTest::skip);
@@ -295,7 +301,7 @@ public final class SelfTest {
                 net.minecraft.core.BlockPos rift = pos.above(40);
                 level.setBlockAndUpdate(rift, net.minecraft.world.level.block.Blocks.END_PORTAL.defaultBlockState());
                 net.minecraft.world.item.ItemStack ender = new net.minecraft.world.item.ItemStack(com.ostentum.whip.OstentumWhips.ENDER_WHIP.get());
-                ender.set(net.minecraft.core.component.DataComponents.CUSTOM_NAME, net.minecraft.network.chat.Component.literal("Rifty"));
+                ender.setHoverName(net.minecraft.network.chat.Component.literal("Rifty"));
                 net.minecraft.world.entity.item.ItemEntity thrown = new net.minecraft.world.entity.item.ItemEntity(level, rift.getX() + 0.5, rift.getY() + 0.3, rift.getZ() + 0.5, ender);
                 level.addFreshEntity(thrown);
                 var travel = new net.minecraftforge.event.entity.EntityTravelToDimensionEvent(thrown, net.minecraft.world.level.Level.END);
@@ -311,7 +317,7 @@ public final class SelfTest {
                 thrown.discard(); other.discard();
                 level.setBlockAndUpdate(rift, net.minecraft.world.level.block.Blocks.AIR.defaultBlockState());
                 check("the End Rift Whip is hidden from recipe viewers", new net.minecraft.world.item.ItemStack(com.ostentum.whip.OstentumWhips.END_RIFT_WHIP.get())
-                    .is(net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.ITEM, net.minecraft.resources.new ResourceLocation("c", "hidden_from_recipe_viewers"))));
+                    .is(net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.ITEM, new net.minecraft.resources.ResourceLocation("c", "hidden_from_recipe_viewers"))));
             }
 
 
@@ -429,7 +435,7 @@ public final class SelfTest {
             if (horseEntity instanceof Mob horse) {
                 horse.moveTo(at.offset(-8, 0, 0), 0, 0);
                 level.addFreshEntity(horse);
-                ((net.minecraft.world.entity.Saddleable) horse).equipSaddle(new ItemStack(Items.SADDLE), null);
+                ((net.minecraft.world.entity.Saddleable) horse).equipSaddle(null);
                 ride(player, horse);
                 check("a saddled horse is still vanilla's (controlled " + (horse.getControllingPassenger() == player)
                     + ", not marked " + !Mounts.steers(horse) + ")", horse.getControllingPassenger() == player && !Mounts.steers(horse));
@@ -471,7 +477,7 @@ public final class SelfTest {
             ItemStack saddle = new ItemStack(BuiltInRegistries.ITEM.get(Ostentum.id(m + "_saddle")));
             boolean summoned = wear(player, "mount", saddle) && Mounts.summon(player);
             Entity mount = Mounts.active(player);
-            EntityType<?> want = BuiltInRegistries.ENTITY_TYPE.get(net.minecraft.resources.new ResourceLocation(m));
+            EntityType<?> want = BuiltInRegistries.ENTITY_TYPE.get(new net.minecraft.resources.ResourceLocation(m));
             check(m + " saddle summons a " + m + " (got " + (mount == null ? "nothing" : mount.getType()) + ")",
                 summoned && mount != null && mount.getType() == want);
             Mounts.dismiss(player);
@@ -492,7 +498,7 @@ public final class SelfTest {
             Summons.Def def = Summons.SUMMONS.get(Ostentum.id(m));
             wear(player, "summon", new ItemStack(BuiltInRegistries.ITEM.get(Ostentum.id(m))));
             player.tickCount = 10;
-            MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.tick.PlayerTickEvent.Post(player));
+            MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.TickEvent.PlayerTickEvent(net.minecraftforge.event.TickEvent.Phase.END, player));
             List<Mob> minions = Summons.minions(player);
             check(m + " calls " + (def == null ? "?" : def.count() + " " + def.entity()) + " (got " + minions.size() + ")",
                 def != null && minions.size() == def.count()
@@ -515,8 +521,8 @@ public final class SelfTest {
         // armour modifiers are applied when the wearer next ticks, as in play
         bare.tick();
         helmed.tick();
-        check("a netherite helmet gives fire resistance (" + helmed.getAttributeValue(com.fundamentum.damage.Elements.FIRE.resistance()) + ")",
-            helmed.getAttributeValue(com.fundamentum.damage.Elements.FIRE.resistance()) > 0);
+        check("a netherite helmet gives fire resistance (" + helmed.getAttributeValue(com.fundamentum.damage.Elements.FIRE.resistance().get()) + ")",
+            helmed.getAttributeValue(com.fundamentum.damage.Elements.FIRE.resistance().get()) > 0);
         float before = bare.getHealth();
         bare.hurt(level.damageSources().onFire(), 8f);
         helmed.hurt(level.damageSources().onFire(), 8f);
@@ -574,13 +580,11 @@ public final class SelfTest {
     }
 
     private static int drops(ServerLevel level, BlockPos pos, BlockState state) {
-        List<ItemEntity> list = new ArrayList<>();
-        list.add(new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Items.WHEAT)));
+        List<ItemStack> list = new ArrayList<>();
+        list.add(new ItemStack(Items.WHEAT));
         if (Harvest.ripe(state)) {
-            list.add(new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Items.WHEAT_SEEDS)));
+            list.add(new ItemStack(Items.WHEAT_SEEDS));
         }
-        BlockDropsEvent e = new BlockDropsEvent(level, pos, state, null, list, null, ItemStack.EMPTY);
-        MinecraftForge.EVENT_BUS.post(e);
-        return e.getDrops().size();
+        return list.size() + Harvest.extra(level, state, list).size();
     }
 }

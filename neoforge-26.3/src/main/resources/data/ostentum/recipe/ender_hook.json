@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "ostentum:diamond_hook",
+    "minecraft:ender_pearl",
+    "minecraft:ender_pearl",
+    "minecraft:ender_eye"
+  ],
+  "result": {
+    "id": "ostentum:ender_hook",
+    "count": 1
+  }
+}

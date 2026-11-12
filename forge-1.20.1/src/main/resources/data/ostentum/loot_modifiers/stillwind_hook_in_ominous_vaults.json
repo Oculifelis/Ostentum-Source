@@ -1,14 +1,11 @@
 {
-  "type": "neoforge:add_table",
+  "type": "ostentum:weapon_loot",
   "conditions": [
     {
-      "condition": "neoforge:loot_table_id",
-      "loot_table_id": "minecraft:chests/trial_chambers/reward_ominous"
-    },
-    {
-      "condition": "minecraft:random_chance",
-      "chance": 0.08
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:chests/woodland_mansion"
     }
   ],
-  "table": "ostentum:gameplay/stillwind_hook_vault"
+  "item": "ostentum:stillwind_hook",
+  "chance": 0.08
 }

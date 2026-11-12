@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": {
+    "item": "ostentum:rusted_delvers_head"
+  },
+  "base": {
+    "item": "minecraft:diamond_shovel"
+  },
+  "addition": [],
+  "result": {
+    "item": "ostentum:dormant_delvers_shovel"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "type": "fundamentum:portal_crafting",
+  "ingredient": "ostentum:dormant_delvers_shovel",
+  "portal": "minecraft:nether_portal",
+  "dimension": "minecraft:the_nether",
+  "result": {
+    "id": "ostentum:delvers_shovel"
+  },
+  "keep_components": true
+}

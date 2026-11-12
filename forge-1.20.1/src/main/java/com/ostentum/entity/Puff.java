@@ -45,12 +45,11 @@ public class Puff extends Projectile {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        builder.define(KIND, (byte) 0);
+    protected void defineSynchedData() {
+        this.entityData.define(KIND, (byte) 0);
     }
 
-    @Override
-    protected double getDefaultGravity() {
+    private double gravity() {
         return this.kind() == Kind.WATER ? 0.03 : 0.0;
     }
 
@@ -63,8 +62,8 @@ public class Puff extends Projectile {
         super.tick();
         Vec3 move = this.getDeltaMovement();
         HitResult hit = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity);
-        if (hit.getType() != HitResult.Type.MISS && !net.minecraftforge.event.EventHooks.onProjectileImpact(this, hit)) {
-            this.hitTargetOrDeflectSelf(hit);
+        if (hit.getType() != HitResult.Type.MISS && !net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, hit)) {
+            this.onHit(hit);
         }
         if (this.isRemoved()) {
             return;
@@ -83,7 +82,7 @@ public class Puff extends Projectile {
         }
         this.updateRotation();
         this.setDeltaMovement(move.scale(0.99));
-        this.applyGravity();
+        this.setDeltaMovement(this.getDeltaMovement().add(0.0, -this.gravity(), 0.0));
         this.setPos(this.getX() + move.x, this.getY() + move.y, this.getZ() + move.z);
     }
 

@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "minecraft:prismarine_crystals",
+    "minecraft:prismarine_crystals",
+    "minecraft:pink_dye",
+    "minecraft:cod"
+  ],
+  "result": {
+    "id": "ostentum:pink_pearl",
+    "count": 1
+  }
+}

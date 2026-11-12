@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "minecraft:note_block",
+    "minecraft:amethyst_shard",
+    "minecraft:amethyst_shard",
+    "minecraft:gold_ingot"
+  ],
+  "result": {
+    "id": "ostentum:allay_chime",
+    "count": 1
+  }
+}

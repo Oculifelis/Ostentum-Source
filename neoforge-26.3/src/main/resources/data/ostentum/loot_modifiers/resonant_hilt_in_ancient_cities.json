@@ -1,0 +1,9 @@
+{
+  "type": "ostentum:weapon_loot",
+  "condition": {
+    "type": "neoforge:loot_table_id",
+    "loot_table_id": "minecraft:chests/ancient_city"
+  },
+  "item": "ostentum:resonant_hilt",
+  "chance": 0.08
+}

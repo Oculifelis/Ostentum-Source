@@ -8,7 +8,7 @@
       "type": "patchouli:spotlight",
       "item": "ostentum:rusted_delvers_head",
       "title": "Rusted Delver's Head",
-      "text": "Smith it onto a diamond pickaxe. Found in abandoned mineshafts, more often deep down."
+      "text": "Smith it onto a diamond pickaxe or shovel. Found in abandoned mineshafts, more often deep down."
     },
     {
       "type": "patchouli:spotlight",
@@ -27,8 +27,24 @@
       "text": "Mines a 1x3 line; sneak to mine one block."
     },
     {
+      "type": "patchouli:spotlight",
+      "item": "ostentum:dormant_delvers_shovel",
+      "title": "Dormant Delver's Shovel",
+      "text": "Throw it through a Nether portal to wake it."
+    },
+    {
+      "type": "patchouli:smithing",
+      "recipe": "ostentum:dormant_delvers_shovel"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "ostentum:delvers_shovel",
+      "title": "Delver's Shovel",
+      "text": "Digs a 1x3 line; sneak to dig one block."
+    },
+    {
       "type": "patchouli:text",
-      "text": "Smith the Rusted Delver's Head onto a diamond pickaxe to get the Dormant Delver's Pick. Throw that through a Nether portal and it comes back awake, enchantments and all."
+      "text": "Smith the Rusted Delver's Head onto a diamond pickaxe to get the Dormant Delver's Pick. Throw that through a Nether portal and it comes back awake, enchantments and all. A diamond shovel takes the head the same way and wakes into the Delver's Shovel."
     }
   ]
 }

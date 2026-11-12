@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": "ostentum:rusted_delvers_head",
+  "base": "minecraft:diamond_shovel",
+  "result": {
+    "id": "ostentum:dormant_delvers_shovel",
+    "count": 1
+  }
+}

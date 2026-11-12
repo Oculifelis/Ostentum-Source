@@ -47,7 +47,7 @@ public final class ThunderstormWhip {
             .coiled().texture(OstentumWhips.lash("thunderstorm_whip")).width(0.11F, 0.04F)
             .cordFx(WhipCordFx.LIGHTNING)
             .shockwave(0xC0BFD8FF)
-            .sounds(SoundEvents.PLAYER_ATTACK_SWEEP, SoundEvents.TRIDENT_THUNDER.value())
+            .sounds(SoundEvents.PLAYER_ATTACK_SWEEP, SoundEvents.TRIDENT_THUNDER)
             .crackParticle(ParticleTypes.ELECTRIC_SPARK)
             .hooks(new WhipHooks() {
                 @Override

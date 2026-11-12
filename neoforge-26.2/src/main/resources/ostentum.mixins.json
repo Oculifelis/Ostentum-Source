@@ -10,12 +10,14 @@
     "BlockDisplayAccess",
     "DisplayAccess",
     "ItemDisplayAccess",
-    "ThrownTridentAccess"
+    "ThrownTridentAccess",
+    "ZiplinePlayerMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "client": [
-    "EnchantmentScreenMixin"
+    "EnchantmentScreenMixin",
+    "ZiplineArmsMixin"
   ]
 }

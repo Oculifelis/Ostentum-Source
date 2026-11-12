@@ -1,18 +1,17 @@
 package com.ostentum;
 
-import com.ostentum.Props;
 import com.fundamentum.moon.Moons;
 import java.util.Map;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.JukeboxSong;
+import java.util.function.Supplier;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.item.RecordItem;
 import net.minecraft.world.item.Rarity;
-import net.minecraft.core.registries.Registries;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.registries.RegistryObject;
@@ -27,10 +26,10 @@ public final class MoonDiscs {
     /** Chance the siege captain drops the Fundamentum disc when a player kills it. */
     static final float CAPTAIN_CHANCE = 0.25F;
 
-    public static final RegistryObject<Item> FUNDAMENTUM = disc("fundamentum");
-    public static final RegistryObject<Item> HARVEST_MOON = disc("harvest_moon");
-    public static final RegistryObject<Item> ENCHANTED_MOON = disc("enchanted_moon");
-    public static final RegistryObject<Item> GLIMMER_MOON = disc("glimmer_moon");
+    public static final RegistryObject<Item> FUNDAMENTUM = disc("fundamentum", 4, OstentumSounds.DISC_FUNDAMENTUM, 123);
+    public static final RegistryObject<Item> HARVEST_MOON = disc("harvest_moon", 9, OstentumSounds.DISC_HARVEST_MOON, 106);
+    public static final RegistryObject<Item> ENCHANTED_MOON = disc("enchanted_moon", 12, OstentumSounds.DISC_ENCHANTED_MOON, 146);
+    public static final RegistryObject<Item> GLIMMER_MOON = disc("glimmer_moon", 14, OstentumSounds.DISC_GLIMMER_MOON, 165);
 
     /** Fundamentum moon id to its disc. */
     private static final Map<String, RegistryObject<Item>> BY_MOON = Map.of(
@@ -40,9 +39,10 @@ public final class MoonDiscs {
 
     private MoonDiscs() {}
 
-    private static RegistryObject<Item> disc(String name) {
-        ResourceKey<JukeboxSong> song = ResourceKey.create(Registries.JUKEBOX_SONG, Ostentum.id(name));
-        return Props.simple(Ostentum.ITEMS, "music_disc_" + name, p -> p.stacksTo(1).rarity(Rarity.RARE).jukeboxPlayable(song));
+    /** 1.20.1 discs are {@link RecordItem}s: comparator output, sound and length (seconds) come from 1.21's jukebox_song data. */
+    private static RegistryObject<Item> disc(String name, int comparator, Supplier<SoundEvent> sound, int seconds) {
+        return Ostentum.ITEMS.register("music_disc_" + name,
+            () -> new RecordItem(comparator, sound, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), seconds * 20));
     }
 
     /** Listens for the drops. */

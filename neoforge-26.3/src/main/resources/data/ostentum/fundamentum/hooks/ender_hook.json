@@ -1,0 +1,8 @@
+{
+  "item": "ostentum:ender_hook",
+  "range": 24,
+  "shoot_speed": 1.8,
+  "pull_speed": 0.8,
+  "count": 2,
+  "texture": "ostentum:textures/entity/hook/ender_hook.png"
+}

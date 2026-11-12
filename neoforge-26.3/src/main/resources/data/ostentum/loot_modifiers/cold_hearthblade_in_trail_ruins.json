@@ -1,0 +1,10 @@
+{
+  "type": "ostentum:weapon_loot",
+  "condition": {
+    "type": "neoforge:loot_table_id",
+    "loot_table_id": "minecraft:archaeology/trail_ruins_rare"
+  },
+  "item": "ostentum:cold_hearthblade",
+  "chance": 0.08,
+  "replace": true
+}

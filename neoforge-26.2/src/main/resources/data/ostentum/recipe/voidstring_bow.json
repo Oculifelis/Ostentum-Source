@@ -10,7 +10,7 @@
     "H": "minecraft:shulker_shell",
     "R": "minecraft:end_rod",
     "S": "minecraft:string",
-    "P": "minecraft:popped_chorus_fruit"
+    "P": "minecraft:ender_pearl"
   },
   "result": {
     "id": "ostentum:voidstring_bow",

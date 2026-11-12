@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "ostentum:music_disc_fundamentum",
+    "ostentum:music_disc_harvest_moon",
+    "ostentum:music_disc_enchanted_moon",
+    "ostentum:music_disc_glimmer_moon"
+  ]
+}

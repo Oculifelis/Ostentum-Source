@@ -1,6 +1,12 @@
 {
   "parent": "minecraft:item/spear_in_hand",
   "textures": {
-    "layer0": "ostentum:item/pathfinders_glaive_in_hand"
+    "layer0": "ostentum:item/pathfinders_glaive_in_hand",
+    "layer1": {
+      "sprite": "ostentum:item/pathfinders_glaive_in_hand_glow",
+      "neoforge_data": {
+        "light_emission": 15
+      }
+    }
   }
 }

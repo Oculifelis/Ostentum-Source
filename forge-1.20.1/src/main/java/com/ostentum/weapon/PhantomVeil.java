@@ -42,16 +42,10 @@ public final class PhantomVeil {
         }
     }
 
-    /**
-     * 1.20.1 has no phantom spawn event per player: a natural phantom spawn is cancelled when the player nearest it (the
-     * one the spawner picked, 20 to 34 blocks below) wears the veil.
-     */
-    private static void phantoms(net.minecraftforge.event.entity.living.MobSpawnEvent.FinalizeSpawn event) {
-        if (event.getEntity() instanceof net.minecraft.world.entity.monster.Phantom && event.getSpawnType() == net.minecraft.world.entity.MobSpawnType.NATURAL) {
-            Player nearest = event.getLevel().getLevel().getNearestPlayer(event.getX(), event.getY(), event.getZ(), 48.0, false);
-            if (nearest != null && wears(nearest)) {
-                event.setSpawnCancelled(true);
-            }
+    /** No phantoms for a wearer (Forge 47's per-player phantom spawn event, as on 1.21.1). */
+    private static void phantoms(PlayerSpawnPhantomsEvent event) {
+        if (wears(event.getEntity())) {
+            event.setResult(net.minecraftforge.eventbus.api.Event.Result.DENY);
         }
     }
 

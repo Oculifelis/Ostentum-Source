@@ -28,6 +28,11 @@ repositories {
         url = 'file:///H:/AI_MC_Modding/Fundamentum/repo'
         content { includeGroup 'com.fundamentum' }
     }
+    maven {
+        name = 'JEI (BlameJared)'
+        url = 'https://maven.blamejared.com/'
+        content { includeGroup 'mezz.jei' }
+    }
 }
 
 // Ostentum shows off Fundamentum: mounts, summons, hooks, wings, moons and night events are Fundamentum's systems,
@@ -36,6 +41,9 @@ dependencies {
     implementation "com.fundamentum:fundamentum-neoforge:${fundamentum_version}"
     compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}:api"
     localRuntime "top.theillusivec4.curios:curios-neoforge:${curios_version}"
+    // JEI is optional: compiled against its API only (the rekindling category in compat/jei)
+    compileOnly "mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"
+    compileOnly "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"
 }
 
 neoForge {
@@ -68,6 +76,7 @@ neoForge {
             // dev only, -Pweaponshot: WeaponShot screenshots the 1.9.0 weapons held, worn and thrown, then closes
             if (project.hasProperty('weaponshot')) {
                 systemProperty 'ostentum.weaponshot', 'true'
+                systemProperty 'ostentum.weaponshot.only', project.property('weaponshot').toString() == 'true' ? '' : project.property('weaponshot').toString()
             }
             // dev only, -Pnowplayingshot: NowPlayingShot shoots the Now Playing HUD, the record shelves and an enchanting table ringed by them, then closes
             if (project.hasProperty('nowplayingshot')) {
@@ -78,6 +87,9 @@ neoForge {
             // dev only, -Pthrowshot: ThrowShot shoots the thrown hatchet, slot returns, spear lightning and glaive beam, then closes
             if (project.hasProperty('throwshot')) {
                 systemProperty 'ostentum.throwshot', 'true'
+                if (project.hasProperty('throwshotonly')) {
+                    systemProperty 'ostentum.throwshot.only', project.property('throwshotonly').toString()
+                }
             }
             // dev only, -Ptooltipshot: TooltipShot checks and screenshots the folded Shift tooltips, then closes
             if (project.hasProperty('tooltipshot')) {

@@ -1,0 +1,8 @@
+{
+  "comparator_output": 14,
+  "description": {
+    "translate": "jukebox_song.ostentum.glimmer_moon"
+  },
+  "length_in_seconds": 165.0,
+  "sound_event": "ostentum:music_disc.glimmer_moon"
+}

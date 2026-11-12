@@ -1,6 +1,7 @@
 package com.ostentum.weapon;
 
 import com.mojang.math.Transformation;
+import com.ostentum.OstentumSounds;
 import com.ostentum.mixin.DisplayAccess;
 import com.ostentum.mixin.ItemDisplayAccess;
 import java.util.Set;
@@ -8,7 +9,9 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -16,7 +19,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -42,7 +44,7 @@ import org.joml.Vector3f;
 
 /**
  * Pathfinder's Glaive (iron + compass): an iron spear that marks a waypoint. Use on the top of a block plants a copy of
- * it there; the planted glaive glows through walls, a column of light rises from it, and while you hold the glaive the
+ * it there; the planted glaive glows, a column of light rises from it to the top of the world, and while you hold the glaive the
  * distance shows above the hotbar. Use again, from any range, pulls it back. The waypoint lives on the glaive's stack.
  */
 public final class PathfindersGlaive {
@@ -79,6 +81,29 @@ public final class PathfindersGlaive {
         }
 
         @Override
+        public boolean onEntitySwing(ItemStack stack, LivingEntity entity) {
+            if (entity.level() instanceof ServerLevel level) {
+                level.playSound(null, entity.getX(), entity.getEyeY(), entity.getZ(), OstentumSounds.GLAIVE_ATTACK.get(),
+                    entity.getSoundSource(), 1.0F, 0.95F + entity.getRandom().nextFloat() * 0.1F);
+                trail(level, entity);
+            }
+            return false;
+        }
+
+        @Override
+        public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+            attacker.level().playSound(null, target.getX(), target.getY(0.5), target.getZ(), OstentumSounds.GLAIVE_HIT.get(),
+                attacker.getSoundSource(), 1.0F, 1.0F);
+            return super.hurtEnemy(stack, target, attacker);
+        }
+
+        /** Never the enchantment glint, in hand or planted. */
+        @Override
+        public boolean isFoil(ItemStack stack) {
+            return false;
+        }
+
+        @Override
         public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
             ItemStack stack = player.getItemInHand(hand);
             if (planted(stack)) {
@@ -89,8 +114,35 @@ public final class PathfindersGlaive {
         }
     }
 
+    /** Eight motes from 0.6 to 4.5 blocks out along the look, gold fading to amber and shrinking, then one white glint. */
+    static void trail(ServerLevel level, LivingEntity entity) {
+        Vec3 eye = entity.getEyePosition(), look = entity.getLookAngle();
+        for (int i = 0; i < 8; i++) {
+            double t = i / 7.0, d = 0.6 + 3.9 * t;
+            Vec3 at = eye.add(look.scale(d)).add(0, -0.25, 0);
+            level.sendParticles(dust(0xFFD666, 0xE0A838, t, 0.9F - 0.5F * (float) t), at.x, at.y, at.z, 1, 0, 0, 0, 0);
+        }
+        Vec3 tip = eye.add(look.scale(4.6)).add(0, -0.25, 0);
+        level.sendParticles(dust(0xFFFAEC, 0xFFFAEC, 0, 1.0F), tip.x, tip.y, tip.z, 1, 0, 0, 0, 0);
+    }
+
+    private static DustParticleOptions dust(int from, int to, double t, float scale) {
+        float r = (float) Mth.lerp(t, (from >> 16) & 255, (to >> 16) & 255), g = (float) Mth.lerp(t, (from >> 8) & 255, (to >> 8) & 255);
+        float b = (float) Mth.lerp(t, from & 255, to & 255);
+        return new DustParticleOptions(new Vector3f(r / 255.0F, g / 255.0F, b / 255.0F), scale);
+    }
+
     public static boolean planted(ItemStack stack) {
         return Weapons.data(stack).contains("waypoint_dim");
+    }
+
+    /** Where this stack's glaive is planted, if it is planted in {@code level}'s dimension; else null. */
+    public static BlockPos waypoint(ItemStack stack, Level level) {
+        CompoundTag tag = Weapons.data(stack);
+        if (!tag.getString("waypoint_dim").equals(level.dimension().location().toString())) {
+            return null;
+        }
+        return new BlockPos(tag.getInt("waypoint_x"), tag.getInt("waypoint_y"), tag.getInt("waypoint_z"));
     }
 
     /** Plants a glowing copy of the glaive at {@code at} and writes the waypoint onto {@code stack}. */
@@ -100,8 +152,6 @@ public final class PathfindersGlaive {
         // the icon runs butt (bottom left) to tip (top right): turn it tip down and sink it a little
         ((DisplayAccess) display).ostentum$setTransformation(new Transformation(new Vector3f(0.0F, 0.55F, 0.0F),
             new Quaternionf().rotateZ((float) Math.toRadians(-135.0)), new Vector3f(1.4F, 1.4F, 1.4F), null));
-        ((DisplayAccess) display).ostentum$setGlowColorOverride(0xFFE0B040);
-        display.setGlowingTag(true);
         display.addTag(TAG);
         display.setPos(at.getX() + 0.5, at.getY(), at.getZ() + 0.5);
         level.addFreshEntity(display);
@@ -113,7 +163,7 @@ public final class PathfindersGlaive {
             tag.putInt("waypoint_z", at.getZ());
             tag.putString("waypoint_id", id.toString());
         });
-        level.playSound(null, at, SoundEvents.TRIDENT_HIT_GROUND, SoundSource.PLAYERS, 1.0F, 0.8F);
+        level.playSound(null, at, OstentumSounds.GLAIVE_PLANT.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
     }
 
     /** Pulls the planted glaive back, from any range or dimension; false if nothing was planted. */
@@ -138,11 +188,14 @@ public final class PathfindersGlaive {
                 t.remove(key);
             }
         });
-        here.playSound(null, player.blockPosition(), SoundEvents.TRIDENT_RETURN, SoundSource.PLAYERS, 1.0F, 1.0F);
+        here.playSound(null, player.blockPosition(), OstentumSounds.GLAIVE_RECALL.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
         return true;
     }
 
-    /** While held: the distance to the waypoint above the hotbar, and the light column at the waypoint. */
+    /**
+     * While held: the distance to the waypoint above the hotbar. The light column is drawn by the client
+     * ({@code client.GlaiveBeam}) from the waypoint on the stack, up to the top of the world, at any range.
+     */
     private static void held(TickEvent.PlayerTickEvent event) {
         if (event.phase != TickEvent.Phase.END) {
             return;
@@ -161,10 +214,6 @@ public final class PathfindersGlaive {
         }
         Vec3 at = new Vec3(tag.getInt("waypoint_x") + 0.5, tag.getInt("waypoint_y"), tag.getInt("waypoint_z") + 0.5);
         player.displayClientMessage(Component.translatable("item.ostentum.pathfinders_glaive.distance", (int) Math.round(at.distanceTo(player.position()))), true);
-        ServerLevel level = (ServerLevel) player.level();
-        for (int i = 0; i < 12; i++) {
-            level.sendParticles(player, ParticleTypes.END_ROD, true, at.x, at.y + 1.0 + i * 1.5, at.z, 1, 0.02, 0.2, 0.02, 0.0);
-        }
     }
 
     private static void orphan(EntityJoinLevelEvent event) {

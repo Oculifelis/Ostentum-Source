@@ -2,5 +2,13 @@
   "parent": "ostentum:item/handheld_large",
   "textures": {
     "layer0": "ostentum:item/duelists_saber"
-  }
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "ostentum:guarding": 1
+      },
+      "model": "ostentum:item/duelists_saber_guard"
+    }
+  ]
 }

@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:item/handheld",
-  "loader": "neoforge:item_layers",
+  "loader": "forge:item_layers",
   "textures": {
     "layer0": "ostentum:item/glow_berry_whip",
     "layer1": "ostentum:item/glow_berry_whip_glow"
   },
-  "neoforge_data": {
+  "forge_data": {
     "layers": {
       "1": {
         "block_light": 15,

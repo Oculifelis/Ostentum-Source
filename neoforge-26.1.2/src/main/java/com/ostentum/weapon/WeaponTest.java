@@ -254,7 +254,7 @@ public final class WeaponTest {
         return List.of("weathervane_spear", "pathfinders_glaive", "duelists_saber", "hearthblade", "cold_hearthblade", "soul_hearthblade",
             "echo_blade", "resonant_hilt", "frostbite_hatchet", "bloom_bow", "voidstring_bow", "engineers_crossbow", "bastion_crossbow",
             "fisher_kings_trident", "coral_trident", "abyssal_trident", "quake_hammer", "recall_chime", "phantom_veil", "delvers_pick",
-            "dormant_delvers_pick", "rusted_delvers_head");
+            "dormant_delvers_pick", "rusted_delvers_head", "delvers_shovel", "dormant_delvers_shovel");
     }
 
     private static Mob mob(ServerLevel level, EntityType<? extends Mob> type, Vec3 at) {

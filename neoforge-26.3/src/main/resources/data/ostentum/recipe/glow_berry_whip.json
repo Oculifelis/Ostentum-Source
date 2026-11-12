@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "ostentum:vine_whip",
+    "minecraft:glow_berries",
+    "minecraft:glow_berries",
+    "minecraft:glow_berries",
+    "minecraft:moss_block",
+    "minecraft:glow_lichen"
+  ],
+  "result": {
+    "id": "ostentum:glow_berry_whip",
+    "count": 1
+  }
+}

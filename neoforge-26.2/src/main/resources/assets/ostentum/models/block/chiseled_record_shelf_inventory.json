@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/chiseled_bookshelf_inventory",
+  "textures": {
+    "front": "ostentum:block/chiseled_record_shelf_occupied"
+  }
+}

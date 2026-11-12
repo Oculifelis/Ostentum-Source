@@ -8,7 +8,7 @@
       "type": "patchouli:spotlight",
       "item": "ostentum:voidstring_bow",
       "title": "Voidstring Bow",
-      "text": "Arrows ignore gravity and curve toward mobs; a hit gives Levitation. A fully drawn hit swaps your place with the mob (4 s cooldown)."
+      "text": "Arrows ignore gravity and curve toward mobs; a hit gives Levitation. A fully drawn hit swaps your place with the target, a kill takes you to where it fell (4 s cooldown)."
     },
     {
       "type": "patchouli:crafting",

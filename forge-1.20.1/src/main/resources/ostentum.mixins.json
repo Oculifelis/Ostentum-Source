@@ -13,7 +13,9 @@
     "ThrownTridentAccess",
     "ItemMixin",
     "ItemSubclassMixin",
-    "EnchantmentMixin"
+    "EnchantmentMixin",
+    "LivingEntityJumpAccess",
+    "ZiplinePlayerMixin"
   ],
   "injectors": {
     "defaultRequire": 1
@@ -21,7 +23,9 @@
   "client": [
     "EnchantmentScreenMixin",
     "LivingEntityRendererMixin",
-    "MinecraftMusicMixin"
+    "MinecraftMusicMixin",
+    "MusicManagerAccess",
+    "ZiplineArmsMixin"
   ],
   "refmap": "ostentum.refmap.json"
 }

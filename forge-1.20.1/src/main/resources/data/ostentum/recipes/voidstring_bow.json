@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "HRS",
+    "P S",
+    "HRS"
+  ],
+  "key": {
+    "H": {
+      "item": "minecraft:shulker_shell"
+    },
+    "R": {
+      "item": "minecraft:end_rod"
+    },
+    "S": {
+      "item": "minecraft:string"
+    },
+    "P": {
+      "item": "minecraft:ender_pearl"
+    }
+  },
+  "result": {
+    "item": "ostentum:voidstring_bow"
+  }
+}

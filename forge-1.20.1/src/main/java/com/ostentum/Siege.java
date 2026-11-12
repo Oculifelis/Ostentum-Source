@@ -99,7 +99,7 @@ final class Siege implements NightEvents.Listener {
             leader.setPatrolLeader(true); // finalizeSpawn then gives it the ominous banner
             mob.addTag(CAPTAIN_TAG);
         }
-        mob.finalizeSpawn(level, level.getCurrentDifficultyAt(pos), MobSpawnType.EVENT, null);
+        mob.finalizeSpawn(level, level.getCurrentDifficultyAt(pos), MobSpawnType.EVENT, null, null);
         mob.addTag(TAG);
         mob.setPersistenceRequired();
         mob.setTarget(player);

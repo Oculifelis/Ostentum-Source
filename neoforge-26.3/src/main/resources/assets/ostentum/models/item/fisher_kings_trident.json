@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "ostentum:item/fisher_kings_trident",
+    "layer1": {
+      "sprite": "ostentum:item/fisher_kings_trident_glow",
+      "neoforge_data": {
+        "light_emission": 15
+      }
+    }
+  }
+}

@@ -28,6 +28,11 @@ repositories {
         url = 'file:///H:/AI_MC_Modding/Fundamentum/repo'
         content { includeGroup 'com.fundamentum' }
     }
+    maven {
+        name = 'JEI (BlameJared)'
+        url = 'https://maven.blamejared.com/'
+        content { includeGroup 'mezz.jei' }
+    }
 }
 
 // Ostentum shows off Fundamentum: mounts, summons, hooks, wings, moons and night events are Fundamentum's systems,
@@ -36,6 +41,9 @@ dependencies {
     implementation "com.fundamentum:fundamentum-neoforge:${fundamentum_version}"
     compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}:api"
     localRuntime "top.theillusivec4.curios:curios-neoforge:${curios_version}"
+    // JEI is optional: compiled against its API only (the rekindling category in compat/jei)
+    compileOnly "mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"
+    compileOnly "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"
 }
 
 neoForge {

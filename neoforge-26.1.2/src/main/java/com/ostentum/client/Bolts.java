@@ -12,13 +12,17 @@ import net.minecraft.world.phys.Vec3;
 /**
  * Lightning geometry for {@link LightningFx}, after Ultima Ratio's BeamRenderer: camera-facing ribbons in three layers
  * (a soft wide glow, a body, a white core) along a path split by midpoint displacement, with side forks; glares are
- * soft discs and sparks are short streaks. Coordinates are camera-relative quads in vanilla's lightning format
+ * soft discs and sparks are short streaks. The same layers stood upright make the Pathfinder's Glaive's column. Coordinates are camera-relative quads in vanilla's lightning format
  * (position and colour, added onto the frame). Nothing here is version-specific.
  */
 final class Bolts {
     static final int CORE = 0xFFFFFF;
     static final int BODY = 0xBFE8FF;
     static final int GLOW = 0x6F86FF;
+    /** The glaive's gold, as in its swing trail. */
+    static final int GOLD_CORE = 0xFFFAEC, GOLD_BODY = 0xFFD666, GOLD_GLOW = 0xE0A838;
+    /** The column's molten blend: gold running into orange, white-gold at the heart. */
+    static final int MELT_CORE = 0xFFF2CC, MELT_GOLD = 0xFFC23A, MELT_ORANGE = 0xFF7418, MELT_EMBER = 0xE04A0C;
 
     private final Vec3 cam;
     private final List<float[]> quads = new ArrayList<>();
@@ -97,6 +101,72 @@ final class Bolts {
         return new Vec3(r.nextDouble() - 0.5, r.nextDouble() - 0.5, r.nextDouble() - 0.5).scale(size * 2);
     }
 
+    /**
+     * The Pathfinder's Glaive's column ({@link GlaiveBeam}), UR's beam stood upright in the glaive's gold: a soft wide glow,
+     * a body and a white-hot core from {@code base} up {@code height} blocks, breathing as UR's beams pulse, with bright bands
+     * climbing it and fading out at the top, a glare where it stands and motes rising round its foot. {@code k} shrinks it all
+     * toward the camera (the picture is unchanged, but a far column stays inside the far plane and the fog); {@code width}
+     * is the core's width before that.
+     */
+    void column(Vec3 base, double height, float width, float k, float time) {
+        column(base, height, width, k, time, false);
+    }
+
+    /**
+     * The column's tint alone: the glow and body in deeper molten colours, for a blended (not added) render type drawn under
+     * {@link #column(Vec3, double, float, float, float)}. Added light alone turns white on a bright sky.
+     */
+    void columnTint(Vec3 base, double height, float width, float k, float time) {
+        column(base, height, width, k, time, true);
+    }
+
+    private void column(Vec3 base, double height, float width, float k, float time, boolean tint) {
+        int segs = 128;
+        float w = width * k * (1.0F + 0.12F * Mth.sin(time * 0.25F));
+        Vec3 foot = base.subtract(cam).scale(k);
+        for (int i = 0; i < segs; i++) {
+            double y0 = height * Math.pow(i / (double) segs, 2), y1 = height * Math.pow((i + 1) / (double) segs, 2);
+            Vec3 p = foot.add(0, y0 * k, 0), q = foot.add(0, y1 * k, 0);
+            float a0 = shine(y0, height, time), a1 = shine(y1, height, time);
+            float m0 = melt(y0, time), m1 = melt(y1, time);
+            int body0 = mix(MELT_GOLD, MELT_ORANGE, m0), body1 = mix(MELT_GOLD, MELT_ORANGE, m1);
+            int glow0 = mix(MELT_ORANGE, MELT_EMBER, m0), glow1 = mix(MELT_ORANGE, MELT_EMBER, m1);
+            if (tint) {
+                soft(p, q, w * 6.0F, glow0, a0 * 0.4F, glow1, a1 * 0.4F);
+                soft(p, q, w * 2.6F, body0, a0 * 0.75F, body1, a1 * 0.75F);
+            } else {
+                soft(p, q, w * 7.0F, glow0, a0 * 0.28F, glow1, a1 * 0.28F);
+                soft(p, q, w * 2.6F, body0, a0 * 0.55F, body1, a1 * 0.55F);
+                solid(p, q, w, MELT_CORE, a0 * 0.95F, a1 * 0.95F);
+            }
+        }
+        if (tint) {
+            return;
+        }
+        glare(cam.add(foot.add(0, 0.15 * k, 0)), 0.9F * k * (0.85F + 0.15F * Mth.sin(time * 0.25F)), 0.9F, MELT_CORE, MELT_GOLD, MELT_ORANGE);
+        for (int i = 0; i < 8; i++) {
+            float phase = (time / 60.0F + i / 8.0F) % 1.0F;
+            double a = i * Mth.TWO_PI / 8 + time * 0.05;
+            Vec3 p = foot.add(new Vec3(Math.cos(a) * 0.4, phase * 7.0, Math.sin(a) * 0.4).scale(k));
+            Vec3 q = p.add(0, 0.35 * k, 0);
+            float alpha = Mth.sin(phase * Mth.PI);
+            soft(p, q, 0.14F * k, mix(MELT_GOLD, MELT_ORANGE, phase), alpha * 0.6F);
+            solid(p, q, 0.035F * k, MELT_CORE, alpha);
+        }
+    }
+
+    /** How bright the column is {@code y} blocks up: breathing bands climbing it, fading out over its top part. */
+    private static float shine(double y, double height, float time) {
+        float top = Mth.clamp((float) (1.0 - Math.sqrt(y / height)) / 0.4F, 0.0F, 1.0F);
+        return top * (0.8F + 0.2F * Mth.sin((float) (y * 0.45 - time * 0.3F)));
+    }
+
+    /** 0 gold to 1 orange, {@code y} blocks up: two uneven waves sliding slowly down it, like metal running as it melts. */
+    private static float melt(double y, float time) {
+        float s = 0.65F * Mth.sin((float) (y * 0.5 + time * 0.05F)) + 0.35F * Mth.sin((float) (y * 0.19 + time * 0.03F + 1.3F));
+        return Mth.clamp(0.5F + 0.55F * s, 0.0F, 1.0F);
+    }
+
     /** Midpoint displacement: {@code depth} halvings, each moving the new point sideways by up to {@code spread}, halving. */
     static List<Vec3> jag(Vec3 from, Vec3 to, double spread, int depth, RandomSource r) {
         List<Vec3> pts = new ArrayList<>(List.of(from, to));
@@ -123,11 +193,15 @@ final class Bolts {
         int n = pts.size() - 1;
         for (int i = 0; i < n; i++) {
             float taper = 1.0F - 0.35F * i / n;
-            Vec3 p = pts.get(i).subtract(cam), q = pts.get(i + 1).subtract(cam);
-            soft(p, q, width * 7.0F * taper, GLOW, alpha * 0.28F);
-            soft(p, q, width * 2.6F * taper, BODY, alpha * 0.55F);
-            solid(p, q, width * taper, CORE, alpha * 0.95F);
+            layers(pts.get(i).subtract(cam), pts.get(i + 1).subtract(cam), width * taper, alpha, CORE, BODY, GLOW);
         }
+    }
+
+    /** One stretch of a beam (camera-relative points): glow, body and core. */
+    private void layers(Vec3 p, Vec3 q, float width, float alpha, int core, int body, int glow) {
+        soft(p, q, width * 7.0F, glow, alpha * 0.28F);
+        soft(p, q, width * 2.6F, body, alpha * 0.55F);
+        solid(p, q, width, core, alpha * 0.95F);
     }
 
     /** Short streaks flung out from {@code at}, flying outward and shortening as the bolt fades. */
@@ -147,13 +221,17 @@ final class Bolts {
 
     /** A soft round glare facing the camera: bright in the middle, nothing at the rim. */
     private void glare(Vec3 at, float radius, float alpha) {
+        glare(at, radius, alpha, CORE, BODY, GLOW);
+    }
+
+    private void glare(Vec3 at, float radius, float alpha, int core, int body, int glow) {
         Vec3 c = at.subtract(cam);
         Vec3 view = c.lengthSqr() < 1.0E-6 ? new Vec3(0, 0, 1) : c.normalize();
         Vec3 u = view.cross(Math.abs(view.y) > 0.95 ? new Vec3(1, 0, 0) : new Vec3(0, 1, 0)).normalize();
         Vec3 v = u.cross(view).normalize();
         int segs = 14;
-        int mid = argb(alpha * 0.55F, BODY), rim = argb(0.0F, GLOW);
-        int hot = argb(alpha * 0.8F, CORE);
+        int mid = argb(alpha * 0.55F, body), rim = argb(0.0F, glow);
+        int hot = argb(alpha * 0.8F, core);
         for (int i = 0; i < segs; i++) {
             double a0 = i * Mth.TWO_PI / segs, a1 = (i + 1) * Mth.TWO_PI / segs;
             Vec3 e0 = c.add(u.scale(Math.cos(a0) * radius)).add(v.scale(Math.sin(a0) * radius));
@@ -161,7 +239,7 @@ final class Bolts {
             quad(c, c, e1, e0, mid, mid, rim, rim);
             Vec3 h0 = c.add(u.scale(Math.cos(a0) * radius * 0.25)).add(v.scale(Math.sin(a0) * radius * 0.25));
             Vec3 h1 = c.add(u.scale(Math.cos(a1) * radius * 0.25)).add(v.scale(Math.sin(a1) * radius * 0.25));
-            quad(c, c, h1, h0, hot, hot, argb(0.0F, CORE), argb(0.0F, CORE));
+            quad(c, c, h1, h0, hot, hot, argb(0.0F, core), argb(0.0F, core));
         }
     }
 
@@ -185,9 +263,34 @@ final class Bolts {
         quad(p.subtract(side), p.add(side), q.add(side), q.subtract(side), c, c, c, c);
     }
 
+    /** {@link #soft(Vec3, Vec3, float, int, float)} shading from one colour and alpha at p to another at q. */
+    private void soft(Vec3 p, Vec3 q, float width, int rgbP, float alphaP, int rgbQ, float alphaQ) {
+        Vec3 side = side(p, q, width);
+        if (side == null) {
+            return;
+        }
+        int onP = argb(alphaP, rgbP), offP = argb(0.0F, rgbP), onQ = argb(alphaQ, rgbQ), offQ = argb(0.0F, rgbQ);
+        quad(p, p.add(side), q.add(side), q, onP, offP, offQ, onQ);
+        quad(p.subtract(side), p, q, q.subtract(side), offP, onP, onQ, offQ);
+    }
+
+    private void solid(Vec3 p, Vec3 q, float width, int rgb, float alphaP, float alphaQ) {
+        Vec3 side = side(p, q, width);
+        if (side == null) {
+            return;
+        }
+        int cp = argb(alphaP, rgb), cq = argb(alphaQ, rgb);
+        quad(p.subtract(side), p.add(side), q.add(side), q.subtract(side), cp, cp, cq, cq);
+    }
+
     private static Vec3 side(Vec3 p, Vec3 q, float width) {
         Vec3 side = q.subtract(p).cross(p.add(q).scale(0.5));
         return side.lengthSqr() < 1.0E-12 ? null : side.normalize().scale(width * 0.5);
+    }
+
+    private static int mix(int a, int b, float t) {
+        int r = (int) Mth.lerp(t, (a >> 16) & 255, (b >> 16) & 255), g = (int) Mth.lerp(t, (a >> 8) & 255, (b >> 8) & 255);
+        return (r << 16) | (g << 8) | (int) Mth.lerp(t, a & 255, b & 255);
     }
 
     private static int argb(float alpha, int rgb) {

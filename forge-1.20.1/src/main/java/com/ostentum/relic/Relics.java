@@ -31,25 +31,21 @@ import net.minecraftforge.registries.DeferredRegister;
  * would be lost). Drawn by client.RelicRenderer.
  */
 public final class Relics {
-    private static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(Ostentum.MODID);
+    private static final DeferredRegister<net.minecraft.world.level.block.Block> BLOCKS = DeferredRegister.create(Registries.BLOCK, Ostentum.MODID);
     private static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, Ostentum.MODID);
 
-    public static final RegistryObject<RelicBlock> WITHER_RELIC = BLOCKS.registerBlock("wither_relic", p -> new RelicBlock(p, false), stone(BlockBehaviour.Properties.of()));
-    public static final RegistryObject<RelicBlock> ELDER_GUARDIAN_RELIC = BLOCKS.registerBlock("elder_guardian_relic", p -> new RelicBlock(p, false),
-        stone(BlockBehaviour.Properties.of()));
-    public static final RegistryObject<RelicBlock> WARDEN_RELIC = BLOCKS.registerBlock("warden_relic", p -> new RelicBlock(p, false), stone(BlockBehaviour.Properties.of()));
-    public static final RegistryObject<RelicBlock> DRAGON_RELIC = BLOCKS.registerBlock("dragon_relic", p -> new RelicBlock(p, true), stone(BlockBehaviour.Properties.of()));
-    public static final RegistryObject<RelicFrameBlock> DRAGON_RELIC_FRAME = BLOCKS.registerBlock("dragon_relic_frame", RelicFrameBlock::new,
-        stone(BlockBehaviour.Properties.of()).noLootTable());
+    public static final RegistryObject<RelicBlock> WITHER_RELIC = BLOCKS.register("wither_relic", () -> new RelicBlock(stone(BlockBehaviour.Properties.of()), false));
+    public static final RegistryObject<RelicBlock> ELDER_GUARDIAN_RELIC = BLOCKS.register("elder_guardian_relic",
+        () -> new RelicBlock(stone(BlockBehaviour.Properties.of()), false));
+    public static final RegistryObject<RelicBlock> WARDEN_RELIC = BLOCKS.register("warden_relic", () -> new RelicBlock(stone(BlockBehaviour.Properties.of()), false));
+    public static final RegistryObject<RelicBlock> DRAGON_RELIC = BLOCKS.register("dragon_relic", () -> new RelicBlock(stone(BlockBehaviour.Properties.of()), true));
+    public static final RegistryObject<RelicFrameBlock> DRAGON_RELIC_FRAME = BLOCKS.register("dragon_relic_frame",
+        () -> new RelicFrameBlock(stone(BlockBehaviour.Properties.of()).noLootTable()));
 
-    public static final RegistryObject<BlockItem> WITHER_RELIC_ITEM = Ostentum.ITEMS.registerSimpleBlockItem("wither_relic", WITHER_RELIC,
-        new Item.Properties().stacksTo(16).rarity(Rarity.EPIC));
-    public static final RegistryObject<BlockItem> ELDER_GUARDIAN_RELIC_ITEM = Ostentum.ITEMS.registerSimpleBlockItem("elder_guardian_relic",
-        ELDER_GUARDIAN_RELIC, new Item.Properties().stacksTo(16).rarity(Rarity.EPIC));
-    public static final RegistryObject<BlockItem> WARDEN_RELIC_ITEM = Ostentum.ITEMS.registerSimpleBlockItem("warden_relic",
-        WARDEN_RELIC, new Item.Properties().stacksTo(16).rarity(Rarity.EPIC));
-    public static final RegistryObject<BlockItem> DRAGON_RELIC_ITEM = Ostentum.ITEMS.registerSimpleBlockItem("dragon_relic", DRAGON_RELIC,
-        new Item.Properties().stacksTo(16).rarity(Rarity.EPIC));
+    public static final RegistryObject<BlockItem> WITHER_RELIC_ITEM = Ostentum.ITEMS.register("wither_relic", () -> new BlockItem(WITHER_RELIC.get(), new Item.Properties().stacksTo(16).rarity(Rarity.EPIC)));
+    public static final RegistryObject<BlockItem> ELDER_GUARDIAN_RELIC_ITEM = Ostentum.ITEMS.register("elder_guardian_relic", () -> new BlockItem(ELDER_GUARDIAN_RELIC.get(), new Item.Properties().stacksTo(16).rarity(Rarity.EPIC)));
+    public static final RegistryObject<BlockItem> WARDEN_RELIC_ITEM = Ostentum.ITEMS.register("warden_relic", () -> new BlockItem(WARDEN_RELIC.get(), new Item.Properties().stacksTo(16).rarity(Rarity.EPIC)));
+    public static final RegistryObject<BlockItem> DRAGON_RELIC_ITEM = Ostentum.ITEMS.register("dragon_relic", () -> new BlockItem(DRAGON_RELIC.get(), new Item.Properties().stacksTo(16).rarity(Rarity.EPIC)));
 
     public static final RegistryObject<BlockEntityType<RelicBlockEntity>> RELIC = BLOCK_ENTITIES.register("relic",
         () -> BlockEntityType.Builder.of(RelicBlockEntity::new, WITHER_RELIC.get(), ELDER_GUARDIAN_RELIC.get(), WARDEN_RELIC.get(), DRAGON_RELIC.get()).build(null));

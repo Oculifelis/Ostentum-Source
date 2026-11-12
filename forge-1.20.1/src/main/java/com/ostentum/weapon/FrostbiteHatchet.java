@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -65,6 +66,7 @@ public final class FrostbiteHatchet {
                 thrown.setOwner(player);
                 thrown.setPos(player.getX(), player.getEyeY() - 0.1, player.getZ());
                 thrown.setItem(stack.copyWithCount(1));
+                thrown.origin = ReturnSlot.of(player, hand);
                 thrown.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.4F, 0.3F);
                 server.addFreshEntity(thrown);
                 server.playSound(null, player.blockPosition(), SoundEvents.TRIDENT_THROW, SoundSource.PLAYERS, 1.0F, 1.3F);
@@ -78,8 +80,15 @@ public final class FrostbiteHatchet {
 
     /** The hatchet in flight. */
     public static final class Thrown extends ThrowableItemProjectile {
+        /** Out along the throw, then home to its owner; it never turns out again. Saved by name with its age and slot. */
+        public enum Flight { OUTBOUND, RETURNING }
+
         private final Set<Integer> hit = new HashSet<>();
-        private boolean returning;
+        private Flight flight = Flight.OUTBOUND;
+        /** Ticks flown, saved (tickCount is not, so a reloaded hatchet would fly out again and never time out). */
+        int age;
+        /** The inventory slot it was thrown from ({@link ReturnSlot}); it goes back there. */
+        int origin = ReturnSlot.NONE;
 
         public Thrown(EntityType<? extends Thrown> type, Level level) {
             super(type, level);
@@ -96,28 +105,38 @@ public final class FrostbiteHatchet {
         }
 
         public boolean returning() {
-            return returning;
+            return flight == Flight.RETURNING;
+        }
+
+        public Flight flight() {
+            return flight;
+        }
+
+        /** The one change of flight: out to home. */
+        void turnHome() {
+            flight = Flight.RETURNING;
         }
 
         @Override
         public void tick() {
             if (!level().isClientSide() && level() instanceof ServerLevel level) {
                 Entity owner = getOwner();
-                if (owner == null || !owner.isAlive() || owner.level() != level || owner.distanceToSqr(this) > 64 * 64 || tickCount > 200) {
+                age++;
+                if (owner == null || !owner.isAlive() || owner.level() != level || owner.distanceToSqr(this) > 64 * 64 || age > 200) {
                     drop(level);
                     return;
                 }
-                if (tickCount >= OUT) {
-                    returning = true;
+                if (age >= OUT) {
+                    turnHome();
                 }
-                if (returning) {
+                if (flight == Flight.RETURNING) {
                     noPhysics = true;
                     Vec3 home = owner.getEyePosition().subtract(position());
                     if (home.lengthSqr() < 1.5 * 1.5) {
                         giveBack(level, owner);
                         return;
                     }
-                    setDeltaMovement(home.normalize().scale(Math.min(1.6, 0.6 + tickCount * 0.04)));
+                    setDeltaMovement(home.normalize().scale(Math.min(1.6, 0.6 + age * 0.04)));
                 }
                 freezeWater(level, blockPosition());
                 if (tickCount % 4 == 0) {
@@ -147,11 +166,38 @@ public final class FrostbiteHatchet {
 
         @Override
         protected void onHitBlock(BlockHitResult result) {
-            returning = true;
+            turnHome();
         }
 
-        private void giveBack(ServerLevel level, Entity owner) {
-            if (!(owner instanceof Player player) || player.getAbilities().instabuild || player.getInventory().add(getItem())) {
+        @Override
+        public void addAdditionalSaveData(CompoundTag tag) {
+            super.addAdditionalSaveData(tag);
+            tag.putString("flight", flight.name());
+            tag.putInt("age", age);
+            tag.putInt("origin", origin);
+        }
+
+        @Override
+        public void readAdditionalSaveData(CompoundTag tag) {
+            super.readAdditionalSaveData(tag);
+            flight = parse(tag.getString("flight"));
+            age = tag.getInt("age");
+            origin = tag.contains("origin") ? tag.getInt("origin") : ReturnSlot.NONE;
+        }
+
+        /** A saved flight; one from before 1.9.5 (none saved) flies out and turns home as a fresh throw would. */
+        private static Flight parse(String name) {
+            for (Flight f : Flight.values()) {
+                if (f.name().equals(name)) {
+                    return f;
+                }
+            }
+            return Flight.OUTBOUND;
+        }
+
+        /** Home: back into the slot it left (or the first free one); dropped at the player's feet when the inventory is full. */
+        void giveBack(ServerLevel level, Entity owner) {
+            if (!(owner instanceof Player player) || player.getAbilities().instabuild || ReturnSlot.give(player, getItem(), origin)) {
                 level.playSound(null, owner.blockPosition(), SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 0.5F, 1.2F);
                 discard();
             } else {

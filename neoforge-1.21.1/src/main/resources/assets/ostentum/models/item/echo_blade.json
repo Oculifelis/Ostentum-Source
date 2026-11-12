@@ -1,5 +1,5 @@
 {
-  "parent": "ostentum:item/handheld_large",
+  "parent": "minecraft:item/handheld",
   "loader": "neoforge:item_layers",
   "textures": {
     "layer0": "ostentum:item/echo_blade",

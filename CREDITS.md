@@ -17,7 +17,7 @@ Weathervane Spear's lightning is drawn the way Ultima Ratio draws its lightning.
 - Licence: CC BY 4.0, https://creativecommons.org/licenses/by/4.0/
 - Source: https://github.com/malcolmriley/unused-textures
 - Used: `tool_greatsword_gold`, modified (recoloured and partly redrawn). It is the base of the Duelist's Saber, the
-  Hearthblade, the Soul Hearthblade, the Cold Hearthblade, the Echo Blade and the Resonant Hilt.
+  Hearthblade, the Soul Hearthblade, the Cold Hearthblade and the Resonant Hilt.
 - The modified textures stay under CC BY 4.0.
 
 ## Rhodox: Painterly Pack
@@ -25,6 +25,38 @@ Weathervane Spear's lightning is drawn the way Ultima Ratio draws its lightning.
 - Used: the ornate iron pick, recoloured, with new gems. It is the head of the Delver's Pick, the Dormant Delver's
   Pick and the Rusted Delver's Head, and the source of their glow layer.
 - These textures are **not** LGPL. Nobody else may reuse them in another mod or pack.
+
+## iglee42: Create Quality of Life
+- Licence: MIT. Its notice, which covers the modified texture:
+
+```
+MIT License
+
+Copyright (c) iglee42
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+- Used: `shadow_radiance_sword`, recoloured and animated. It is the blade of the Echo Blade.
+
+## Ender IO team
+- Licence: CC0 (public domain).
+- Used: `dark_steel_sword`, recoloured. It is the guard and handle of the Echo Blade.
 
 ## Mojang: Minecraft
 - Many item and entity textures are recoloured or reworked from Minecraft's own: the tridents, bows, crossbows,

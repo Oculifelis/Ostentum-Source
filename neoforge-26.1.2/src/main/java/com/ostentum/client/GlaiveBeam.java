@@ -1,6 +1,5 @@
 package com.ostentum.client;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.ostentum.Ostentum;
 import com.ostentum.mixin.ItemDisplayAccess;
 import com.ostentum.weapon.PathfindersGlaive;
@@ -8,7 +7,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.blockentity.BeaconRenderer;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Display;
 import net.minecraft.world.entity.Entity;
@@ -21,17 +20,15 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.SubmitCustomGeometryEvent;
 
 /**
- * The Pathfinder's Glaive's light column: a beacon beam in the glaive's
- * gold from the planted glaive up into the sky as far as a beacon's goes,
- * past the top of the world. It is drawn for every planted glaive the client can see and,
- * at any range, for every waypoint on a glaive in the player's own inventory, whether or not its chunk is loaded.
- * A beam past the render distance is drawn scaled in toward the camera, which looks the same (a uniform scale about
- * the eye leaves the picture unchanged) but stays inside the far plane and the fog. Vanilla's beacon render types, so
- * shader packs (Iris) draw it as they draw beacon beams.
+ * The Pathfinder's Glaive's light column, made the Ultima Ratio way: a gold beam with a white-hot core rising from the
+ * planted glaive ({@link Bolts#column}), added on vanilla's lightning render type over a blended gold tint (so it stays gold on a bright sky), full bright, as the Weathervane Spear's bolts.
+ * It is drawn for every planted glaive the client can see and, at any range, for every waypoint on a glaive in the
+ * player's own inventory, whether or not its chunk is loaded. A column past the render distance is drawn scaled in toward
+ * the camera, which looks the same but stays inside the far plane and the fog.
  */
 @EventBusSubscriber(modid = Ostentum.MODID, value = Dist.CLIENT)
 public final class GlaiveBeam {
-    static final int COLOR = 0xFFE0B040;
+    static final double HEIGHT = 1024.0;
 
     private GlaiveBeam() {}
 
@@ -62,24 +59,30 @@ public final class GlaiveBeam {
             return;
         }
         float pt = mc.getDeltaTracker().getGameTimeDeltaPartialTick(false);
-        float time = Math.floorMod(level.getGameTime(), 40) + pt;
+        float time = Math.floorMod(level.getGameTime(), 24000L) + pt;
         Vec3 cam = event.getLevelRenderState().cameraRenderState.pos;
-        double near = Math.max(24.0, mc.options.getEffectiveRenderDistance() * 16.0 * 0.7);
-        PoseStack pose = event.getPoseStack();
+        int rd = mc.options.getEffectiveRenderDistance();
+        // the gold blended over the sky, and the light added on top
+        event.getSubmitNodeCollector().submitCustomGeometry(event.getPoseStack(), RenderTypes.debugQuads(), column(beams, cam, rd, time, true)::emit);
+        event.getSubmitNodeCollector().submitCustomGeometry(event.getPoseStack(), RenderTypes.lightning(), column(beams, cam, rd, time, false)::emit);
+    }
+
+    /** Every column (or its gold tint), each a little wider the farther it is so it still reads from far off. */
+    static Bolts column(Set<BlockPos> beams, Vec3 cam, int renderDistance, float time, boolean tint) {
+        double near = Math.max(24.0, renderDistance * 16.0 * 0.7);
+        Bolts mesh = new Bolts(cam);
         for (BlockPos at : beams) {
-            int bottom = at.getY() + 1;
-            double dx = at.getX() + 0.5 - cam.x, dz = at.getZ() + 0.5 - cam.z;
+            Vec3 base = new Vec3(at.getX() + 0.5, at.getY() + 0.05, at.getZ() + 0.5);
+            double dx = base.x - cam.x, dz = base.z - cam.z;
             double far = Math.sqrt(dx * dx + dz * dz);
             float radius = Math.max(1.0F, (float) far / 96.0F);
-            pose.pushPose();
-            if (far > near) {
-                float k = (float) (near / far);
-                pose.scale(k, k, k);
+            float k = far > near ? (float) (near / far) : 1.0F;
+            if (tint) {
+                mesh.columnTint(base, HEIGHT, 0.18F * radius, k, time);
+            } else {
+                mesh.column(base, HEIGHT, 0.18F * radius, k, time);
             }
-            pose.translate(at.getX() - cam.x, bottom - cam.y, at.getZ() - cam.z);
-            BeaconRenderer.submitBeaconBeam(pose, event.getSubmitNodeCollector(), BeaconRenderer.BEAM_LOCATION, 1.0F, time, 0,
-                BeaconRenderer.MAX_RENDER_Y, COLOR, BeaconRenderer.SOLID_BEAM_RADIUS * radius, BeaconRenderer.BEAM_GLOW_RADIUS * radius);
-            pose.popPose();
         }
+        return mesh;
     }
 }

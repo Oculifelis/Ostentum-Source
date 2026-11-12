@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "minecraft:saddle",
+    "minecraft:rotten_flesh"
+  ],
+  "result": {
+    "id": "ostentum:zombie_horse_saddle",
+    "count": 1
+  }
+}

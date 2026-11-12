@@ -98,12 +98,4 @@ public class RelicRenderer implements BlockEntityRenderer<RelicBlockEntity> {
         model.render(pose, nodes.getBuffer(RenderType.entityCutout(tex)), light, OverlayTexture.NO_OVERLAY);
         model.render(pose, nodes.getBuffer(RenderType.eyes(glow)), light, OverlayTexture.NO_OVERLAY);
     }
-
-    /** The likeness rises well above the block, and the 3x3 spreads a block to each side. */
-    @Override
-    public AABB getRenderBoundingBox(RelicBlockEntity be) {
-        boolean large = be.getBlockState().getBlock() instanceof RelicBlock relic && relic.large();
-        AABB box = new AABB(be.getBlockPos());
-        return large ? box.inflate(1.5, 0.0, 1.5).expandTowards(0.0, 4.5, 0.0) : box.inflate(0.25, 0.0, 0.25).expandTowards(0.0, 1.5, 0.0);
-    }
 }

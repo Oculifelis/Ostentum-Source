@@ -8,7 +8,7 @@
       "type": "patchouli:spotlight",
       "item": "ostentum:duelists_saber",
       "title": "Duelist's Saber",
-      "text": "Use to parry: blocks a melee hit or a shot from the front and staggers the attacker. Your next hit within a second is a 1.5x riposte. A missed parry costs a second. Sold only by master weaponsmiths."
+      "text": "Hold use to guard: halves a melee hit or a shot from the front. The first half second is a perfect parry: blocks it, staggers the attacker, and your next hit is a 1.5x riposte. Sold only by master weaponsmiths."
     }
   ]
 }

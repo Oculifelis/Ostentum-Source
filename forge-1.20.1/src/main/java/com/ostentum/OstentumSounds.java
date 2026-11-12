@@ -22,6 +22,43 @@ public final class OstentumSounds {
     public static final RegistryObject<SoundEvent> DISC_HARVEST_MOON = sound("music_disc.harvest_moon");
     public static final RegistryObject<SoundEvent> DISC_ENCHANTED_MOON = sound("music_disc.enchanted_moon");
     public static final RegistryObject<SoundEvent> DISC_GLIMMER_MOON = sound("music_disc.glimmer_moon");
+    /** The Voidstring Bow's release and draw (tools/sounds/voidstring.py, 1.9.5: shot take 1 and the draw, marked Good). */
+    public static final RegistryObject<SoundEvent> VOIDSTRING_SHOOT = sound("item.voidstring_bow.shoot");
+    public static final RegistryObject<SoundEvent> VOIDSTRING_DRAW = sound("item.voidstring_bow.draw");
+
+    /** The Pathfinder's Glaive's own sounds (Ultima Ratio's synth, 1.9.4). */
+    public static final RegistryObject<SoundEvent> GLAIVE_ATTACK = sound("item.pathfinders_glaive.attack");
+    public static final RegistryObject<SoundEvent> GLAIVE_HIT = sound("item.pathfinders_glaive.hit");
+    public static final RegistryObject<SoundEvent> GLAIVE_CHARGE = sound("item.pathfinders_glaive.charge");
+    public static final RegistryObject<SoundEvent> GLAIVE_PLANT = sound("item.pathfinders_glaive.plant");
+    public static final RegistryObject<SoundEvent> GLAIVE_RECALL = sound("item.pathfinders_glaive.recall");
+
+    // tridents and Recall Chime (UR fx, Oculifelis)
+    public static final RegistryObject<SoundEvent> ABYSSAL_THROW = sound("item.abyssal_trident.throw");
+    public static final RegistryObject<SoundEvent> ABYSSAL_HIT = sound("item.abyssal_trident.hit");
+    public static final RegistryObject<SoundEvent> ABYSSAL_HIT_GROUND = sound("item.abyssal_trident.hit_ground");
+    public static final RegistryObject<SoundEvent> ABYSSAL_RETURN = sound("item.abyssal_trident.return");
+    public static final RegistryObject<SoundEvent> ABYSSAL_RIPTIDE = sound("item.abyssal_trident.riptide");
+    public static final RegistryObject<SoundEvent> ABYSSAL_FIELD = sound("item.abyssal_trident.field");
+    public static final RegistryObject<SoundEvent> CORAL_THROW = sound("item.coral_trident.throw");
+    public static final RegistryObject<SoundEvent> CORAL_HIT = sound("item.coral_trident.hit");
+    public static final RegistryObject<SoundEvent> CORAL_HIT_GROUND = sound("item.coral_trident.hit_ground");
+    public static final RegistryObject<SoundEvent> CORAL_RETURN = sound("item.coral_trident.return");
+    public static final RegistryObject<SoundEvent> CORAL_RIPTIDE = sound("item.coral_trident.riptide");
+    public static final RegistryObject<SoundEvent> CORAL_WHIRLPOOL = sound("item.coral_trident.whirlpool");
+    public static final RegistryObject<SoundEvent> CORAL_GROW = sound("item.coral_trident.grow");
+    public static final RegistryObject<SoundEvent> FISHER_THROW = sound("item.fisher_kings_trident.throw");
+    public static final RegistryObject<SoundEvent> FISHER_HIT = sound("item.fisher_kings_trident.hit");
+    public static final RegistryObject<SoundEvent> FISHER_HIT_GROUND = sound("item.fisher_kings_trident.hit_ground");
+    public static final RegistryObject<SoundEvent> FISHER_RETURN = sound("item.fisher_kings_trident.return");
+    public static final RegistryObject<SoundEvent> FISHER_RIPTIDE = sound("item.fisher_kings_trident.riptide");
+    public static final RegistryObject<SoundEvent> FISHER_CATCH = sound("item.fisher_kings_trident.catch");
+    public static final RegistryObject<SoundEvent> FISHER_AQUATIC = sound("item.fisher_kings_trident.aquatic");
+    public static final RegistryObject<SoundEvent> CHIME_MARK = sound("item.recall_chime.mark");
+    public static final RegistryObject<SoundEvent> CHIME_WINDUP = sound("item.recall_chime.windup");
+    public static final RegistryObject<SoundEvent> CHIME_DEPART = sound("item.recall_chime.depart");
+    public static final RegistryObject<SoundEvent> CHIME_ARRIVE = sound("item.recall_chime.arrive");
+    public static final RegistryObject<SoundEvent> CHIME_FAIL = sound("item.recall_chime.fail");
 
     private OstentumSounds() {}
 

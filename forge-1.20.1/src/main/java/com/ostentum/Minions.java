@@ -89,11 +89,8 @@ public final class Minions {
         }
     }
 
+    /** 1.20.1 has no scale attribute: minions stay full size (cut). */
     private static void scale(Mob mob, double value) {
-        AttributeInstance scale = mob.getAttribute(Attributes.SCALE);
-        if (scale != null) {
-            scale.setBaseValue(value);
-        }
     }
 
     private static void tick(TickEvent.PlayerTickEvent event) {

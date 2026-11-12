@@ -1,0 +1,63 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "minecraft:trident"
+    },
+    [
+      {
+        "item": "minecraft:tube_coral_block"
+      },
+      {
+        "item": "minecraft:brain_coral_block"
+      },
+      {
+        "item": "minecraft:bubble_coral_block"
+      },
+      {
+        "item": "minecraft:fire_coral_block"
+      },
+      {
+        "item": "minecraft:horn_coral_block"
+      }
+    ],
+    [
+      {
+        "item": "minecraft:tube_coral_block"
+      },
+      {
+        "item": "minecraft:brain_coral_block"
+      },
+      {
+        "item": "minecraft:bubble_coral_block"
+      },
+      {
+        "item": "minecraft:fire_coral_block"
+      },
+      {
+        "item": "minecraft:horn_coral_block"
+      }
+    ],
+    [
+      {
+        "item": "minecraft:tube_coral_block"
+      },
+      {
+        "item": "minecraft:brain_coral_block"
+      },
+      {
+        "item": "minecraft:bubble_coral_block"
+      },
+      {
+        "item": "minecraft:fire_coral_block"
+      },
+      {
+        "item": "minecraft:horn_coral_block"
+      }
+    ]
+  ],
+  "result": {
+    "item": "ostentum:coral_trident"
+  }
+}

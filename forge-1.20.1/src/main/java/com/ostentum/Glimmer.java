@@ -4,7 +4,7 @@ import com.fundamentum.moon.Moons;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingExperienceDropEvent;
-import net.minecraftforge.event.level.BlockDropsEvent;
+import net.minecraftforge.event.level.BlockEvent;
 
 /** The Glimmer Moon: on about one full moon in six, mobs and ores drop twice their experience. */
 final class Glimmer {
@@ -18,9 +18,9 @@ final class Glimmer {
                 e.setDroppedExperience(e.getDroppedExperience() * 2);
             }
         });
-        MinecraftForge.EVENT_BUS.addListener((BlockDropsEvent e) -> {
-            if (e.getDroppedExperience() > 0 && Moons.isUp(e.getLevel(), MOON)) {
-                e.setDroppedExperience(e.getDroppedExperience() * 2);
+        MinecraftForge.EVENT_BUS.addListener((BlockEvent.BreakEvent e) -> {
+            if (e.getExpToDrop() > 0 && e.getLevel() instanceof ServerLevel level && Moons.isUp(level, MOON)) {
+                e.setExpToDrop(e.getExpToDrop() * 2);
             }
         });
     }

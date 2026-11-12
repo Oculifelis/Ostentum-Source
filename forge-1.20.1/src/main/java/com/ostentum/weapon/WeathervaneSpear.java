@@ -14,6 +14,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.Tiers;
@@ -42,7 +43,7 @@ public final class WeathervaneSpear {
     /** Between iron (250, +2) and diamond (1561, +3); repaired with copper, like its shaft. */
     static final Tier MATERIAL = new ForgeTier(2, 900, 7.0F, 2.5F, 13, BlockTags.NEEDS_IRON_TOOL, () -> net.minecraft.world.item.crafting.Ingredient.of(net.minecraft.world.item.Items.COPPER_INGOT));
 
-    public static final RegistryObject<Item> SPEAR = Weapons.item("weathervane_spear", Item::new, p -> p.rarity(Rarity.RARE)
+    public static final RegistryObject<Item> SPEAR = Weapons.item("weathervane_spear", Spear::new, p -> p.rarity(Rarity.RARE)
         // iron and diamond spears' numbers in between, with a shorter lunge delay (0.4 s; iron 0.6, diamond 0.5)
         .spear(MATERIAL, 1.0F, 1.0F, 0.4F, 2.75F, 10.5F, 6.6F, 5.1F, 10.6F, 4.6F));
 
@@ -51,6 +52,9 @@ public final class WeathervaneSpear {
     static final double HOP = 6.0;
     static final float SHOCK = 4.0F;
 
+    /** Set on the held spear's stack while its wielder is charged, so every client can draw the crackle on it. */
+    public static final String CHARGED_TAG = "ostentum_static";
+
     private static final Map<UUID, Integer> STATIC = new ConcurrentHashMap<>();
     private static boolean shocking;
 
@@ -58,6 +62,35 @@ public final class WeathervaneSpear {
         MinecraftForge.EVENT_BUS.addListener(WeathervaneSpear::sprint);
         MinecraftForge.EVENT_BUS.addListener(WeathervaneSpear::hit);
         MinecraftForge.EVENT_BUS.addListener(WeathervaneSpear::jabBlock);
+    }
+
+    /** The spear: its static flag coming and going doesn't bob it in hand as a new item would. */
+    static final class Spear extends Item {
+        Spear(Properties properties) {
+            super(properties);
+        }
+
+        @Override
+        public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+            return slotChanged || !newStack.is(oldStack.getItem());
+        }
+    }
+
+    /** Whether this spear stack shows its wielder's static (drawn by {@code client.LightningFx}). */
+    public static boolean showsCharge(ItemStack stack) {
+        return stack.is(SPEAR.get()) && Weapons.data(stack).getBoolean(CHARGED_TAG);
+    }
+
+    private static void flag(ItemStack stack, boolean on) {
+        if (stack.is(SPEAR.get()) && showsCharge(stack) != on) {
+            Weapons.edit(stack, tag -> {
+                if (on) {
+                    tag.putBoolean(CHARGED_TAG, true);
+                } else {
+                    tag.remove(CHARGED_TAG);
+                }
+            });
+        }
     }
 
     public static boolean charged(Player player) {
@@ -76,11 +109,13 @@ public final class WeathervaneSpear {
             STATIC.put(player.getUUID(), ++now);
             if (now == CHARGE) {
                 player.level().playSound(null, player.blockPosition(), SoundEvents.TRIDENT_RETURN, SoundSource.PLAYERS, 0.6F, 1.8F);
+                SpearArcs.send((ServerLevel) player.level(), tip(player), tip(player), SpearArcs.BURST);
             }
         }
-        if (now >= CHARGE && player.tickCount % 5 == 0) {
-            ((ServerLevel) player.level()).sendParticles(ParticleTypes.ELECTRIC_SPARK, player.getX(), player.getY() + 1.0, player.getZ(),
-                3, 0.3, 0.5, 0.3, 0.05);
+        flag(player.getMainHandItem(), now >= CHARGE);
+        if (now >= CHARGE && player.tickCount % 8 == 0) {
+            Vec3 tip = tip(player);
+            ((ServerLevel) player.level()).sendParticles(ParticleTypes.ELECTRIC_SPARK, tip.x, tip.y, tip.z, 2, 0.15, 0.15, 0.15, 0.05);
         }
     }
 
@@ -91,6 +126,7 @@ public final class WeathervaneSpear {
             return;
         }
         STATIC.remove(player.getUUID());
+        flag(player.getMainHandItem(), false);
         ServerLevel level = (ServerLevel) player.level();
         LivingEntity target = event.getEntity();
         LivingEntity next = level.getEntitiesOfClass(LivingEntity.class, target.getBoundingBox().inflate(HOP),
@@ -99,10 +135,12 @@ public final class WeathervaneSpear {
         shocking = true;
         try {
             target.hurt(level.damageSources().lightningBolt(), SHOCK);
-            sparks(level, player.getEyePosition(), target.getBoundingBox().getCenter());
+            SpearArcs.send(level, tip(player), target.getBoundingBox().getCenter(), SpearArcs.SHOCK);
+            sparks(level, target.getBoundingBox().getCenter());
             if (next != null) {
                 next.hurt(level.damageSources().lightningBolt(), SHOCK);
-                sparks(level, target.getBoundingBox().getCenter(), next.getBoundingBox().getCenter());
+                SpearArcs.send(level, target.getBoundingBox().getCenter(), next.getBoundingBox().getCenter(), SpearArcs.HOP);
+                sparks(level, next.getBoundingBox().getCenter());
             }
         } finally {
             shocking = false;
@@ -110,12 +148,17 @@ public final class WeathervaneSpear {
         level.playSound(null, target.blockPosition(), SoundEvents.LIGHTNING_BOLT_IMPACT, SoundSource.PLAYERS, 0.8F, 1.6F);
     }
 
-    static void sparks(ServerLevel level, Vec3 from, Vec3 to) {
-        Vec3 step = to.subtract(from).scale(1.0 / 8);
-        for (int i = 0; i <= 8; i++) {
-            Vec3 at = from.add(step.scale(i));
-            level.sendParticles(ParticleTypes.ELECTRIC_SPARK, at.x, at.y, at.z, 2, 0.05, 0.05, 0.05, 0.0);
-        }
+    /** Where the held spear's head is, about: ahead of the eyes, down and to the right, along the look. */
+    static Vec3 tip(Player player) {
+        Vec3 look = player.getLookAngle();
+        Vec3 right = look.cross(new Vec3(0, 1, 0));
+        right = right.lengthSqr() < 1.0E-6 ? new Vec3(1, 0, 0) : right.normalize();
+        return player.getEyePosition().add(look.scale(1.6)).add(right.scale(0.3)).add(0, -0.3, 0);
+    }
+
+    /** A spray of sparks where a bolt lands (the bolt itself is {@link SpearArcs}). */
+    static void sparks(ServerLevel level, Vec3 at) {
+        level.sendParticles(ParticleTypes.ELECTRIC_SPARK, at.x, at.y, at.z, 14, 0.2, 0.25, 0.2, 0.35);
     }
 
     /** A jab (left click) on a redstone component powers it for one second instead of mining it. */
@@ -163,7 +206,8 @@ public final class WeathervaneSpear {
         } else {
             return false;
         }
-        sparks(level, player.getEyePosition(), Vec3.atCenterOf(pos));
+        SpearArcs.send(level, tip(player), Vec3.atCenterOf(pos), SpearArcs.JAB);
+        sparks(level, Vec3.atCenterOf(pos));
         return true;
     }
 

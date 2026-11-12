@@ -1,0 +1,8 @@
+{
+  "type": "ostentum:end_ship_loot",
+  "condition": {
+    "type": "neoforge:loot_table_id",
+    "loot_table_id": "minecraft:chests/end_city_treasure"
+  },
+  "chance": 0.3
+}

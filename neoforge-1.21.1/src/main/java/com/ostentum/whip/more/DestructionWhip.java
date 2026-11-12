@@ -28,7 +28,7 @@ import net.neoforged.neoforge.registries.DeferredItem;
 public final class DestructionWhip {
     public static final DeferredItem<Item> ITEM = Props.simple(Ostentum.ITEMS, "destruction_whip",
         p -> p.stacksTo(1).rarity(Rarity.EPIC).fireResistant().enchantable(15));
-    static final int RED = 0xFFFF4A1C;
+    static final int RED = 0xFFFF1E1A;
     static final float LASER_DAMAGE = 5.0F;
 
     static WhipDefinition definition() {
@@ -36,7 +36,7 @@ public final class DestructionWhip {
             .tuning(t -> t.length(5.5).damage(9).cooldownTicks(20))
             .coiled().texture(OstentumWhips.lash("destruction_whip")).width(0.12F, 0.05F)
             .cordFx(WhipCordFx.ENERGY)
-            .shockwave(0xC0FF4A1C)
+            .shockwave(0xC0FF1E1A)
             .sounds(SoundEvents.PLAYER_ATTACK_SWEEP, SoundEvents.BLAZE_SHOOT)
             .crackParticle(ParticleTypes.FLAME)
             .hooks(new WhipHooks() {

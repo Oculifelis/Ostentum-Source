@@ -67,7 +67,7 @@ public final class RecallChime {
             int cost = cost(to.distanceTo(player.position()));
             if (!player.getAbilities().instabuild && player.totalExperience < cost) {
                 player.displayClientMessage(Component.translatable("item.ostentum.recall_chime.poor", cost), true);
-                server.playSound(null, player.blockPosition(), SoundEvents.AMETHYST_BLOCK_HIT, SoundSource.PLAYERS, 1.0F, 0.5F);
+                ChimeFx.fail(server, player);
                 return InteractionResultHolder.fail(player.getItemInHand(hand));
             }
             if (!player.getAbilities().instabuild) {
@@ -75,9 +75,10 @@ public final class RecallChime {
             }
             stack.hurtAndBreak(1, player, e -> e.broadcastBreakEvent(hand));
             RINGING.add(player.getUUID());
+            ChimeFx.windup(server, player, DELAY);
             for (int t = 0; t < DELAY; t += 20) {
                 int at = t;
-                Weapons.later(server, t, () -> server.playSound(null, player.blockPosition(), SoundEvents.AMETHYST_BLOCK_RESONATE,
+                Weapons.later(server, t, () -> server.playSound(null, player.blockPosition(), com.ostentum.OstentumSounds.CHIME_WINDUP.get(),
                     SoundSource.PLAYERS, 1.0F, 0.8F + at / 100.0F));
             }
             Weapons.later(server, DELAY, () -> {
@@ -99,15 +100,14 @@ public final class RecallChime {
             tag.putInt("mark_z", player.blockPosition().getZ());
         });
         player.displayClientMessage(Component.translatable("item.ostentum.recall_chime.marked"), true);
-        level.playSound(null, player.blockPosition(), SoundEvents.AMETHYST_BLOCK_CHIME, SoundSource.PLAYERS, 1.2F, 1.2F);
+        ChimeFx.mark(level, player);
     }
 
     public static void recall(ServerLevel level, Player player, Vec3 to) {
-        level.sendParticles(ParticleTypes.REVERSE_PORTAL, player.getX(), player.getY() + 1, player.getZ(), 30, 0.4, 0.8, 0.4, 0.05);
+        ChimeFx.depart(level, player.position());
         player.teleportTo(to.x, to.y, to.z);
         player.resetFallDistance();
-        level.sendParticles(ParticleTypes.END_ROD, to.x, to.y + 1, to.z, 30, 0.4, 0.8, 0.4, 0.05);
-        level.playSound(null, player.blockPosition(), SoundEvents.AMETHYST_BLOCK_CHIME, SoundSource.PLAYERS, 1.5F, 0.6F);
+        ChimeFx.arrive(level, to);
     }
 
     private RecallChime() {}

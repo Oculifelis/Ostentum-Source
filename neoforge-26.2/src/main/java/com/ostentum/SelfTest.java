@@ -81,6 +81,8 @@ public final class SelfTest {
             && Relics.RELIC.get().isValid(Relics.ELDER_GUARDIAN_RELIC.get().defaultBlockState())
             && Relics.RELIC.get().isValid(Relics.WARDEN_RELIC.get().defaultBlockState())
             && Relics.RELIC.get().isValid(Relics.DRAGON_RELIC.get().defaultBlockState()));
+        // relic items an earlier run left lying here (the dev world is kept between runs) would be counted as drops
+        level.getEntitiesOfClass(ItemEntity.class, new net.minecraft.world.phys.AABB(centre).inflate(4)).forEach(net.minecraft.world.entity.Entity::discard);
         BlockState relic = Relics.DRAGON_RELIC.get().defaultBlockState();
         level.setBlock(centre, relic, Block.UPDATE_ALL);
         relic.getBlock().setPlacedBy(level, centre, relic, player, new ItemStack(Relics.DRAGON_RELIC_ITEM.get()));
@@ -164,7 +166,7 @@ public final class SelfTest {
                 check("curios tag " + slot + " has " + n, n > 0);
             }
             long recipes = server.getRecipeManager().getRecipes().stream().filter(r -> r.id().identifier().getNamespace().equals("ostentum")).count();
-            check("recipes loaded: " + recipes, recipes == 56);
+            check("recipes loaded: " + recipes, recipes == 58 + (com.ostentum.music.NowPlaying.PENDANT_ON ? 1 : 0));   // the pendant's recipe is left out of a -Pnopendant build
             // the six base whips are Fundamentum whips with their own lengths; the Ender Whip's loot needs an End ship
             List<net.neoforged.neoforge.registries.DeferredItem<Item>> whips = new java.util.ArrayList<>(List.of(com.ostentum.whip.OstentumWhips.VINE_WHIP,
                 com.ostentum.whip.OstentumWhips.WEEPING_VINE_WHIP, com.ostentum.whip.OstentumWhips.TWISTING_VINE_WHIP,
@@ -289,6 +291,7 @@ public final class SelfTest {
             behaviour(level, player, pos.above());
 
             relics(level, player, pos.above(3));
+            com.ostentum.music.ShelfTest.run(level, player, pos.offset(40, 1, 0), SelfTest::check);   // 1.9.4 record shelves, on a floor of their own off to the side
 
             // 1.9.0: the special weapons, on a floor of their own high above
             com.ostentum.weapon.WeaponTest.run(level, player, pos.above(24), SelfTest::check, SelfTest::skip);

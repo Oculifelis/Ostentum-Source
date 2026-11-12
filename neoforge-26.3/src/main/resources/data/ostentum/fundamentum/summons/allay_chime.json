@@ -1,0 +1,6 @@
+{
+  "item": "ostentum:allay_chime",
+  "entity": "minecraft:allay",
+  "health": 20,
+  "damage": 3
+}

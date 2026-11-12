@@ -67,6 +67,7 @@ public abstract class WeaponTrident {
                 if (player.hasInfiniteMaterials()) {
                     trident.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
                 }
+                trident.origin = ReturnSlot.of(player, player.getUsedItemHand());
                 level.playSound(null, trident, SoundEvents.TRIDENT_THROW.value(), SoundSource.PLAYERS, 1.0F, 1.0F);
             }
             return true;
@@ -86,6 +87,8 @@ public abstract class WeaponTrident {
     public abstract static class Thrown extends ThrownTrident {
         private boolean landed;
         private boolean wet;
+        /** The inventory slot its thrower threw it from ({@link ReturnSlot}); picked up or returning, it goes back there. */
+        int origin = ReturnSlot.NONE;
 
         Thrown(EntityType<? extends Thrown> type, Level level) {
             super(type, level);
@@ -108,6 +111,21 @@ public abstract class WeaponTrident {
             entityData.set(ThrownTridentAccess.ostentum$foil(), stack.hasFoil());
         }
 
+        /** The thrower takes it back into the slot it left (loyalty's return or a pickup); anyone else as vanilla. */
+        @Override
+        protected boolean tryPickup(Player player) {
+            if (origin != ReturnSlot.NONE && ownedBy(player) && !player.hasInfiniteMaterials()
+                && (pickup == AbstractArrow.Pickup.ALLOWED || isNoPhysics())) {
+                return ReturnSlot.give(player, getPickupItem(), origin);
+            }
+            return super.tryPickup(player);
+        }
+
+        /** {@link #tryPickup} for the headless test. */
+        boolean pickUp(Player player) {
+            return tryPickup(player);
+        }
+
         @Override
         protected ItemStack getDefaultPickupItem() {
             return new ItemStack(item());
@@ -117,24 +135,44 @@ public abstract class WeaponTrident {
 
         @Override
         public void tick() {
-            super.tick();
+            SeaFx.SOUNDING.set(this);
+            try {
+                super.tick();
+            } finally {
+                SeaFx.SOUNDING.remove();
+            }
             if (level() instanceof ServerLevel level && !isRemoved()) {
                 if (!wet && isInWater()) {
                     wet = true;
+                    SeaFx.splash(level, this);
                     intoWater(level);
                 }
                 if (!landed && isInGround()) {
                     landed = true;
+                    SeaFx.land(level, this);
                     land(level);
                 }
+            } else if (level().isClientSide() && !isRemoved() && !isInGround()) {
+                SeaFx.trail(this);
             }
         }
 
         @Override
+        protected net.minecraft.sounds.SoundEvent getDefaultHitGroundSoundEvent() {
+            return SeaFx.style(this).hitGround();
+        }
+
+        @Override
         protected void onHitEntity(EntityHitResult hit) {
-            super.onHitEntity(hit);
+            SeaFx.SOUNDING.set(this);
+            try {
+                super.onHitEntity(hit);
+            } finally {
+                SeaFx.SOUNDING.remove();
+            }
             if (!landed && level() instanceof ServerLevel level) {
                 landed = true;
+                SeaFx.land(level, this);
                 land(level);
             }
         }

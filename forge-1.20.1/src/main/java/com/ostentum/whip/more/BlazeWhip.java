@@ -58,7 +58,7 @@ public final class BlazeWhip {
                 public void landed(WhipHit hit, boolean hurt) {
                     LivingEntity target = hit.living();
                     if (hurt && target != null && !target.fireImmune()) {
-                        target.igniteForSeconds(4);
+                        target.setSecondsOnFire(4);
                         if (hit.player.level() instanceof ServerLevel level) {
                             level.sendParticles(ParticleTypes.FLAME, hit.contact.x, hit.contact.y, hit.contact.z, 8, 0.2, 0.3, 0.2, 0.02);
                         }

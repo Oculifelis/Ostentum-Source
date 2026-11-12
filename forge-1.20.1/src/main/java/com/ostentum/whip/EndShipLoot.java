@@ -46,7 +46,7 @@ public final class EndShipLoot extends LootModifier {
 
     /** True when {@code pos} is inside the ship piece of an End city. */
     public static boolean onShip(ServerLevel level, BlockPos pos) {
-        StructureStart start = level.structureManager().getStructureWithPieceAt(pos, h -> h.is(BuiltinStructures.END_CITY));
+        StructureStart start = level.structureManager().getStructureWithPieceAt(pos, BuiltinStructures.END_CITY);
         if (!start.isValid()) {
             return false;
         }

@@ -28,6 +28,11 @@ repositories {
         url = 'file:///H:/AI_MC_Modding/Fundamentum/repo'
         content { includeGroup 'com.fundamentum' }
     }
+    maven {
+        name = 'JEI (BlameJared)'
+        url = 'https://maven.blamejared.com/'
+        content { includeGroup 'mezz.jei' }
+    }
 }
 
 // Ostentum shows off Fundamentum: mounts, summons, hooks, wings, moons and night events are Fundamentum's systems,
@@ -36,6 +41,9 @@ dependencies {
     implementation "com.fundamentum:fundamentum-neoforge:${fundamentum_version}"
     compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}:api"
     localRuntime "top.theillusivec4.curios:curios-neoforge:${curios_version}"
+    // JEI is optional: compiled against its API only (the rekindling category in compat/jei)
+    compileOnly "mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"
+    compileOnly "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"
 }
 
 neoForge {
@@ -56,6 +64,11 @@ neoForge {
             if (project.hasProperty('musictest')) {
                 systemProperty 'ostentum.musictest', 'true'
             }
+            // dev only, -Pshadershot[=tag]: ShaderShot screenshots the glowing whips, the grip and the moon skies, shaders off then on
+            if (project.hasProperty('shadershot')) {
+                systemProperty 'ostentum.shadershot', 'true'
+                systemProperty 'ostentum.shadershot.tag', project.property('shadershot').toString() ?: 'x'
+            }
             // dev only, -Pwhipshot: WhipShot screenshots each whip at rest and mid-swing, then closes
             if (project.hasProperty('whipshot')) {
                 systemProperty 'ostentum.whipshot', 'true'
@@ -63,6 +76,32 @@ neoForge {
             // dev only, -Pweaponshot: WeaponShot screenshots the 1.9.0 weapons held, worn and thrown, then closes
             if (project.hasProperty('weaponshot')) {
                 systemProperty 'ostentum.weaponshot', 'true'
+            }
+            // dev only, -Pnowplayingshot: NowPlayingShot shoots the Now Playing HUD, the record shelves and an enchanting table ringed by them, then closes
+            if (project.hasProperty('nowplayingshot')) {
+                systemProperty 'ostentum.nowplayingshot', 'true'
+                // its own game folder, so mods copied into run/mods for other tests (Iris, Sodium) stay out
+                gameDirectory = project.file('run/nowplaying')
+            }
+            // dev only, -Pthrowshot: ThrowShot shoots the thrown hatchet, slot returns, spear lightning and glaive beam, then closes
+            if (project.hasProperty('throwshot')) {
+                systemProperty 'ostentum.throwshot', 'true'
+            }
+            // dev only, -Ptooltipshot: TooltipShot checks and screenshots the folded Shift tooltips, then closes
+            if (project.hasProperty('tooltipshot')) {
+                systemProperty 'ostentum.tooltipshot', 'true'
+            }
+            // dev only, -Pveilshot: VeilShot films the Phantom Veil's cloth walking, sprinting, falling and crouching, then closes
+            if (project.hasProperty('veilshot')) {
+                systemProperty 'ostentum.veilshot', 'true'
+            }
+            // dev only, -Pzipshot: ZipShot films zipline rides (down, up, flat) and shoots the crossbow HUD at GUI scale 2-4, then closes
+            if (project.hasProperty('zipshot')) {
+                systemProperty 'ostentum.zipshot', 'true'
+            }
+            // dev only, -Pziphud: ZipShot skips the rides and shoots only the crossbow HUD
+            if (project.hasProperty('ziphud')) {
+                systemProperty 'ostentum.zipshot.hudonly', 'true'
             }
         }
         server {
@@ -92,6 +131,8 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
             mod_license            : mod_license,
             mod_version            : mod_version,
             fundamentum_range      : fundamentum_range,
+            // -Pnopendant holds the Record Pendant back (META-INF/ostentum-build.properties; its data is left out below)
+            with_pendant           : !project.hasProperty('nopendant'),
     ]
     inputs.properties replaceProperties
     expand replaceProperties
@@ -112,6 +153,18 @@ tasks.named('processResources') {
         pending.readLines().collect { it.trim() }.findAll { it && !it.startsWith('#') }.each { n ->
             exclude "assets/ostentum/**/${n}.*", "assets/ostentum/**/${n}_*"
         }
+    }
+}
+
+// -Pnopendant: ship without the Record Pendant. music/NowPlaying reads pendant=false from META-INF/ostentum-build.properties
+// and registers no item (so no creative tab entry); its recipe, model, texture and Curios data stay out of the jar too.
+tasks.named('processResources') {
+    def noPendant = project.hasProperty('nopendant')
+    inputs.property 'nopendant', noPendant
+    if (noPendant) {
+        exclude 'data/ostentum/recipe/record_pendant.json', 'data/curios/tags/item/necklace.json',
+            'data/ostentum/curios/entities/record_pendant.json', 'assets/ostentum/items/record_pendant.json',
+            'assets/ostentum/models/item/record_pendant.json', 'assets/ostentum/textures/item/record_pendant.png'
     }
 }
 

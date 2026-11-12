@@ -168,7 +168,7 @@ abstract class WeaponCrossbow extends CrossbowItem {
         if (pierce > 0) {
             arrow.setPierceLevel((byte) pierce);
         }
-        return customArrow(arrow);
+        return arrow;
     }
 
     /** Shoots {@code projectiles} at the given yaw offsets (degrees), one durability each (three for a firework), as vanilla's shoot does. */

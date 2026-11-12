@@ -1,0 +1,8 @@
+{
+  "item": "ostentum:diamond_hook",
+  "range": 20,
+  "shoot_speed": 1.6,
+  "pull_speed": 0.75,
+  "count": 1,
+  "texture": "ostentum:textures/entity/hook/diamond_hook.png"
+}

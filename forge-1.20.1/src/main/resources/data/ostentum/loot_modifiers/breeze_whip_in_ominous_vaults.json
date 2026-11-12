@@ -1,14 +1,11 @@
 {
-  "type": "neoforge:add_table",
+  "type": "ostentum:weapon_loot",
   "conditions": [
     {
-      "condition": "neoforge:loot_table_id",
-      "loot_table_id": "minecraft:chests/trial_chambers/reward_ominous"
-    },
-    {
-      "condition": "minecraft:random_chance",
-      "chance": 0.15
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:chests/woodland_mansion"
     }
   ],
-  "table": "ostentum:gameplay/breeze_whip_vault"
+  "item": "ostentum:breeze_whip",
+  "chance": 0.15
 }

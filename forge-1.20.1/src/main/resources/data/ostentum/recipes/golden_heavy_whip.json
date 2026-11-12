@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    " GB",
+    " WG",
+    "B  "
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:gold_ingot"
+    },
+    "B": {
+      "item": "minecraft:gold_block"
+    },
+    "W": {
+      "item": "ostentum:leather_whip"
+    }
+  },
+  "result": {
+    "item": "ostentum:golden_heavy_whip"
+  }
+}

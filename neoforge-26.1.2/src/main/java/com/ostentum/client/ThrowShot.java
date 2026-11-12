@@ -154,8 +154,8 @@ public final class ThrowShot {
             p.setItemInHand(InteractionHand.MAIN_HAND, glaive);
             say((glaive.hasFoil() ? "FAIL glint shows on" : "PASS no glint on") + " an enchanted glaive");
         }, new int[] {30}, p -> {}));
-        for (int far : new int[] {120, 300}) {
-            SCENES.add(new Scene("glaive-beam-" + far, CameraType.FIRST_PERSON, 0.0F, -12.0F, p -> plantAt(p, far), new int[] {60}, p -> {}));
+        for (int far : new int[] {120, 300, 16}) {
+            SCENES.add(new Scene("glaive-beam-" + far, CameraType.FIRST_PERSON, 0.0F, -12.0F, p -> plantAt(p, far), far < 50 ? new int[] {60, 63, 66} : new int[] {60}, p -> {}));
             SCENES.add(new Scene("glaive-beam-" + far + "-up", CameraType.FIRST_PERSON, 0.0F, -60.0F, p -> {}, new int[] {10}, p -> {}));
         }
         SCENES.add(new Scene("glaive-beam-night", CameraType.FIRST_PERSON, 0.0F, -12.0F, p -> command(p, "time set 18000"), new int[] {30}, p -> {}));
@@ -199,6 +199,15 @@ public final class ThrowShot {
             clear(p);
             p.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(RecallChime.CHIME.get()));
         }, new int[] {12, 70, 80, 130}, p -> p.setGameMode(GameType.CREATIVE)));
+    }
+
+    static {
+        // dev only, -Dostentum.throwshot.only=glaive-beam,...: keep just the scenes whose label starts with one of these
+        String only = System.getProperty("ostentum.throwshot.only", "");
+        if (!only.isBlank()) {
+            List<String> keep = List.of(only.split(","));
+            SCENES.removeIf(scene -> keep.stream().noneMatch(scene.label::startsWith));
+        }
     }
 
     private ThrowShot() {}
@@ -261,6 +270,8 @@ public final class ThrowShot {
 
     private static void plantAt(ServerPlayer p, int far) {
         clear(p);
+        // one column at a time: the glaives planted for earlier scenes come up again
+        p.level().getEntities(EntityType.ITEM_DISPLAY, e -> e.entityTags().contains("ostentum_glaive")).forEach(Entity::discard);
         ItemStack glaive = new ItemStack(PathfindersGlaive.GLAIVE.get());
         PathfindersGlaive.plant(p.level(), p, glaive, p.blockPosition().offset(0, 0, far));
         p.setItemInHand(InteractionHand.MAIN_HAND, glaive);

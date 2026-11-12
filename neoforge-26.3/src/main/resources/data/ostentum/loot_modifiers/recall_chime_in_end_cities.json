@@ -1,0 +1,9 @@
+{
+  "type": "ostentum:weapon_loot",
+  "condition": {
+    "type": "neoforge:loot_table_id",
+    "loot_table_id": "minecraft:chests/end_city_treasure"
+  },
+  "item": "ostentum:recall_chime",
+  "chance": 0.08
+}

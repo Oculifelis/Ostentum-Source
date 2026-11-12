@@ -61,6 +61,7 @@ public abstract class WeaponTrident {
             if (level instanceof ServerLevel server) {
                 stack.hurtAndBreak(1, player, e -> e.broadcastBreakEvent(player.getUsedItemHand()));
                 Thrown trident = Thrown.create(type.get(), server, player, stack.copyWithCount(1));
+                trident.origin = ReturnSlot.of(player, player.getUsedItemHand());
                 trident.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, SHOOT_POWER, 1.0F);
                 if (player.getAbilities().instabuild) {
                     trident.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
@@ -84,6 +85,8 @@ public abstract class WeaponTrident {
     public abstract static class Thrown extends ThrownTrident {
         private boolean landed;
         private boolean wet;
+        /** The inventory slot its thrower threw it from ({@link ReturnSlot}); picked up or returning, it goes back there. */
+        int origin = ReturnSlot.NONE;
 
         Thrown(EntityType<? extends Thrown> type, Level level) {
             super(type, level);
@@ -109,28 +112,63 @@ public abstract class WeaponTrident {
             return ((ThrownTridentAccess) this).ostentum$tridentItem();
         }
 
+        /** The thrower takes it back into the slot it left (loyalty's return or a pickup); anyone else as vanilla. */
+        @Override
+        protected boolean tryPickup(Player player) {
+            if (origin != ReturnSlot.NONE && ownedBy(player) && !player.getAbilities().instabuild
+                && (pickup == AbstractArrow.Pickup.ALLOWED || isNoPhysics())) {
+                return ReturnSlot.give(player, getPickupItem(), origin);
+            }
+            return super.tryPickup(player);
+        }
+
+        /** {@link #tryPickup} for the headless test. */
+        boolean pickUp(Player player) {
+            return tryPickup(player);
+        }
+
         abstract net.minecraft.world.item.Item item();
 
         @Override
         public void tick() {
-            super.tick();
+            SeaFx.SOUNDING.set(this);
+            try {
+                super.tick();
+            } finally {
+                SeaFx.SOUNDING.remove();
+            }
             if (level() instanceof ServerLevel level && !isRemoved()) {
                 if (!wet && isInWater()) {
                     wet = true;
+                    SeaFx.splash(level, this);
                     intoWater(level);
                 }
                 if (!landed && inGround) {
                     landed = true;
+                    SeaFx.land(level, this);
                     land(level);
                 }
+            } else if (level().isClientSide() && !isRemoved() && !inGround) {
+                SeaFx.trail(this);
             }
         }
 
         @Override
+        protected net.minecraft.sounds.SoundEvent getDefaultHitGroundSoundEvent() {
+            return SeaFx.style(this).hitGround();
+        }
+
+        @Override
         protected void onHitEntity(EntityHitResult hit) {
-            super.onHitEntity(hit);
+            SeaFx.SOUNDING.set(this);
+            try {
+                super.onHitEntity(hit);
+            } finally {
+                SeaFx.SOUNDING.remove();
+            }
             if (!landed && level() instanceof ServerLevel level) {
                 landed = true;
+                SeaFx.land(level, this);
                 land(level);
             }
         }

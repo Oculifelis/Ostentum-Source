@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    " SB",
+    " WS",
+    "G  "
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:slime_ball"
+    },
+    "B": {
+      "item": "minecraft:slime_block"
+    },
+    "W": {
+      "item": "ostentum:leather_whip"
+    },
+    "G": {
+      "item": "minecraft:gold_block"
+    }
+  },
+  "result": {
+    "item": "ostentum:royal_slime_whip"
+  }
+}

@@ -76,7 +76,8 @@ public final class AbyssalTrident {
 
     public static void field(ServerLevel level, Vec3 at, Entity owner) {
         FIELDS.add(new Field(level, at, owner, level.getGameTime() + FIELD));
-        level.playSound(null, net.minecraft.core.BlockPos.containing(at), SoundEvents.CONDUIT_ACTIVATE, SoundSource.PLAYERS, 0.8F, 0.6F);
+        level.playSound(null, net.minecraft.core.BlockPos.containing(at), com.ostentum.OstentumSounds.ABYSSAL_FIELD.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
+        SeaFx.abyssOpen(level, at, RADIUS);
     }
 
     private static void fields(ServerTickEvent.Post event) {
@@ -88,12 +89,7 @@ public final class AbyssalTrident {
                 continue;
             }
             if (level.getGameTime() % 4 == 0) {
-                for (int i = 0; i < 8; i++) {
-                    double a = i * Math.PI / 4 + level.getGameTime() * 0.05;
-                    level.sendParticles(ParticleTypes.SQUID_INK, field.at().x + Math.cos(a) * RADIUS, field.at().y + 0.2,
-                        field.at().z + Math.sin(a) * RADIUS, 1, 0, 0.05, 0, 0.0);
-                }
-                level.sendParticles(ParticleTypes.BUBBLE_POP, field.at().x, field.at().y + 0.8, field.at().z, 6, RADIUS / 2, 0.6, RADIUS / 2, 0.0);
+                SeaFx.abyssField(level, field.at(), RADIUS, level.getGameTime());
             }
             for (LivingEntity living : level.getEntitiesOfClass(LivingEntity.class, new AABB(field.at(), field.at()).inflate(RADIUS, 2.0, RADIUS))) {
                 if (living == field.owner() || living.distanceToSqr(field.at()) > RADIUS * RADIUS + 4) {
@@ -103,6 +99,9 @@ public final class AbyssalTrident {
                     living.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 20, 2));
                 }
                 drown(level, living);
+                if (level.getGameTime() % 4 == 0 && !living.canBreatheUnderwater()) {
+                    SeaFx.drowning(level, living);
+                }
             }
         }
     }

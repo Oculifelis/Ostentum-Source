@@ -1,0 +1,9 @@
+{
+  "type": "ostentum:weapon_loot",
+  "condition": {
+    "type": "neoforge:loot_table_id",
+    "loot_table_id": "minecraft:chests/trial_chambers/reward"
+  },
+  "item": "ostentum:weathervane_spear",
+  "chance": 0.05
+}
