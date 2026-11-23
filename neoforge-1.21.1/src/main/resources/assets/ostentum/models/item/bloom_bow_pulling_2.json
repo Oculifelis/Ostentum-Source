@@ -1,6 +1,0 @@
-{
-  "parent": "ostentum:item/bloom_bow",
-  "textures": {
-    "layer0": "ostentum:item/bloom_bow_pulling_2"
-  }
-}

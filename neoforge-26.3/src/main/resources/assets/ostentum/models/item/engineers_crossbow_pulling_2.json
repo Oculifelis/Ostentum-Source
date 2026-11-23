@@ -1,6 +1,0 @@
-{
-  "parent": "ostentum:item/engineers_crossbow",
-  "textures": {
-    "layer0": "ostentum:item/engineers_crossbow_pulling_2"
-  }
-}
