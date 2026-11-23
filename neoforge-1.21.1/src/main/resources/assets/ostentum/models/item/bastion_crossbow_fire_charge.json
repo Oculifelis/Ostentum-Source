@@ -1,6 +1,0 @@
-{
-  "parent": "ostentum:item/bastion_crossbow",
-  "textures": {
-    "layer0": "ostentum:item/bastion_crossbow_fire_charge"
-  }
-}
