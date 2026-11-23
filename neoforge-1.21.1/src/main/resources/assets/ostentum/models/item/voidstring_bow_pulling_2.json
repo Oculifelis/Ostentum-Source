@@ -1,6 +1,0 @@
-{
-  "parent": "ostentum:item/voidstring_bow",
-  "textures": {
-    "layer0": "ostentum:item/voidstring_bow_pulling_2"
-  }
-}
