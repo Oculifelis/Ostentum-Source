@@ -1,5 +1,6 @@
 package com.ostentum.whip.more;
 
+import com.ostentum.whip.WhipAbilities;
 import com.fundamentum.whip.WhipCordFx;
 import com.fundamentum.whip.WhipDefinition;
 import com.fundamentum.whip.WhipFx;
@@ -56,12 +57,12 @@ public final class ThunderstormWhip {
                         return;
                     }
                     List<LivingEntity> chain = new ArrayList<>(List.of(first));
-                    first.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 20, 4), hit.player);
+                    first.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, WhipAbilities.get("thunderstorm_whip", "stun_ticks", 20), WhipAbilities.get("thunderstorm_whip", "stun_amplifier", 4)), hit.player);
                     LivingEntity from = first;
-                    float damage = 5.0F;
-                    for (int hop = 0; hop < HOPS; hop++) {
+                    float damage = WhipAbilities.get("thunderstorm_whip", "first_damage", 5.0F);
+                    for (int hop = 0; hop < WhipAbilities.get("thunderstorm_whip", "hops", HOPS); hop++) {
                         LivingEntity next = null;
-                        for (LivingEntity e : WhipFx.hostilesNear(hit.player, from.getBoundingBox().getCenter(), HOP_RANGE)) {
+                        for (LivingEntity e : WhipFx.hostilesNear(hit.player, from.getBoundingBox().getCenter(), WhipAbilities.get("thunderstorm_whip", "hop_range", HOP_RANGE))) {
                             if (!chain.contains(e) && inSight(level, from, e)) {
                                 next = e;
                                 break;
@@ -73,12 +74,12 @@ public final class ThunderstormWhip {
                         Vec3 a = from.getBoundingBox().getCenter(), b = next.getBoundingBox().getCenter();
                         WhipFx.beam(level, a, b, ARC, 0.1F, 6, true);
                         if (next.hurtServer(level, level.damageSources().lightningBolt(), damage)) {
-                            next.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 20, 4), hit.player);
+                            next.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, WhipAbilities.get("thunderstorm_whip", "stun_ticks", 20), WhipAbilities.get("thunderstorm_whip", "stun_amplifier", 4)), hit.player);
                         }
                         level.sendParticles(ParticleTypes.ELECTRIC_SPARK, b.x, b.y, b.z, 8, 0.2, 0.3, 0.2, 0.1);
                         chain.add(next);
                         from = next;
-                        damage = Math.max(2.0F, damage - 0.75F);
+                        damage = Math.max(WhipAbilities.get("thunderstorm_whip", "min_damage", 2.0F), damage - WhipAbilities.get("thunderstorm_whip", "damage_drop", 0.75F));
                     }
                     level.playSound(null, first.getX(), first.getY(), first.getZ(), SoundEvents.LIGHTNING_BOLT_IMPACT, SoundSource.PLAYERS, 0.5F, 1.4F);
                 }

@@ -1,5 +1,6 @@
 package com.ostentum.whip.more;
 
+import com.ostentum.whip.WhipAbilities;
 import com.fundamentum.whip.WhipDefinition;
 import com.fundamentum.whip.WhipHit;
 import com.fundamentum.whip.WhipHooks;
@@ -33,7 +34,7 @@ public final class RoyalSlimeWhip {
     /** The player's current stacks (0 once three seconds pass without a hit). */
     public static int stacks(ServerPlayer player) {
         Stacks s = STACKS.get(player.getUUID());
-        return s == null || player.level().getGameTime() - s.lastHit() > STACK_TICKS ? 0 : s.count();
+        return s == null || player.level().getGameTime() - s.lastHit() > WhipAbilities.get("royal_slime_whip", "stack_ticks", STACK_TICKS) ? 0 : s.count();
     }
 
     static WhipDefinition definition() {
@@ -47,7 +48,7 @@ public final class RoyalSlimeWhip {
                 public void swingStart(ServerPlayer player, ItemStack stack, WhipDefinition whip) {
                     int n = stacks(player);
                     if (n > 0) {
-                        player.getCooldowns().addCooldown(stack, Math.max(4, BASE_COOLDOWN - 2 * n));
+                        player.getCooldowns().addCooldown(stack, Math.max(WhipAbilities.get("royal_slime_whip", "min_cooldown", 4), BASE_COOLDOWN - WhipAbilities.get("royal_slime_whip", "cooldown_per_stack", 2) * n));
                     }
                 }
 
@@ -57,9 +58,9 @@ public final class RoyalSlimeWhip {
                         return;
                     }
                     long now = hit.player.level().getGameTime();
-                    STACKS.put(hit.player.getUUID(), new Stacks(Math.min(MAX_STACKS, stacks(hit.player) + 1), now));
+                    STACKS.put(hit.player.getUUID(), new Stacks(Math.min(WhipAbilities.get("royal_slime_whip", "max_stacks", MAX_STACKS), stacks(hit.player) + 1), now));
                     if (hit.living() != null) {
-                        hit.living().push(0, 0.35, 0);
+                        hit.living().push(0, WhipAbilities.get("royal_slime_whip", "lift", 0.35), 0);
                         hit.living().syncVelocity = true;
                     }
                     if (hit.player.level() instanceof ServerLevel level) {
