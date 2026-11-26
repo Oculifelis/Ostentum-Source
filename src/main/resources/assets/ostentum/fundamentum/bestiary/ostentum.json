@@ -1,0 +1,17 @@
+{
+  "title": "bestiary.ostentum",
+  "icon": "ostentum:bottled_dragonling",
+  "exclude": [
+    "ostentum:puff"
+  ],
+  "sources": {
+    "ostentum:dragonling": "ostentum:bottled_dragonling",
+    "ostentum:sky_dolphin": "ostentum:pink_pearl",
+    "ostentum:bite_bat": "ostentum:bat_wing",
+    "ostentum:guardian_totem": "ostentum:guardian_totem"
+  },
+  "zoom": {
+    "ostentum:dragonling": 0.45,
+    "ostentum:sky_dolphin": 0.55
+  }
+}

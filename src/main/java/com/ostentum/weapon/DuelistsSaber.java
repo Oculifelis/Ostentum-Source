@@ -59,15 +59,6 @@ public final class DuelistsSaber {
     static void init() {
         MinecraftForge.EVENT_BUS.addListener(DuelistsSaber::incoming);
         MinecraftForge.EVENT_BUS.addListener(DuelistsSaber::riposte);
-        MinecraftForge.EVENT_BUS.addListener(DuelistsSaber::trade);
-    }
-
-    /** A master weaponsmith sells it: 28 emeralds, 3 uses, 30 xp (26.x's villager_trade/weaponsmith/5 data, an event on 1.21.1). */
-    private static void trade(net.minecraftforge.event.village.VillagerTradesEvent event) {
-        if (event.getType() == net.minecraft.world.entity.npc.VillagerProfession.WEAPONSMITH) {
-            event.getTrades().get(5).add((trader, random) -> new net.minecraft.world.item.trading.MerchantOffer(
-                new ItemStack(net.minecraft.world.item.Items.EMERALD, 28), new ItemStack(SABER.get()), 3, 30, 0.2F));
-        }
     }
 
     static final class Saber extends Item {

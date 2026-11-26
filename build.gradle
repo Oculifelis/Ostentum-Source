@@ -29,7 +29,7 @@ minecraft {
     copyIdeResources = true
     runs {
         configureEach {
-            workingDirectory project.file('run')
+            workingDirectory project.file(project.hasProperty('compatserver') ? 'run-compatserver' : 'run')
             property 'forge.logging.console.level', 'info'
             // lets mixin mods such as Curios and Fundamentum run in the dev environment
             property 'mixin.env.remapRefMap', 'true'
@@ -74,6 +74,16 @@ repositories {
         url = project.findProperty('fundamentum_repo') ?: 'file:///H:/AI_MC_Modding/Fundamentum/repo'
         content { includeGroup 'com.fundamentum' }
     }
+    maven {
+        name = 'Modrinth (Jade, for the -Pcompatserver sweep only)'
+        url = 'https://api.modrinth.com/maven'
+        content { includeGroup 'maven.modrinth' }
+    }
+    maven {
+        name = 'JEI (BlameJared, for the -Pcompatserver sweep only)'
+        url = 'https://maven.blamejared.com/'
+        content { includeGroup 'mezz.jei'; includeGroup 'net.mezzdev.config' }
+    }
 }
 
 // Ostentum shows off Fundamentum: mounts, summons, hooks, wings, moons and night events are Fundamentum's systems,
@@ -86,6 +96,11 @@ dependencies {
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
     runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+    // -Pcompatserver: the dedicated-server sweep loads every optional compat (JEI and Jade; Patchouli is always on)
+    if (project.hasProperty('compatserver')) {
+        runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge:15.71.0.224")
+        runtimeOnly fg.deobf("maven.modrinth:jade:11.13.3+forge")
+    }
 }
 
 tasks.named('processResources', ProcessResources).configure {

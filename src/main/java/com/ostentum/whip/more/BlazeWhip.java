@@ -1,5 +1,6 @@
 package com.ostentum.whip.more;
 
+import com.ostentum.whip.WhipAbilities;
 import com.ostentum.Props;
 import com.fundamentum.whip.WhipCordFx;
 import com.fundamentum.whip.WhipDefinition;
@@ -50,7 +51,7 @@ public final class BlazeWhip {
                 @Override
                 public void cordHit(WhipHit hit) {
                     if (hit.target.isOnFire()) {
-                        hit.damage *= (float) BURNING_BONUS;
+                        hit.damage *= (float) WhipAbilities.get("blaze_whip", "burning_bonus", BURNING_BONUS);
                     }
                 }
 
@@ -58,7 +59,7 @@ public final class BlazeWhip {
                 public void landed(WhipHit hit, boolean hurt) {
                     LivingEntity target = hit.living();
                     if (hurt && target != null && !target.fireImmune()) {
-                        target.setSecondsOnFire(4);
+                        target.setSecondsOnFire(WhipAbilities.get("blaze_whip", "burn_seconds", 4));
                         if (hit.player.level() instanceof ServerLevel level) {
                             level.sendParticles(ParticleTypes.FLAME, hit.contact.x, hit.contact.y, hit.contact.z, 8, 0.2, 0.3, 0.2, 0.02);
                         }

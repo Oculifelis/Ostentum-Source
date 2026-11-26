@@ -1,5 +1,6 @@
 package com.ostentum.whip.more;
 
+import com.ostentum.whip.WhipAbilities;
 import com.ostentum.Props;
 import com.fundamentum.whip.WhipCordFx;
 import com.fundamentum.whip.WhipDefinition;
@@ -44,10 +45,10 @@ public final class DestructionWhip {
                 public void crack(ServerPlayer player, ItemStack stack, WhipDefinition whip, Vec3 tip) {
                     Vec3 hand = Whips.hand(player, 1.0F);
                     List<LivingEntity> taken = new ArrayList<>();
-                    for (int i = 1; i <= 4; i++) {
-                        Vec3 from = hand.lerp(tip, i / 4.0);
+                    for (int i = 1, n = WhipAbilities.get("destruction_whip", "lasers", 4); i <= n; i++) {
+                        Vec3 from = hand.lerp(tip, i / (double) n);
                         LivingEntity target = null;
-                        for (LivingEntity e : WhipFx.hostilesNear(player, from, 8)) {
+                        for (LivingEntity e : WhipFx.hostilesNear(player, from, WhipAbilities.get("destruction_whip", "range", 8.0))) {
                             if (!taken.contains(e) && player.level().clip(new net.minecraft.world.level.ClipContext(from,
                                 e.getBoundingBox().getCenter(), net.minecraft.world.level.ClipContext.Block.COLLIDER,
                                 net.minecraft.world.level.ClipContext.Fluid.NONE, player)).getType() == net.minecraft.world.phys.HitResult.Type.MISS) {
@@ -60,8 +61,8 @@ public final class DestructionWhip {
                         }
                         taken.add(target);
                         WhipFx.beam((net.minecraft.server.level.ServerLevel) player.level(), from, target.getBoundingBox().getCenter(), RED, 0.14F, 6, false);
-                        if (target.hurt(whip.damage.make(player, stack), LASER_DAMAGE)) {
-                            target.setSecondsOnFire(2);
+                        if (target.hurt(whip.damage.make(player, stack), WhipAbilities.get("destruction_whip", "laser_damage", LASER_DAMAGE))) {
+                            target.setSecondsOnFire(WhipAbilities.get("destruction_whip", "burn_seconds", 2));
                         }
                     }
                     if (!taken.isEmpty()) {

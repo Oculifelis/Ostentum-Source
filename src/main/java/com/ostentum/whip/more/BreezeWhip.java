@@ -1,5 +1,6 @@
 package com.ostentum.whip.more;
 
+import com.ostentum.whip.WhipAbilities;
 import com.ostentum.Props;
 import com.fundamentum.whip.WhipCordFx;
 import com.fundamentum.whip.WhipDefinition;
@@ -50,7 +51,8 @@ public final class BreezeWhip {
                     double resist = 1.0 - target.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE);
                     Vec3 away = target.position().subtract(hit.player.position());
                     away = new Vec3(away.x, 0, away.z).lengthSqr() < 1.0E-4 ? hit.player.getLookAngle() : new Vec3(away.x, 0, away.z).normalize();
-                    target.push(away.x * 0.8 * resist, 0.5 * resist, away.z * 0.8 * resist);
+                    target.push(away.x * WhipAbilities.get("breeze_whip", "push", 0.8) * resist, WhipAbilities.get("breeze_whip", "lift", 0.5) * resist,
+                        away.z * WhipAbilities.get("breeze_whip", "push", 0.8) * resist);
                     target.hurtMarked = true;
                     level.sendParticles(ParticleTypes.EXPLOSION, hit.contact.x, hit.contact.y, hit.contact.z, 1, 0, 0, 0, 0);
                     level.playSound(null, hit.contact.x, hit.contact.y, hit.contact.z, SoundEvents.FIRECHARGE_USE, SoundSource.PLAYERS, 0.7F, 1.2F);

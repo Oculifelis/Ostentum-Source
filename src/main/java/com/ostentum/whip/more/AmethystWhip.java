@@ -1,5 +1,6 @@
 package com.ostentum.whip.more;
 
+import com.ostentum.whip.WhipAbilities;
 import com.ostentum.Props;
 import com.fundamentum.whip.WhipDefinition;
 import com.fundamentum.whip.WhipFx;
@@ -40,10 +41,10 @@ public final class AmethystWhip {
                     Vec3 on = target.position().subtract(hit.player.position());
                     on = new Vec3(on.x, 0, on.z).lengthSqr() < 1.0E-4 ? hit.player.getLookAngle() : on.normalize();
                     Vec3 from = hit.contact.add(on.scale(target.getBbWidth() * 0.6 + 0.2));
-                    for (int i = 0; i < 5; i++) {
-                        double a = (i - 2) * 0.35;
+                    for (int i = 0, n = WhipAbilities.get("amethyst_whip", "shards", 5); i < n; i++) {
+                        double a = (i - (n - 1) / 2.0) * WhipAbilities.get("amethyst_whip", "spread", 0.35);
                         Vec3 dir = new Vec3(on.x * Math.cos(a) - on.z * Math.sin(a), 0.08, on.x * Math.sin(a) + on.z * Math.cos(a));
-                        WhipFx.bolt(hit.player, from, dir, null, WhipFx.BoltSpec.shard(3.0F, PURPLE), hit.whip.damage.make(hit.player, hit.stack), null);
+                        WhipFx.bolt(hit.player, from, dir, null, WhipFx.BoltSpec.shard(WhipAbilities.get("amethyst_whip", "shard_speed", 3.0F), PURPLE), hit.whip.damage.make(hit.player, hit.stack), null);
                     }
                     hit.player.level().playSound(null, from.x, from.y, from.z, SoundEvents.AMETHYST_CLUSTER_BREAK, SoundSource.PLAYERS, 1.0F, 1.2F);
                 }
