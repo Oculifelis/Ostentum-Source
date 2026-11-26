@@ -1,5 +1,6 @@
 package com.ostentum.whip.more;
 
+import com.ostentum.whip.WhipAbilities;
 import com.fundamentum.whip.WhipDefinition;
 import com.fundamentum.whip.WhipFx;
 import com.fundamentum.whip.WhipHooks;
@@ -31,13 +32,13 @@ public final class EmeraldWhip {
             .hooks(new WhipHooks() {
                 @Override
                 public void crack(ServerPlayer player, ItemStack stack, WhipDefinition whip, Vec3 tip) {
-                    List<LivingEntity> near = WhipFx.hostilesNear(player, tip, 10);
+                    List<LivingEntity> near = WhipFx.hostilesNear(player, tip, WhipAbilities.get("emerald_whip", "range", 10.0));
                     Vec3 look = player.getLookAngle();
-                    for (int i = 0; i < 3; i++) {
+                    for (int i = 0, n = WhipAbilities.get("emerald_whip", "bolts", 3); i < n; i++) {
                         LivingEntity target = near.isEmpty() ? null : near.get(i % near.size());
-                        double a = (i - 1) * 0.6;
+                        double a = (i - (n - 1) / 2.0) * WhipAbilities.get("emerald_whip", "spread", 0.6);
                         Vec3 dir = new Vec3(look.x * Math.cos(a) - look.z * Math.sin(a), look.y + 0.25, look.x * Math.sin(a) + look.z * Math.cos(a));
-                        WhipFx.bolt(player, tip, dir, target, WhipFx.BoltSpec.homing(4.0F, GREEN), whip.damage.make(player, stack), null);
+                        WhipFx.bolt(player, tip, dir, target, WhipFx.BoltSpec.homing(WhipAbilities.get("emerald_whip", "bolt_speed", 4.0F), GREEN), whip.damage.make(player, stack), null);
                     }
                     player.level().playSound(null, tip.x, tip.y, tip.z, SoundEvents.AMETHYST_CLUSTER_BREAK, SoundSource.PLAYERS, 0.8F, 1.6F);
                 }

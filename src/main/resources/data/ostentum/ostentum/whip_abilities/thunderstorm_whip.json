@@ -1,0 +1,10 @@
+{
+  "whip": "ostentum:thunderstorm_whip",
+  "hops": 5,
+  "hop_range": 5.0,
+  "first_damage": 5.0,
+  "damage_drop": 0.75,
+  "min_damage": 2.0,
+  "stun_ticks": 20,
+  "stun_amplifier": 4
+}

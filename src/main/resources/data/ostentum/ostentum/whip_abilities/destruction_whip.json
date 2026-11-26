@@ -1,0 +1,7 @@
+{
+  "whip": "ostentum:destruction_whip",
+  "lasers": 4,
+  "range": 8.0,
+  "laser_damage": 5.0,
+  "burn_seconds": 2
+}
