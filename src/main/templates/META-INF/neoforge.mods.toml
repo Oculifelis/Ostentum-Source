@@ -1,11 +1,13 @@
 modLoader="javafml"
 loaderVersion="[1,)"
 license="${mod_license}"
+issueTrackerURL="https://github.com/Oculifelis/Ostentum-Source/issues"
 
 [[mods]]
 modId="${mod_id}"
 version="${mod_version}"
 displayName="${mod_name}"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/ostentum"
 authors="Oculifelis"
 credits="By Oculifelis: code, the music and the hand-drawn art. Some weapon textures are modified from Malcolm Riley's Unused Textures (github.com/malcolmriley/unused-textures, CC BY 4.0). The Delver's Pick is based on Rhodox's Painterly pack, used with permission. Many item textures are recoloured from Minecraft's own (Mojang)."
 logoFile="ostentum_logo.png"

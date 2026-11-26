@@ -1,0 +1,9 @@
+{
+  "profession": "minecraft:weaponsmith",
+  "level": 5,
+  "wants": {"item": "minecraft:emerald", "count": 28},
+  "gives": {"item": "ostentum:duelists_saber"},
+  "max_uses": 3,
+  "xp": 30,
+  "price_multiplier": 0.2
+}

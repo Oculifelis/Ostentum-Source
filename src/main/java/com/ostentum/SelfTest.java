@@ -59,6 +59,39 @@ public final class SelfTest {
 
     private static int failed;
 
+
+    private static long ostentumItemStats() {
+        return com.fundamentum.item.ItemStats.TABLE.rawEntries().keySet().stream().filter(k -> k.getNamespace().equals("ostentum")).count();
+    }
+
+    /** Items whose applied (data) main-hand damage/speed differ from the values their code builds, as "name a/b vs c/d". */
+    private static String weaponStatsOff(Item[] items) {
+        StringBuilder off = new StringBuilder();
+        for (Item item : items) {
+            double[] applied = weaponStats(new ItemStack(item), false);
+            double[] code = weaponStats(new ItemStack(item), true);
+            if (Math.abs(applied[0] - code[0]) > 1e-4 || Math.abs(applied[1] - code[1]) > 1e-4) {
+                off.append(off.length() == 0 ? "" : ", ").append(item).append(' ').append(applied[0]).append('/').append(applied[1])
+                    .append(" vs ").append(code[0]).append('/').append(code[1]);
+            }
+        }
+        return off.toString();
+    }
+
+    /** Main-hand attack damage and speed totals (player base 1 and 4 included); {@code code} reads the item's own component. */
+    private static double[] weaponStats(ItemStack stack, boolean code) {
+        net.minecraft.world.item.component.ItemAttributeModifiers mods = code
+            ? stack.getItem().components().getOrDefault(net.minecraft.core.component.DataComponents.ATTRIBUTE_MODIFIERS,
+                net.minecraft.world.item.component.ItemAttributeModifiers.EMPTY)
+            : stack.getAttributeModifiers();
+        double damage = 1, speed = 4;
+        for (var e : mods.modifiers()) {
+            if (e.slot() != net.minecraft.world.entity.EquipmentSlotGroup.MAINHAND) continue;
+            if (e.attribute().equals(net.minecraft.world.entity.ai.attributes.Attributes.ATTACK_DAMAGE)) damage += e.modifier().amount();
+            if (e.attribute().equals(net.minecraft.world.entity.ai.attributes.Attributes.ATTACK_SPEED)) speed += e.modifier().amount();
+        }
+        return new double[] {damage, speed};
+    }
     private static void check(String what, boolean ok) {
         if (!ok) {
             failed++;
@@ -165,7 +198,7 @@ public final class SelfTest {
                 check("curios tag " + slot + " has " + n, n > 0);
             }
             long recipes = server.getRecipeManager().getRecipes().stream().filter(r -> r.id().getNamespace().equals("ostentum")).count();
-            check("recipes loaded: " + recipes, recipes == 56 + (com.ostentum.music.NowPlaying.PENDANT_ON ? 1 : 0));   // the pendant's recipe is left out of a -Pnopendant build
+            check("recipes loaded: " + recipes, recipes == 58 + (com.ostentum.music.NowPlaying.PENDANT_ON ? 1 : 0));   // the pendant's recipe is left out of a -Pnopendant build
             // the six base whips are Fundamentum whips with their own lengths; the Ender Whip's loot needs an End ship
             List<net.neoforged.neoforge.registries.DeferredItem<Item>> whips = new java.util.ArrayList<>(List.of(com.ostentum.whip.OstentumWhips.VINE_WHIP,
                 com.ostentum.whip.OstentumWhips.WEEPING_VINE_WHIP, com.ostentum.whip.OstentumWhips.TWISTING_VINE_WHIP,
@@ -178,6 +211,34 @@ public final class SelfTest {
             }
             TagKey<Item> whipTag = TagKey.create(Registries.ITEM, net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("fundamentum", "whips"));
             check("all 18 whips in #fundamentum:whips", whips.stream().allMatch(w -> new ItemStack(w.get()).is(whipTag)) && whips.size() == 18);
+            // whip ability numbers come from data/ostentum/ostentum/whip_abilities; the test run adds a world pack
+            // (ostentum_test) that overrides the Thunderstorm Whip's hop count
+            check("whip ability table ships " + com.ostentum.whip.WhipAbilities.TABLE.rawEntries().size() + " whips", com.ostentum.whip.WhipAbilities.TABLE.rawEntries().size() == 16);
+            check("shipped whip ability value read (blaze burn " + com.ostentum.whip.WhipAbilities.get("blaze_whip", "burn_seconds", -1) + ")",
+                com.ostentum.whip.WhipAbilities.get("blaze_whip", "burn_seconds", -1) == 4);
+            check("datapack whip ability override wins (thunderstorm hops " + com.ostentum.whip.WhipAbilities.get("thunderstorm_whip", "hops", -1)
+                + ", range " + com.ostentum.whip.WhipAbilities.get("thunderstorm_whip", "hop_range", -1.0) + ")",
+                com.ostentum.whip.WhipAbilities.get("thunderstorm_whip", "hops", -1) == 7 && com.ostentum.whip.WhipAbilities.get("thunderstorm_whip", "hop_range", -1.0) == 5.0);
+            // weapon attack values ship as Fundamentum item_stats (data/ostentum/fundamentum/item_stats); the test
+            // pack (ostentum_test) sets the Echo Blade to 20 damage
+            check("weapon item_stats ship " + ostentumItemStats() + " weapons", ostentumItemStats() == 10);
+            String statsOff = weaponStatsOff(new Item[] {com.ostentum.weapon.DuelistsSaber.SABER.get(), com.ostentum.weapon.Hearthblade.HEARTHBLADE.get(), com.ostentum.weapon.Hearthblade.SOUL.get(), com.ostentum.weapon.FrostbiteHatchet.HATCHET.get(), com.ostentum.weapon.DelversPick.PICK.get(), com.ostentum.weapon.DelversPick.DORMANT.get(), com.ostentum.weapon.DelversPick.SHOVEL.get(), com.ostentum.weapon.DelversPick.DORMANT_SHOVEL.get(), com.ostentum.weapon.QuakeHammer.HAMMER.get()});
+            check("shipped weapon item_stats match the code values" + (statsOff.isEmpty() ? "" : ": " + statsOff), statsOff.isEmpty());
+            double[] echo = weaponStats(new ItemStack(com.ostentum.weapon.EchoBlade.BLADE.get()), false);
+            check("datapack weapon item_stats override wins (echo blade " + echo[0] + " " + echo[1] + ")", Math.abs(echo[0] - 20) < 1e-6 && Math.abs(echo[1] - 1.6) < 1e-6);
+            // the saber trade ships as Fundamentum trades data (data/ostentum/fundamentum/trades); the test pack sets 9 emeralds
+            check("saber trade ships as data", com.fundamentum.trade.Trades.TABLE.rawEntries().keySet().stream()
+                .anyMatch(k -> k.getNamespace().equals("ostentum") && k.getPath().endsWith("duelists_saber")));
+            int saberPrice = -1;
+            var tradeVillager = new net.minecraft.world.entity.npc.Villager(net.minecraft.world.entity.EntityType.VILLAGER, server.overworld());
+            for (var listing : net.minecraft.world.entity.npc.VillagerTrades.TRADES.get(net.minecraft.world.entity.npc.VillagerProfession.WEAPONSMITH).get(5)) {
+                try {
+                    var offer = listing.getOffer(tradeVillager, server.overworld().random);
+                    if (offer != null && offer.getResult().is(com.ostentum.weapon.DuelistsSaber.SABER.get())) saberPrice = offer.getBaseCostA().getCount();
+                } catch (RuntimeException ignored) {
+                }
+            }
+            check("datapack saber trade override wins (" + saberPrice + " emeralds)", saberPrice == 9);
             check("no End ship at 0 64 0 in the overworld", !com.ostentum.whip.EndShipLoot.onShip(level, new BlockPos(0, 64, 0)));
             // Thunderstorm Whip (1.8.5): its arcs need a clear line from one creature to the next
             {

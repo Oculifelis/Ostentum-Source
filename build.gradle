@@ -31,7 +31,12 @@ repositories {
     maven {
         name = 'JEI (BlameJared)'
         url = 'https://maven.blamejared.com/'
-        content { includeGroup 'mezz.jei' }
+        content { includeGroup 'mezz.jei'; includeGroup 'net.mezzdev.config' }
+    }
+    maven {
+        name = 'Modrinth (Jade, for the -Pcompatserver sweep only)'
+        url = 'https://api.modrinth.com/maven'
+        content { includeGroup 'maven.modrinth' }
     }
 }
 
@@ -44,6 +49,11 @@ dependencies {
     // JEI is optional: compiled against its API only (the rekindling category in compat/jei)
     compileOnly "mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"
     compileOnly "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"
+    // -Pcompatserver: the dedicated-server sweep loads every optional compat (JEI's full jar and Jade)
+    if (project.hasProperty('compatserver')) {
+        localRuntime "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
+        localRuntime "maven.modrinth:jade:15.10.6+neoforge"
+    }
 }
 
 neoForge {
@@ -66,6 +76,9 @@ neoForge {
             programArgument '--nogui'
             // dev quick test only: SelfTest runs its checks once the server starts, then stops it
             systemProperty 'ostentum.selftest', 'true'
+            if (project.hasProperty('compatserver')) {
+                gameDirectory = project.file('run-compatserver')
+            }
         }
         configureEach {
             logLevel = org.slf4j.event.Level.INFO

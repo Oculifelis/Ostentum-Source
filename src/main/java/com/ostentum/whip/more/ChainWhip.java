@@ -1,5 +1,6 @@
 package com.ostentum.whip.more;
 
+import com.ostentum.whip.WhipAbilities;
 import com.ostentum.Props;
 import com.fundamentum.whip.WhipDefinition;
 import com.fundamentum.whip.WhipHit;
@@ -32,7 +33,7 @@ public final class ChainWhip {
                 public void landed(WhipHit hit, boolean hurt) {
                     LivingEntity target = hit.living();
                     if (hurt && hit.tip && target != null) {
-                        target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 1), hit.player);
+                        target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, WhipAbilities.get("chain_whip", "slowness_ticks", 40), WhipAbilities.get("chain_whip", "slowness_amplifier", 1)), hit.player);
                     }
                 }
             })
