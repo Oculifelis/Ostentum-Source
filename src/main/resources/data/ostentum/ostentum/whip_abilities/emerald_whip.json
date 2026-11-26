@@ -1,0 +1,7 @@
+{
+  "whip": "ostentum:emerald_whip",
+  "bolts": 3,
+  "range": 10.0,
+  "spread": 0.6,
+  "bolt_speed": 4.0
+}

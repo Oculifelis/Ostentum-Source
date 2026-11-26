@@ -1,5 +1,6 @@
 package com.ostentum.whip.more;
 
+import com.ostentum.whip.WhipAbilities;
 import com.fundamentum.whip.WhipCordFx;
 import com.fundamentum.whip.WhipDefinition;
 import com.fundamentum.whip.WhipHit;
@@ -51,7 +52,7 @@ public final class UntamedSeaWhip {
                     LivingEntity target = hit.living();
                     if (hurt && target != null) {
                         target.clearFire();
-                        target.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 30, 0), hit.player);
+                        target.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, WhipAbilities.get("untamed_sea_whip", "slowness_ticks", 30), WhipAbilities.get("untamed_sea_whip", "slowness_amplifier", 0)), hit.player);
                     }
                 }
 

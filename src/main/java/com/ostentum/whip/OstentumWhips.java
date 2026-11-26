@@ -49,6 +49,7 @@ public final class OstentumWhips {
     }
 
     public static void init(IEventBus modBus) {
+        WhipAbilities.init();
         LOOT_MODIFIERS.register(modBus);
         register("vine_whip", vine());
         register("weeping_vine_whip", weeping());
@@ -94,8 +95,8 @@ public final class OstentumWhips {
                     LivingEntity target = hit.living();
                     if (hurt && hit.tip && target != null) {
                         double resist = 1.0 - target.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE);
-                        Vec3 pull = hit.player.position().subtract(target.position()).normalize().scale(0.9 * resist);
-                        target.push(pull.x, 0.25 * resist, pull.z);
+                        Vec3 pull = hit.player.position().subtract(target.position()).normalize().scale(WhipAbilities.get("vine_whip", "pull", 0.9) * resist);
+                        target.push(pull.x, WhipAbilities.get("vine_whip", "lift", 0.25) * resist, pull.z);
                         target.hurtMarked = true;
                     }
                 }
@@ -118,7 +119,7 @@ public final class OstentumWhips {
                 @Override
                 public void landed(WhipHit hit, boolean hurt) {
                     if (hurt && hit.living() != null) {
-                        hit.player.heal(hit.tip ? 2.0F : 1.0F);
+                        hit.player.heal(hit.tip ? WhipAbilities.get("weeping_vine_whip", "tip_heal", 2.0F) : WhipAbilities.get("weeping_vine_whip", "heal", 1.0F));
                     }
                 }
             })
@@ -142,7 +143,7 @@ public final class OstentumWhips {
                     LivingEntity target = hit.living();
                     if (hurt && hit.tip && target != null) {
                         double resist = 1.0 - target.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE);
-                        target.push(0, 0.85 * resist, 0);
+                        target.push(0, WhipAbilities.get("twisting_vine_whip", "lift", 0.85) * resist, 0);
                         target.hurtMarked = true;
                     }
                 }
@@ -167,7 +168,7 @@ public final class OstentumWhips {
                 public void landed(WhipHit hit, boolean hurt) {
                     LivingEntity target = hit.living();
                     if (hurt && target != null) {
-                        Glows.apply(target, GLOW_BERRY, 160);
+                        Glows.apply(target, GLOW_BERRY, WhipAbilities.get("glow_berry_whip", "glow_ticks", 160));
                     }
                 }
             })
@@ -185,7 +186,7 @@ public final class OstentumWhips {
             .coiled().texture(lash("silk_whip")).width(0.07F, 0.03F)
             .sounds(SoundEvents.PLAYER_ATTACK_SWEEP, SoundEvents.SPIDER_STEP)
             .crackParticle(ParticleTypes.WHITE_ASH)
-            .hooks(onHit(MobEffects.SLOWNESS, 40, 1, false))
+            .hooks(onHit("silk_whip", MobEffects.SLOWNESS, 40, 1, false))
             .build();
     }
 
@@ -216,19 +217,19 @@ public final class OstentumWhips {
                         (random.nextDouble() - 0.5) * 0.4, -random.nextDouble() * 0.3, (random.nextDouble() - 0.5) * 0.4);
                 }
             })
-            .hooks(onHit(MobEffects.LEVITATION, 20, 0, false))
+            .hooks(onHit(id, MobEffects.LEVITATION, 20, 0, false))
             .build();
     }
 
     /** An effect on whatever the cord hurts, anywhere along it; only on a crit (a cracking tip) when {@code critOnly}. */
-    private static WhipHooks onHit(net.minecraft.core.Holder<net.minecraft.world.effect.MobEffect> effect, int ticks, int amplifier,
+    private static WhipHooks onHit(String whip, net.minecraft.core.Holder<net.minecraft.world.effect.MobEffect> effect, int ticks, int amplifier,
                                    boolean critOnly) {
         return new WhipHooks() {
             @Override
             public void landed(WhipHit hit, boolean hurt) {
                 LivingEntity target = hit.living();
                 if (hurt && target != null && (hit.crit || !critOnly)) {
-                    target.addEffect(new MobEffectInstance(effect, ticks, amplifier), hit.player);
+                    target.addEffect(new MobEffectInstance(effect, WhipAbilities.get(whip, "effect_ticks", ticks), WhipAbilities.get(whip, "effect_amplifier", amplifier)), hit.player);
                 }
             }
         };

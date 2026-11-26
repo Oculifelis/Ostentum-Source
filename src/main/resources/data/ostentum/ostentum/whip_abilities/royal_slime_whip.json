@@ -1,0 +1,8 @@
+{
+  "whip": "ostentum:royal_slime_whip",
+  "max_stacks": 5,
+  "stack_ticks": 60,
+  "cooldown_per_stack": 2,
+  "min_cooldown": 4,
+  "lift": 0.35
+}
